@@ -1,11 +1,21 @@
 const JobSeekersModel = require("../models/jobSeekersModel");
+const jobSeekerValidator = require("../validators/jobseekerValidator");
 const {v4: uuidv4 }= require('uuid');
 const bcrypt = require("bcrypt");
 
 
 //Job seeker registration
-const registerJobSeekerController = async(req,res)=>{
+const registerJobSeekerController = async (req, res) => {
     try {
+        // Get job seeker information
+    const { error, value } = jobSeekerValidator.validate(req.body);
+
+    // Check if validation fails
+        if (error) {
+            console.log(error);
+         return res.status(400).json({ error: error.details[0].message });
+      
+    }
         
     //get job seeker information 
    const { firstName, middleName, lastName, dateOfBirth, gender, email, password, phoneNumber, socialMediaLinks, profilePhoto, cv} = req.body
@@ -44,7 +54,18 @@ const registerJobSeekerController = async(req,res)=>{
 
 
 // job seeker login
-const jobSeekerLoginController = async(req,res)=>{
+const jobSeekerLoginController = async (req, res) => {
+    
+const signinValidator = (req, res) => {
+  const { error, value } = signinValidator.validate(req.body);
+
+  if (error) {
+    res.status(400).json({ error: error.details[0].message });
+    return;
+  }
+  // my login logic
+  res.status(200).json({ success: true });
+};
 
     //get job seeker info from the body
     const { email, password } = req.body;
