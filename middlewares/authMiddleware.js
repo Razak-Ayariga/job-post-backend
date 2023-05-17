@@ -14,7 +14,7 @@ const userExists = async (req, res, next) => {
 
     if (user) {
       // User exists, generate a JWT
-        const token = jwt.sign({ userId: user.Job_seeker_id }, jwtSign);
+        const token = jwt.sign({ job_seekerId: jobSeekers.Job_seeker_id }, jwtSign);
         req.token = token;// Attach the generated token to the request object for future use
         next();
     } else {
