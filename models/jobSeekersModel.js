@@ -1,7 +1,7 @@
 const {DataTypes} = require("sequelize");
-const sequelize = require("../dataBase/dbConfig")
+const {sequelize} = require("../dataBase/dbConfig")
 
-const jobSeekers = sequelize.define("jobseekers", {
+const jobSeekersModel = sequelize.define("jobseeker", {
     
     Job_seeker_id:{
         type: DataTypes.UUID,
@@ -13,13 +13,11 @@ const jobSeekers = sequelize.define("jobseekers", {
     date_of_birth:{
         type: DataTypes.DATE,
         allowNull: false
-    },
-    
+    },    
     gender:{
         type: DataTypes.STRING,
         allowNull: false
-    },
-    
+    },    
     email_address:{
         type: DataTypes.STRING,
         allowNull: false,
@@ -45,9 +43,14 @@ const jobSeekers = sequelize.define("jobseekers", {
     
     cv:{
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     }
     
 });
 
-module.exports = jobSeekers
+(async()=>{
+    await sequelize.sync()
+})()
+
+
+module.exports = jobSeekersModel;

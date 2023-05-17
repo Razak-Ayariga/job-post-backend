@@ -9,4 +9,4 @@ const dbClose = ()=>{
     sequelize.close();
 }
 
-module.exports = {sequelize, dbClose}
+module.exports = {sequelize}

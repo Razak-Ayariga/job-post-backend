@@ -5,9 +5,10 @@ const bcrypt = require("bcrypt");
 
 //Job seeker registration
 const registerJobSeekerController = async(req,res)=>{
-
+    try {
+        
     //get job seeker information 
-   const { fullName, dateOfBirth, gender, email, password, phoneNumber, socialMediaLinks, profilePhoto, cv} = req.body
+   const { firstName, middleName, lastName, dateOfBirth, gender, email, password, phoneNumber, socialMediaLinks, profilePhoto, cv} = req.body
    
 
    //hash the password
@@ -18,15 +19,14 @@ const registerJobSeekerController = async(req,res)=>{
 
    const newJobSeeker = {
     uuid,
-    fullName,
+    firstName,
+    middleName,
+    lastName,
     dateOfBirth,
     gender,
     email, 
     hashPassword,
-    phoneNumber,
-    socialMediaLinks,
-    profilePhoto,
-    cv
+    phoneNumber
    }
 
    JobSeekersModel.create(newJobSeeker)
@@ -34,13 +34,14 @@ const registerJobSeekerController = async(req,res)=>{
     res.status(201).json("registered successfully");
     return;
    })
-
-   .catch(error => {
+} 
+ catch(error){
     console.log(error);
     console.log("Error creating job seeker!");
     res.status(500).json("failed to register jo seeker");
-   });
+   };
 }
+
 
 // job seeker login
 const jobSeekerLoginController = async(req,res)=>{
@@ -57,4 +58,6 @@ const jobSeekerLoginController = async(req,res)=>{
     res.status(201).json("Login successful!");
 }
 
-module.exports = { registerJobSeekerController, jobSeekerLoginController };
+
+
+module.exports = { registerJobSeekerController, jobSeekerLoginController};
