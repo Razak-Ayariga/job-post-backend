@@ -57,4 +57,4 @@ const jobSeekerLoginController = async(req,res)=>{
     res.status(201).json("Login successful!");
 }
 
-module.exports = registerJobSeekerController;
+module.exports = { registerJobSeekerController, jobSeekerLoginController };
