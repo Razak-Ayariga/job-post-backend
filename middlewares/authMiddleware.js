@@ -1,9 +1,10 @@
 const jwt = require("jsonwebtoken");
+const jwtSign = process.env.JWT_SECRET;
 const { jobSeekers} = require('../models/jobSeekersModel');
 
 
-const checkUserExists = async (req, res, next) => {
-  const { email, password } = req.body;
+const userExists = async (req, res, next) => {
+    const { email, password } = req.body;
 
   try {
     // Check if the user exists in the database
@@ -11,7 +12,7 @@ const checkUserExists = async (req, res, next) => {
 
     if (user) {
       // User exists, generate a JWT
-      const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
+      const token = jwt.sign({ userId: user.id }, jwtSign);
 
       // Attach the generated token to the request object for future use
       req.token = token;
@@ -28,33 +29,7 @@ const checkUserExists = async (req, res, next) => {
 };
 
 
-// // Middleware to validate email
-// function validateEmail(req, res, next) {
-//   const email = req.body.email;
-//   const validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-//   if (!validEmail.test(email)) {
-//     return res.status(400).json({ error: 'You have entered an invalid email address!' });
-//   }
-
-//   next();
-// }
-
-// const passwordValidator = (req, res, next) => {
-//   const { password } = req.body;
-
-//   // Regular expression pattern to match password requirements
-//   const passwordPattern = /^(?=.*[0-9@&])[a-zA-Z0-9@&]{8,}$/;
-
-//   if (!passwordPattern.test(password)) {
-//     return res.status(400).json({ error: 'Password must be at least 8 characters long and contain at least 1 number or special character.' });
-//   }
-
-//   next();
-// };
-
-
 
 module.exports = {
-    validateEmail, passwordValidator, checkUserExists
+    userExists
 }
