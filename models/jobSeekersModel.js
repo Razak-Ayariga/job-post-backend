@@ -1,26 +1,40 @@
 const {DataTypes} = require("sequelize");
-const sequelize = require("../dataBase/dbConfig")
+const {sequelize} = require("../dataBase/dbConfig")
 
-const jobSeekers = sequelize.define("jobseekers", {
+const jobSeeker = sequelize.define("jobseekers", {
     
-    Job_seeker_id:{
+    jobSeekerId:{
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false
     },
-    
-    date_of_birth:{
-        type: DataTypes.DATE,
+   
+    firstName:{
+        type: DataTypes.STRING,
         allowNull: false
     },
-    
-    gender:{
+
+    middleName:{
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+
+    lastName:{
         type: DataTypes.STRING,
         allowNull: false
     },
     
-    email_address:{
+    dateOfBirth:{
+        type: DataTypes.DATE,
+        allowNull: false
+    },    
+    
+    gender:{
+        type: DataTypes.STRING,
+        allowNull: false
+    },    
+    email:{
         type: DataTypes.STRING,
         allowNull: false,
         validate:{
@@ -28,26 +42,31 @@ const jobSeekers = sequelize.define("jobseekers", {
         }
     },
     
-    phone_number:{
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    
-    social_media_links:{
-        type: DataTypes.STRING,
-        allowNull: true
-    },
-
-    profile_photo:{
-        type: DataTypes.STRING, // the file path of the image
-        allowNull: true
-    },
-    
-    cv:{
+    phoneNumber:{
         type: DataTypes.STRING,
         allowNull: false
     }
     
+    // social_media_links:{
+    //     type: DataTypes.STRING,
+    //     allowNull: true
+    // },
+
+    // profile_photo:{
+    //     type: DataTypes.STRING, // the file path of the image
+    //     allowNull: true
+    // },
+    
+    // cv:{
+    //     type: DataTypes.STRING,
+    //     allowNull: true
+    // }
+    
 });
 
-module.exports = jobSeekers
+(async()=>{
+    await sequelize.sync()
+})()
+
+
+module.exports = jobSeeker;
