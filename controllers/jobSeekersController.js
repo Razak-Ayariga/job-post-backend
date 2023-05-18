@@ -10,7 +10,7 @@ const registerJobSeekerController = async(req,res)=>{
     //get job seeker information 
    const { firstName, middleName, lastName, dateOfBirth, gender, email, password, phoneNumber } = req.body
    if(!firstName||!lastName||!dateOfBirth||!gender||!email||!password||!phoneNumber){
-       console.log("check required required fields");
+       console.log("check required fields");
        return;
     }
     const token = req.token;
@@ -51,7 +51,7 @@ const registerJobSeekerController = async(req,res)=>{
     console.log("Error creating job seeker!");
     res.status(500).json("failed to register job seeker");
    };
-}
+};
 
 // job seeker login
 const jobSeekerLoginController = async(req,res)=>{

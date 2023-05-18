@@ -1,15 +1,15 @@
 const {DataTypes} = require("sequelize");
-const {sequelize} = require("../dataBase/dbConfig")
+const {sequelize} =require("../dataBase/dbConfig");
 
-const jobSeeker = sequelize.define("jobseekers", {
-    
-    jobSeekerId:{
+
+const admin = sequelize.define("Administrator", {
+    adminId:{
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false
     },
-   
+
     firstName:{
         type: DataTypes.STRING,
         allowNull: false
@@ -24,34 +24,34 @@ const jobSeeker = sequelize.define("jobseekers", {
         type: DataTypes.STRING,
         allowNull: false
     },
-    
-    dateOfBirth:{
-        type: DataTypes.DATE,
-        allowNull: false
-    },    
-    
+
     gender:{
         type: DataTypes.STRING,
         allowNull: false
-    },    
-    email:{
-        type: DataTypes.STRING,
+    },
+    
+    companyEmail:{
+        typr: DataTypes.STRING,
         allowNull: false,
         validate:{
-            isEmail: true, // to ensure that the email provided is in a valid email format
+            isEmail: true,
         }
     },
     
-    phoneNumber:{
+    role:{
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+
+    password:{
         type: DataTypes.STRING,
         allowNull: false
     }
-    
 });
 
 (async()=>{
-    await sequelize.sync()
-})()
+   await sequelize.sync()
+})(); // an asynchronous method provided by Sequelize, synchronizes the defined models with the database. It creates the table if it doesn't exist.
 
 
-module.exports = jobSeeker;
+module.exports = admin
