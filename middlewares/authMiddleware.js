@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const jwtSign = process.env.JWT_SECRET;
 const { jobSeekers} = require('../models/jobSeekersModel');
-const admin = require("../models/adminModel");
+const { admin } = require("../models/adminModel");
 
 
 //middleware to check if user exists in the database and generate a JWT
