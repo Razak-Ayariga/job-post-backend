@@ -6,10 +6,10 @@ const {
     jobSeekerLoginController
 } = require("../controllers/jobSeekersController");
 
-const { 
-    jobSeekerRegisterValidator, 
-    jobSeekerLogInValidator
-  } = require("../Validators/jobSeekerValidator")
+const {
+  jobSeekerRegisterValidator,
+  jobSeekerLogInValidator
+} = require("../validators/jobSeekerValidator");
 
 const {
      generateToken,

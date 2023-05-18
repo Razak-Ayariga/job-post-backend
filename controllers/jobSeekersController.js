@@ -75,7 +75,7 @@ const signinValidator = (req, res) => {
   }
   // my login logic
   res.status(200).json({ success: true });
-};
+   };
 
     //get job seeker info from the body
     const { email, password } = req.body;

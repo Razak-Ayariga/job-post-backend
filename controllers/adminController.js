@@ -1,10 +1,12 @@
 const adminModel = require("../models/adminModel");
+const adminValidator = require("../validators/adminValidator");
 const {v4: uuidv4} = require("uuid");
 const bcrypt = require("bcrypt");
 
 //admin registration
 const registerAdminController = async(req,res) => {
-    try{
+    try {
+    
         // get admin info
         const { firstName, middleNAame, lastName, gender, companyEmail, role, password} = req.body;
         if(!firstName || middleNAame || lastName || gender || companyEmail || role ||password){
@@ -49,7 +51,8 @@ const registerAdminController = async(req,res) => {
 };
 
 //admin login
- const adminLoginController = async(req,res) => {
+const adminLoginController = async (req, res) => {
+
     // get admin login credentials from the body
     const { email, password} = req.body;
 
