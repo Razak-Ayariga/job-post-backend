@@ -6,9 +6,19 @@ const {
     jobSeekerLoginController
 } = require("../controllers/jobSeekersController");
 
+const { 
+    jobSeekerRegisterValidator, 
+    jobSeekerLogInValidator
+  } = require("../Validators/jobSeekerValidator")
 
-// router.post("/registerJobSeeker", registerJobSeekerController);
-// router.post("/logInJobSeeker", jobSeekerLoginController);
+const {
+     generateToken,
+     verifyToken
+    } = require("../middleware/authMiddleware")
+
+
+router.post("/registerJobSeeker",jobSeekerRegisterValidator, generateToken, registerJobSeekerController);
+router.post("/logInJobSeeker",jobSeekerLogInValidator, verifyToken, jobSeekerLoginController);
 
 
 

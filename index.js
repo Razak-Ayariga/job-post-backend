@@ -7,8 +7,6 @@ const port = process.env.PORT || 4000;
 //body parser
 app.use(express.json());
 
-
-
 //import routes
 const jobSeekerRoutes = require("./routes/jobSeekerRoutes");
 

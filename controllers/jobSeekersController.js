@@ -8,9 +8,13 @@ const registerJobSeekerController = async(req,res)=>{
     try {
         
     //get job seeker information 
-   const { firstName, middleName, lastName, dateOfBirth, gender, email, password, phoneNumber, socialMediaLinks, profilePhoto, cv} = req.body
-   
-
+   const { firstName, middleName, lastName, dateOfBirth, gender, email, password, phoneNumber } = req.body
+   if(!firstName||!lastName||!dateOfBirth||!gender||!email||!password||!phoneNumber){
+       console.log("check required required fields");
+       return;
+    }
+    const token = req.token;
+    
    //hash the password
    const hashPassword =  await bcrypt.hash(password, 10); // await to wait for the password to finish encrypting
 
@@ -28,20 +32,26 @@ const registerJobSeekerController = async(req,res)=>{
     hashPassword,
     phoneNumber
    }
+      //check if job seeker already exists
+      const findUser = await JobSeekersModel.findOne({ email, password });
+      if(findUser){
+          res.status(403).json("user already exist. Please login!");
+          return;
+      }
 
    JobSeekersModel.create(newJobSeeker)
-   .the(() => {
-    res.status(201).json("registered successfully");
+   .then(() => {
+    res.status(201).json({message:"registered successfully", token});
     return;
    })
+   
 } 
  catch(error){
     console.log(error);
     console.log("Error creating job seeker!");
-    res.status(500).json("failed to register jo seeker");
+    res.status(500).json("failed to register job seeker");
    };
 }
-
 
 // job seeker login
 const jobSeekerLoginController = async(req,res)=>{
@@ -50,7 +60,7 @@ const jobSeekerLoginController = async(req,res)=>{
     const { email, password } = req.body;
 
     //check if job seeker already exists
-    const findUser = await JobSeekersModel.find({ email, password });
+    const findUser = await JobSeekersModel.findOne({ email, password });
     if(!findUser){
         res.status(403).json("user does not exist. Please register first!");
         return;
@@ -60,4 +70,4 @@ const jobSeekerLoginController = async(req,res)=>{
 
 
 
-module.exports = { registerJobSeekerController, jobSeekerLoginController};
+module.exports = { registerJobSeekerController, jobSeekerLoginController };
