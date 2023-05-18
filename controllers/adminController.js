@@ -6,8 +6,8 @@ const bcrypt = require("bcrypt");
 const registerAdminController = async(req,res) => {
     try{
         // get admin info
-        const { firstName, middleNAame, lastName, gender, companyEmail, role, password} = req.body;
-        if(!firstName || middleNAame || lastName || gender || companyEmail || role ||password){
+        const { firstName, middleName, lastName, gender, companyEmail, role, password } = req.body;
+        if(!firstName || middleName || lastName || gender || companyEmail || role ||password){
             console.log("check required fields!");
             return;
         }
@@ -23,23 +23,24 @@ const registerAdminController = async(req,res) => {
         const newAdmin = {
             uuid,
             firstName,
-            middleNAame,
+            middleName,
             lastName,
             gender,
             companyEmail,
+            role,
             hashPassword,
         }
 
         //check if admin already exist
         const findUser = await adminModel.findOne({ email, password });
         if(findUser){
-            res.status(400).json({message: "Administrator already exists. Please login!", token});
+            res.status(400).json({message: "Administrator already exists. Please login!"});
             return;
         }
 
         adminModel.create(newAdmin)
         .then(() => {
-            res.status(200).json({message: "Administrator registered successfully!"});
+            res.status(200).json({message: "Administrator registered successfully!", token});
         });
     } catch(error){
         console.log(error);
