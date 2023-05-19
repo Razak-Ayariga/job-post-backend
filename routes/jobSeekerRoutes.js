@@ -9,16 +9,17 @@ const {
 const {
   jobSeekerRegisterValidator,
   jobSeekerLogInValidator
-} = require("../validators/jobSeekerValidator");
+  } = require("../validators/jobseekerValidator");
 
 const {
      generateToken,
      verifyToken
-    } = require("../middleware/authMiddleware")
+    } = require("../middlewares/jobseekerAuthMiddleware");
+const { jobseekerToken, verifyJobseekerToken } = require("../middlewares/jobseekerAuthMiddleware");
 
 
-router.post("/registerJobSeeker",jobSeekerRegisterValidator, generateToken, registerJobSeekerController);
-router.post("/logInJobSeeker",jobSeekerLogInValidator, verifyToken, jobSeekerLoginController);
+router.post("/registerJobSeeker",jobSeekerRegisterValidator, jobseekerToken, registerJobSeekerController);
+router.post("/logInJobSeeker",jobSeekerLogInValidator, verifyJobseekerToken, jobSeekerLoginController);
 
 
 

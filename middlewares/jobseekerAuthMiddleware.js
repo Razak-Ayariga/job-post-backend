@@ -4,21 +4,22 @@ const jwtSign = process.env.JWT_SECRET;
 const { jobSeekers} = require('../models/jobSeekersModel');
 
 
+
 //middleware to check if user exists in the database and generate a JWT
-const userExists = async (req, res, next) => {
+const jobseekerToken = async (req, res, next) => {
     const { email } = req.body;
 
   try {
-    // Check if the user exists
-    const user = await jobSeekers.findOne({ where: { email_address: email } });
+    // Check if the jobseeker exists
+    const jobseeker = await jobSeekers.findOne({ where: { email_address: email } });
 
-    if (user) {
-      // User exists, generate a JWT
+    if (jobseeker) {
+      // jobseeker exists, generate a JWT
         const token = jwt.sign({ job_seekerId: jobSeekers.Job_seeker_id }, jwtSign);
         req.token = token;// Attach the generated token to the request object for future use
         next();
     } else {
-      // User does not exist, prompt them to sign up
+      // jobseeker does not exist, prompt them to sign up
       return res.status(401).json({ message: 'User does not exist. Please sign up.' });
     }
   } catch (error) {
@@ -27,8 +28,9 @@ const userExists = async (req, res, next) => {
   }
 };
 
+
 //middleware to verify token
-const verifyToken = (req, res, next) => {
+const verifyJobseekerToken = (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
@@ -49,5 +51,5 @@ const verifyToken = (req, res, next) => {
 
 
 module.exports = {
-    userExists, verifyToken
+    jobseekerToken, verifyJobseekerToken
 }
