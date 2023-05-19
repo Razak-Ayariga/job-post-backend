@@ -29,10 +29,11 @@ const registerCompanyController = async(req,res)=>{
     companyPhoneNumber
    }
       //check if the company exists
-      const findCompany = await CompaniesModel.findOne( {where:{ email:companyEmail }});
+      const findCompany = await CompaniesModel.findOne( {where:{ companyEmail:companyEmail }});
       if(findCompany){
           res.status(403).json("Company already exist. Please login!");
           return;
+        
       }
 
    CompaniesModel.create(newCompany)
