@@ -5,7 +5,7 @@ const jwtSecret = process.env.JWT_SECRET;
 
 
 
-//middleware to check if job seeker exists in the database and generate a JWT
+//middleware to generate a JWT with email
 const jobseekerToken = async (req, res, next) => {
     
   const { email } = req.body;

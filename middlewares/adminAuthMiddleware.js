@@ -4,6 +4,7 @@ const jwtSecret = process.env.JWT_SECRET;
 // const { admin } = require("../models/adminModel");
 
 
+//middleware to generate admin jwt
 const adminToken = async (req, res, next) => {
   const { companyEmail } = req.body;
  console.log(companyEmail);
