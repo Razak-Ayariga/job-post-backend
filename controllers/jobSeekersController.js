@@ -39,11 +39,11 @@ const registerJobSeekerController = async (req, res) => {
     dateOfBirth,
     gender,
     email, 
-    hashPassword,
+    password:hashPassword,
     phoneNumber
    }
       //check if job seeker already exists
-      const findUser = await JobSeekersModel.findOne({ email, password });
+      const findUser = await JobSeekersModel.findOne( {where:{ email:email }});
       if(findUser){
           res.status(403).json("user already exist. Please login!");
           return;
@@ -51,7 +51,7 @@ const registerJobSeekerController = async (req, res) => {
 
    JobSeekersModel.create(newJobSeeker)
    .then(() => {
-    res.status(201).json({message:"registered successfully", token});
+    res.status(201).json({message:"registered successfully",token});
     return;
    })
    

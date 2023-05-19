@@ -9,7 +9,11 @@ const registerAdminController = async(req,res) => {
     
         // get admin info
         const { firstName, middleName, lastName, gender, companyEmail, role, password } = req.body;
+<<<<<<< .merge_file_LRQCN8
         if(!firstName || middleName || lastName || gender || companyEmail || role ||password){
+=======
+        if(!(firstName || middleName || lastName || gender || companyEmail || role ||password)){
+>>>>>>> .merge_file_Suxoa0
             console.log("check required fields!");
             return;
         }
@@ -30,11 +34,15 @@ const registerAdminController = async(req,res) => {
             gender,
             companyEmail,
             role,
+<<<<<<< .merge_file_LRQCN8
             hashPassword,
+=======
+            password:hashPassword
+>>>>>>> .merge_file_Suxoa0
         }
 
-        //check if admin already exist
-        const findUser = await adminModel.findOne({ email, password });
+        //check if admin already exist;
+        const findUser = await adminModel.findOne({where:{ companyEmail:companyEmail}});
         if(findUser){
             res.status(400).json({message: "Administrator already exists. Please login!"});
             return;
@@ -42,7 +50,12 @@ const registerAdminController = async(req,res) => {
 
         adminModel.create(newAdmin)
         .then(() => {
+<<<<<<< .merge_file_LRQCN8
             res.status(200).json({message: "Administrator registered successfully!", token});
+=======
+            res.status(201).json({message: "Administrator registered successfully!", token});
+            return;
+>>>>>>> .merge_file_Suxoa0
         });
     } catch(error){
         console.log(error);
@@ -55,10 +68,10 @@ const registerAdminController = async(req,res) => {
 const adminLoginController = async (req, res) => {
 
     // get admin login credentials from the body
-    const { email, password} = req.body;
+    const { companyEmail, password} = req.body;
 
     //check if admin already exists
-    const findUser = await adminModel.findOne({ email, password});
+    const findUser = await adminModel.findOne({ companyEmail, password});
     if(!findUser){
         res.status(403).json({message: "Administrator does not esxist!. Please register first"});
         return;

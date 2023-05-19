@@ -9,10 +9,12 @@ app.use(express.json());
 
 //import routes
 const jobSeekerRoutes = require("./routes/jobSeekerRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 
 //use routes
 app.use("/jobSeeker", jobSeekerRoutes);
+app.use("/admin", adminRoutes);
 
 
 
