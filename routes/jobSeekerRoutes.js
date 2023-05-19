@@ -1,13 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const { 
-    registerJobSeekerController, jobSeekerLoginController} = require("../controllers/jobSeekersController");
-
-const { 
-    jobSeekerRegisterValidator, jobSeekerLogInValidator} = require("../Validators/jobSeekerValidator")
-
-
+const { registerJobSeekerController, jobSeekerLoginController} = require("../controllers/jobSeekersController");
+const { jobSeekerRegisterValidator, jobSeekerLogInValidator} = require("../Validators/jobSeekerValidator")
 const { jobseekerToken, verifyJobseekerToken } = require("../middlewares/jobseekerAuthMiddleware");
 
 

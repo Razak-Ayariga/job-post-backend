@@ -7,14 +7,14 @@ const jobSeekerRegisterValidator = (req,res,next) => {
     lastName: Joi.string().min(3).required(),
     dateOfBirth: Joi.date().iso().required(),
     gender: Joi.string().valid('Male', 'Female', 'other').required(),
-    phoneNumber: Joi.string().required(), // to show that ten digits are required
+    phoneNumber: Joi.string(),
     password: Joi.string().min(8).regex(/^(?=.*[!@#$%^&*])(?=.*[A-Z])/).required(),
     confirmPassword: Joi.ref('password'),
      email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }), 
     //minDomainSegments: 2: This is an option for the email rule. It specifies that the email domain must have at least two segments separated by a dot. 
     
   })
-  // .with("password", "confirmPassword")
+  
   const {firstName, middleName, lastName, dateOfBirth, gender, phoneNumber,password,confirmPassword, email} = req.body;
   const {error} = schema.validate({firstName, middleName, lastName, dateOfBirth, gender, phoneNumber,password,confirmPassword, email});
   if(error){

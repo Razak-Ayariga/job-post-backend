@@ -1,55 +1,50 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const jwtSign = process.env.JWT_SECRET;
-const { jobSeekers} = require('../models/jobSeekersModel');
+const jwtSecret = process.env.JWT_SECRET;
+// const { jobSeekersModel} = require('../models/jobSeekersModel');
 
 
 
-//middleware to check if user exists in the database and generate a JWT
+//middleware to check if job seeker exists in the database and generate a JWT
 const jobseekerToken = async (req, res, next) => {
-    const { email } = req.body;
+    
+  const { email } = req.body;
 
-  try {
-    // Check if the jobseeker exists
-    const jobseeker = await jobSeekers.findOne({ where: { email_address: email } });
+  
+      //  generate a token for job seeker
+        jwt.sign( email , jwtSecret, (error, token) => {
+          if(error){
+            res.status(400).json({message: " validation error"})
+          } else{
+            req.token = token;
+            next();
+          }
 
-    if (jobseeker) {
-      // jobseeker exists, generate a JWT
-        const token = jwt.sign({ job_seekerId: jobSeekers.Job_seeker_id }, jwtSign);
-        req.token = token;// Attach the generated token to the request object for future use
-        next();
-    } else {
-      // jobseeker does not exist, prompt them to sign up
-      return res.status(401).json({ message: 'User does not exist. Please sign up.' });
-    }
-  } catch (error) {
-    console.error('Error checking user:', error);
-    res.status(500).json({ message: 'Server error' });
-  }
-};
+        });
+      } 
+    
+
 
 
 //middleware to verify token
 const verifyJobseekerToken = (req, res, next) => {
-  const token = req.headers.authorization;
+  const token = req.headers.token;
 
   if (!token) {
     return res.status(401).json({ message: 'No token provided' });
   }
 
-  jwt.verify(token, jwtSign, (error, decoded) => {
+  jwt.verify(token, jwtSecret, (error, userInfo) => {
     if (error) {
       console.error('Error verifying token:', error);
       return res.status(403).json({ message: 'Failed to authenticate token' });
     }
 
-    // Token is valid, attach the decoded payload to the request object
-    req.userId = decoded.userId;
+    // Token is valid, attach to the request object
+    req.userId = userInfo.email;
     next(); // Proceed to the next middleware
   });
 };
 
 
-module.exports = {
-    jobseekerToken, verifyJobseekerToken
-}
+module.exports = { jobseekerToken, verifyJobseekerToken }
