@@ -1,14 +1,19 @@
-import adminModel from "../models/adminModel.js";
-import {v4 as uuidv4} from "uuid";
-import bcrypt from "bcrypt";
+const adminModel = require("../models/adminModel");
+const {v4: uuidv4} = require("uuid");
+const bcrypt = require("bcrypt");
 
 //admin registration
 const registerAdminController = async(req,res) => {
-    try{
+    try {
+    
         // get admin info
-      const newAdmin = req.body;
-      const token = req.token;
-      const password = newAdmin.password;
+        const { firstName, middleName, lastName, gender, companyEmail, role, password } = req.body;
+        if(!(firstName || middleName || lastName || gender || companyEmail || role ||password)){
+            console.log("check required fields!");
+            return;
+        }
+
+        const token = req.token;
 
         //hash password
       const hashPassword = await bcrypt.hash(password, 10);// await to wait for the password to finish encrypting
@@ -17,6 +22,16 @@ const registerAdminController = async(req,res) => {
      newAdmin["uuid"]= uuid;
      newAdmin["password"]= hashPassword
 
+        const newAdmin = {
+            uuid,
+            firstName,
+            middleName,
+            lastName,
+            gender,
+            companyEmail,
+            role,
+            password:hashPassword
+        }
 
       //check if admin already exist;
      const findUser = await adminModel.findOne({ where: { companyEmail:newAdmin.companyEmail }});
@@ -30,8 +45,12 @@ const registerAdminController = async(req,res) => {
 
         adminModel.create(newAdmin)
         .then(() => {
+<<<<<<< .merge_file_LRQCN8
+            res.status(200).json({message: "Administrator registered successfully!", token});
+=======
             res.status(201).json({message: "Administrator registered successfully!", token});
             return;
+>>>>>>> .merge_file_Suxoa0
         });
     } catch(error){ 
         res.status(401).json({message: "Failed to register administrator!"})
@@ -39,7 +58,8 @@ const registerAdminController = async(req,res) => {
 };
 
 //admin login
- const adminLoginController = async(req,res) => {
+const adminLoginController = async (req, res) => {
+
     // get admin login credentials from the body
     const { companyEmail, password} = req.body;
 

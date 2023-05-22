@@ -17,26 +17,28 @@ const adminToken = async (req, res, next) => {
       req.token = token;
       next();
     }
-  });
+  } catch (error) {
+    console.error('Error checking user:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
 }
-
  
 //middleware to verify token
 const verifyAdminToken = (req, res, next) => {
-  const token = req.headers.token;
+  const token = req.headers.authorization;
 
   if (!token) {
     return res.status(401).json({ message: 'No token provided' });
   }
 
-  jwt.verify(token, jwtSecret, (error, userInfo) => {
+  jwt.verify(token, jwtSign, (error, decoded) => {
     if (error) {
       console.error('Error verifying token:', error);
       return res.status(403).json({ message: 'Failed to authenticate token' });
     }
 
-    // Token is valid, attach to the request object
-    req.userId = userInfo.companyEmail;
+    // Token is valid, attach the decoded payload to the request object
+    req.userId = decoded.userId;
     next(); // Proceed to the next middleware
   });
 };
