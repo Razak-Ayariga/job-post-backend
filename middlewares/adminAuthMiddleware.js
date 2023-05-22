@@ -1,12 +1,13 @@
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
 // const { admin } = require("../models/adminModel");
 
 
 const adminToken = async (req, res, next) => {
   const { companyEmail } = req.body;
- console.log(companyEmail);
+//  console.log(companyEmail);
   // generate token for admin
   jwt.sign( companyEmail, jwtSecret, (error, token) =>{
     if(error){
@@ -14,12 +15,12 @@ const adminToken = async (req, res, next) => {
   
     }else {
       req.token = token;
-      console.log(token);
       next();
     }
   });
 }
 
+ 
 //middleware to verify token
 const verifyAdminToken = (req, res, next) => {
   const token = req.headers.token;
@@ -40,4 +41,4 @@ const verifyAdminToken = (req, res, next) => {
   });
 };
 
-module.exports = {adminToken, verifyAdminToken}
+export {adminToken, verifyAdminToken}

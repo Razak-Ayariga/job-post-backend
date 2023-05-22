@@ -1,14 +1,14 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
 //import the routes
-const { registerAdminController, adminLoginController } = require("../controllers/adminController");
-const { adminRegisterValidator, adminLogInValidator } = require("../Validators/adminValidator")
-const { adminToken, verifyAdminToken} = require("../middlewares/adminAuthMiddleware")
+import { registerAdminController, adminLoginController } from "../controllers/adminController.js";
+import { adminRegisterValidator, adminLogInValidator } from "../Validators/adminValidator.js";
+import { adminToken, verifyAdminToken} from "../middlewares/adminAuthMiddleware.js";
 
 //use the imported routes
 router.post("/registerAdmin",adminRegisterValidator, adminToken, registerAdminController);
 router.post("/adminLogin",adminLogInValidator, verifyAdminToken, adminLoginController);
 
 
-module.exports = router
+export default router

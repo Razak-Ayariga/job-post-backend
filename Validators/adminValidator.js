@@ -1,4 +1,4 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
 const adminRegisterValidator = (req,res,next) => {
   const schema = Joi.object({
@@ -39,4 +39,4 @@ const adminLogInValidator = (req,res,next) => {
   
 };
 
-module.exports = { adminRegisterValidator, adminLogInValidator };
+export { adminRegisterValidator, adminLogInValidator };

@@ -1,9 +1,9 @@
-const express = require("express");
+import express from"express";
 const router = express.Router();
 
-const { registerJobSeekerController, jobSeekerLoginController} = require("../controllers/jobSeekersController");
-const { jobSeekerRegisterValidator, jobSeekerLogInValidator} = require("../Validators/jobSeekerValidator")
-const { jobseekerToken, verifyJobseekerToken } = require("../middlewares/jobseekerAuthMiddleware");
+import { registerJobSeekerController, jobSeekerLoginController} from "../controllers/jobSeekersController.js";
+import { jobSeekerRegisterValidator, jobSeekerLogInValidator} from "../Validators/jobSeekerValidator.js";
+import { jobseekerToken, verifyJobseekerToken } from "../middlewares/jobseekerAuthMiddleware.js";
 
 
 router.post("/registerJobSeeker",jobSeekerRegisterValidator, jobseekerToken, registerJobSeekerController);
@@ -11,4 +11,4 @@ router.post("/logInJobSeeker",jobSeekerLogInValidator, verifyJobseekerToken, job
 
 
 
-module.exports = router
+export default router;

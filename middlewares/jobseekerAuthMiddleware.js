@@ -1,5 +1,6 @@
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv"
+dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
 // const { jobSeekersModel} = require('../models/jobSeekersModel');
 
@@ -47,4 +48,4 @@ const verifyJobseekerToken = (req, res, next) => {
 };
 
 
-module.exports = { jobseekerToken, verifyJobseekerToken }
+export { jobseekerToken, verifyJobseekerToken }

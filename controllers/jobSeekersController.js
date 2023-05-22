@@ -1,55 +1,43 @@
-const JobSeekersModel = require("../models/jobSeekersModel");
-const {v4: uuidv4 }= require('uuid');
-const bcrypt = require("bcrypt");
+import JobSeekersModel from "../models/jobSeekersModel.js";
+import {v4 as uuidv4 } from "uuid";
+import bcrypt from "bcrypt";
 
 
 //Job seeker registration
 const registerJobSeekerController = async(req,res)=>{
     try {
-        
     //get job seeker information 
-   const { firstName, middleName, lastName, dateOfBirth, gender, email, password, phoneNumber } = req.body
-   if(!firstName||!lastName||!dateOfBirth||!gender||!email||!password||!phoneNumber){
-       console.log("check required fields");
-       return;
-    }
-    const token = req.token;
-    
-   //hash the password
-   const hashPassword =  await bcrypt.hash(password, 10); // await to wait for the password to finish encrypting
+const newJobSeeker = req.body;
+const token = req.token;
+const password = newJobSeeker.password
+    //hash the password
+const hashPassword =  await bcrypt.hash(password, 10); // await to wait for the password to finish encrypting
+//add the job seeker to the database
+const uuid = uuidv4(); 
 
-   //add the job seeker to the database
-   const uuid = uuidv4(); //auto generate uuid for the job seeker
 
-   const newJobSeeker = {
-    uuid,
-    firstName,
-    middleName,
-    lastName,
-    dateOfBirth,
-    gender,
-    email, 
-    password:hashPassword,
-    phoneNumber
-   }
-      //check if job seeker already exists
-      const findUser = await JobSeekersModel.findOne( {where:{ email:email }});
+    //check if job seeker already exists
+    newJobSeeker["uuid"]= uuid
+    newJobSeeker['password']=hashPassword
+
+const findUser = await JobSeekersModel.findOne( {where:{ email:newJobSeeker.email }});
       if(findUser){
+        const passwordMatch = bcrypt.compare(password,findUser.password);
+        if(passwordMatch){
           res.status(403).json("user already exist. Please login!");
           return;
-      }
-
-   JobSeekersModel.create(newJobSeeker)
+        }  
+        }
+    
+    JobSeekersModel.create(newJobSeeker)
    .then(() => {
-    res.status(201).json({message:"registered successfully",token});
+    res.status(201).json({message:"registered successfully", token});
     return;
    })
-   
 } 
  catch(error){
     console.log(error);
-    console.log("Error creating job seeker!");
-    res.status(500).json("failed to register job seeker");
+    res.status(500).json({message: "failed to register job seeker"});
    };
 };
 
@@ -60,14 +48,19 @@ const jobSeekerLoginController = async(req,res)=>{
     const { email, password } = req.body;
 
     //check if job seeker already exists
-    const findUser = await JobSeekersModel.findOne({ email, password });
+const findUser = await JobSeekersModel.findOne({ where: {email:email} });
     if(!findUser){
-        res.status(403).json("user does not exist. Please register first!");
+        res.status(403).json({message: "user does not exist. Please register first!"});
         return;
     }
-    res.status(201).json("Login successful!");
+
+    const passwordMatch=bcrypt.compare(password,findUser.password)
+    if (!passwordMatch) {
+        res.status(401).json({message: "email or password"});
+    }
+    res.status(201).json({message: "Login successful!"});
 }
 
 
 
-module.exports = { registerJobSeekerController, jobSeekerLoginController };
+export { registerJobSeekerController, jobSeekerLoginController };

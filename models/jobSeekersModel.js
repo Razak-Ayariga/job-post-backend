@@ -1,5 +1,5 @@
-const {DataTypes} = require("sequelize");
-const {sequelize} = require("../dataBase/dbConfig")
+import {DataTypes} from "sequelize";
+import { sequelize } from "../dataBase/dbConfig.js";
 
 const jobSeeker = sequelize.define("jobseekers", {
     
@@ -45,6 +45,11 @@ const jobSeeker = sequelize.define("jobseekers", {
     phoneNumber:{
         type: DataTypes.STRING,
         allowNull: true
+    },
+   
+    password:{
+        type: DataTypes.STRING,
+        allowNull: false
     }
     
 });
@@ -54,4 +59,4 @@ const jobSeeker = sequelize.define("jobseekers", {
 })()
 
 
-module.exports = jobSeeker;
+export default jobSeeker;

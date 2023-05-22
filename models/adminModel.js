@@ -1,5 +1,5 @@
-const {DataTypes} = require("sequelize");
-const {sequelize} =require("../dataBase/dbConfig");
+import {DataTypes} from "sequelize";
+import {sequelize} from "../dataBase/dbConfig.js";
 
 
 const admin = sequelize.define("Administrator", {
@@ -54,4 +54,4 @@ const admin = sequelize.define("Administrator", {
 })(); // an asynchronous method provided by Sequelize, synchronizes the defined models with the database. It creates the table if it doesn't exist.
 
 
-module.exports = admin
+export default admin
