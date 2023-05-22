@@ -20,8 +20,9 @@
     "sequelize": "^6.31.1",
     "uuid": "^9.0.0"
   },
-  "description": "",
   "devDependencies": {
     "jest": "^29.5.0"
-  }
+  },
+  "keywords": [],
+  "description": ""
 }

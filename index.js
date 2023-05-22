@@ -11,11 +11,14 @@ app.use(express.json());
 const jobSeekerRoutes = require("./routes/jobSeekerRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const CompanyRoutes = require("./routes/companyRoutes");
+const educationRoutes = require("./routes/educationRoutes");
+
 
 //use routes
 app.use("/jobSeeker", jobSeekerRoutes);
 app.use("/admin", adminRoutes);
 app.use("/company", CompanyRoutes);
+app.use("/education", educationRoutes);
 
 
 
