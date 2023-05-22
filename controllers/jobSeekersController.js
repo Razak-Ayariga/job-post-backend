@@ -1,12 +1,11 @@
-const JobSeekersModel = require("../models/jobSeekersModel");
-const {v4: uuidv4 }= require('uuid');
-const bcrypt = require("bcrypt");
+import JobSeekersModel from "../models/jobSeekersModel.js";
+import {v4 as uuidv4 } from "uuid";
+import bcrypt from "bcrypt";
 
 
 //Job seeker registration
-const registerJobSeekerController = async (req, res) => {
+const registerJobSeekerController = async(req,res)=>{
     try {
-        
     //get job seeker information 
 const newJobSeeker = req.body;
 const token = req.token;
@@ -43,18 +42,7 @@ const findUser = await JobSeekersModel.findOne( {where:{ email:newJobSeeker.emai
 };
 
 // job seeker login
-const jobSeekerLoginController = async (req, res) => {
-    
-const signinValidator = (req, res) => {
-  const { error, value } = signinValidator.validate(req.body);
-
-  if (error) {
-    res.status(400).json({ error: error.details[0].message });
-    return;
-  }
-  // my login logic
-  res.status(200).json({ success: true });
-   };
+const jobSeekerLoginController = async(req,res)=>{
 
     //get job seeker info from the body
     const { email, password } = req.body;

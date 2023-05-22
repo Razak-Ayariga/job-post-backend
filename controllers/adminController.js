@@ -45,12 +45,8 @@ const registerAdminController = async(req,res) => {
 
         adminModel.create(newAdmin)
         .then(() => {
-<<<<<<< .merge_file_LRQCN8
-            res.status(200).json({message: "Administrator registered successfully!", token});
-=======
             res.status(201).json({message: "Administrator registered successfully!", token});
             return;
->>>>>>> .merge_file_Suxoa0
         });
     } catch(error){ 
         res.status(401).json({message: "Failed to register administrator!"})
