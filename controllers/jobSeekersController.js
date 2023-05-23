@@ -10,25 +10,15 @@ const registerJobSeekerController = async(req,res)=>{
 const newJobSeeker = req.body;
 const token = req.token;
 const password = newJobSeeker.password
-    //hash the password
+
+//hash the password
 const hashPassword =  await bcrypt.hash(password, 10); // await to wait for the password to finish encrypting
 //add the job seeker to the database
 const uuid = uuidv4(); 
 
-
-    //check if job seeker already exists
     newJobSeeker["uuid"]= uuid
     newJobSeeker['password']=hashPassword
 
-const findUser = await JobSeekersModel.findOne( {where:{ email:newJobSeeker.email }});
-      if(findUser){
-        const passwordMatch = bcrypt.compare(password,findUser.password);
-        if(passwordMatch){
-          res.status(403).json("user already exist. Please login!");
-          return;
-        }  
-        }
-    
     JobSeekersModel.create(newJobSeeker)
    .then(() => {
     res.status(201).json({message:"registered successfully", token});
@@ -45,7 +35,7 @@ const findUser = await JobSeekersModel.findOne( {where:{ email:newJobSeeker.emai
 const jobSeekerLoginController = async(req,res)=>{
 
     //get job seeker info from the body
-    const { email, password } = req.body;
+const { email, password } = req.body;
 
     //check if job seeker already exists
 const findUser = await JobSeekersModel.findOne({ where: {email:email} });

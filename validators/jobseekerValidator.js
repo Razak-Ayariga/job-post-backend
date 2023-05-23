@@ -2,15 +2,15 @@ import Joi from "joi";
 
 const jobSeekerRegisterValidator = (req,res,next) => {
   const schema = Joi.object({
-    firstName: Joi.string().min(3).required(),
-    middleName: Joi.string().min(3).allow(''),
-    lastName: Joi.string().min(3).required(),
-    dateOfBirth: Joi.date().iso().required(),
-    gender: Joi.string().valid('Male', 'Female', 'other').required(),
-    phoneNumber: Joi.string(),
+    firstName: Joi.string().min(3).required().regex(/^[A-Za-z-]+$/),
+    middleName: Joi.string().min(3).allow('').regex(/^[A-Za-z-]+$/),
+    lastName: Joi.string().min(3).required().regex(/^[A-Za-z-]+$/),
+    dateOfBirth: Joi.date().required(),
+    gender: Joi.string().valid('Male','male', 'Female', 'female', 'other').required(),
+    phoneNumber: Joi.string().regex(/^[0-9+]+$/).required(),
     password: Joi.string().min(8).regex(/^(?=.*[!@#$%^&*])(?=.*[A-Z])/).required(),
     confirmPassword: Joi.ref('password'),
-     email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }), 
+    email: Joi.string().email({ minDomainSegments: 2 }), 
     //minDomainSegments: 2: This is an option for the email rule. It specifies that the email domain must have at least two segments separated by a dot. 
     
   })
