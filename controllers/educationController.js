@@ -1,75 +1,76 @@
-const { educationModel } = require("../models/educationModel"); // educationModel defined in a separate file
-const { jobseekerModel } = require("../models/jobSeekersModel"); // AjobseekerModel defined in a separate file
+const educationModel = require("../models/educationModel"); // educationModel defined in a separate file
+const jobSeeker = require("../models/jobSeekersModel");
+const jobSeekerModel = require("../models/jobSeekersModel"); // A jobSeekerModel defined in a separate file
 
-
-// Get all education records for a jobseeker
-async function getAllEducation(req, res) {
-  try {
-    const { jobseekerId } = req.params;
-    const jobseeker = await jobseekerModel.findByPk(jobseekerId);
-    if (!jobseeker) {
-      return res.status(404).json({ error: "Jobseeker not found" });
-    }
-
-    const education = await educationModel.findAll({
-      where: { jobseekerId },
-      // Add any additional options or include associations as needed
-    });
-
-    return res.json(education);
-  } catch (error) {
-    console.error("Error fetching education records:", error);
-    return res.status(500).json({ error: "Internal server error" });
-  }
-}
 
 // Create a new education record for a jobseeker
 async function createEducation(req, res) {
+  const {institution_name, degree, field_of_study, start_date, end_date} = req.body
+  const { jobSeekerId } = req.params;
   try {
-    const { jobseekerId } = req.params;
-    const jobseeker = await jobseekerModel.findByPk(jobseekerId);
+    const jobseeker = await jobSeekerModel.findByPk(jobSeekerId);
+    console.log(jobSeekerId, jobseeker);
     if (!jobseeker) {
       return res.status(404).json({ error: "Jobseeker not found" });
     }
-
-    const newEducation = await educationModel.create({
-      // Extract education data from the request body and set the jobseekerId
-      // based on the associated jobseeker
-      jobseekerId,
-      // Add other education properties here based on your education model
-    });
-
-    return res.status(201).json(newEducation);
+    const newEducation = {
+      institution_name,
+      degree,
+      field_of_study,
+      start_date,
+      end_date,
+      jobSeekerId
+    }
+    const response = await educationModel.create(newEducation);
+    return res.status(201).json({ msg: 'created', response });
   } catch (error) {
     console.error("Error creating education record:", error);
     return res.status(500).json({ error: "Internal server error" });
-  }
-}
+  };
+};
 
 // Update an existing education record for a jobseeker
 async function updateEducation(req, res) {
+  //const {Institution_name, Degree, Field_of_study, Start_date, End_date} = req.body
+  const { Edu_id } = req.params;
   try {
-    const { educationId } = req.params;
-    const existingEducation = await educationModel.findByPk(educationId);
+    const existingEducation = await educationModel.findByPk(Edu_id);
+    console.log(Edu_id, existingEducation);
     if (!existingEducation) {
       return res.status(404).json({ error: "Education record not found" });
     }
-
-    // Update the education properties based on the request body
     await existingEducation.update(req.body);
-
     return res.json(existingEducation);
   } catch (error) {
     console.error("Error updating education record:", error);
     return res.status(500).json({ error: "Internal server error" });
-  }
+  };
 }
+
+// Get all education records for a jobseeker
+async function getAllEducation(req, res) {
+  const { jobSeekerId } = req.params;
+  try {
+    const jobseeker = await jobSeekerModel.findByPk(jobSeekerId);
+    console.log(jobSeekerId, jobseeker);
+    if (!jobseeker) {
+      console.log(error);
+      return res.status(404).json({ error: "Jobseeker not found" });
+    }
+    //  await jobseeker.findAll(req.body);
+    return res.status(200).json(jobseeker);
+  } catch (error) {
+    console.error("Error fetching education records:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  };
+};
+
 
 // Delete an existing education record for a jobseeker
 async function deleteEducation(req, res) {
   try {
-    const { educationId } = req.params;
-    const existingEducation = await educationModel.findByPk(educationId);
+    const { Edu_id } = req.params;
+    const existingEducation = await educationModel.findByPk(Edu_id);
     if (!existingEducation) {
       return res.status(404).json({ error: "Education record not found" });
     }
@@ -83,6 +84,11 @@ async function deleteEducation(req, res) {
   }
 }
 
-
-module.exports = { getAllEducation, createEducation, updateEducation, deleteEducation,
+module.exports = {
+  getAllEducation,
+  createEducation,
+  updateEducation,
+  deleteEducation,
 };
+
+//module.exports = { getAllEducation }

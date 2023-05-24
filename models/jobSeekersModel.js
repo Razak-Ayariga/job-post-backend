@@ -41,7 +41,10 @@ const jobSeeker = sequelize.define("jobseekers", {
             isEmail: true, // to ensure that the email provided is in a valid email format
         }
     },
-    
+    password:{
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     phoneNumber:{
         type: DataTypes.STRING,
         allowNull: true

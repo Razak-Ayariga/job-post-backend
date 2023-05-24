@@ -5,7 +5,7 @@ const jobSeekerRegisterValidator = (req,res,next) => {
     firstName: Joi.string().min(3).required(),
     middleName: Joi.string().min(3).allow(''),
     lastName: Joi.string().min(3).required(),
-    dateOfBirth: Joi.date().iso().required(),
+    dateOfBirth: Joi.date().required(),
     gender: Joi.string().valid('Male', 'Female', 'other').required(),
     phoneNumber: Joi.string(),
     password: Joi.string().min(8).regex(/^(?=.*[!@#$%^&*])(?=.*[A-Z])/).required(),
@@ -17,7 +17,8 @@ const jobSeekerRegisterValidator = (req,res,next) => {
   
   const {firstName, middleName, lastName, dateOfBirth, gender, phoneNumber,password,confirmPassword, email} = req.body;
   const {error} = schema.validate({firstName, middleName, lastName, dateOfBirth, gender, phoneNumber,password,confirmPassword, email});
-  if(error){
+  if (error) {
+    console.log(error);
     return res.status(400).json("invalid entry");
   }
   next(); //is used to validate the data object against the defined schema

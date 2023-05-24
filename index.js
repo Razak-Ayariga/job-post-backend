@@ -22,7 +22,7 @@ app.use("/education", educationRoutes);
 
 
 
-;(async () => {
+(async () => {
     try {
       await sequelize.authenticate();
       console.log("Connection established successfully");
