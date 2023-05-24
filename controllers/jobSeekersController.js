@@ -43,10 +43,9 @@ const findUser = await JobSeekersModel.findOne({ where: {email:email} });
         res.status(403).json({message: "user does not exist. Please register first!"});
         return;
     }
-
     const passwordMatch=bcrypt.compare(password,findUser.password)
     if (!passwordMatch) {
-        res.status(401).json({message: "email or password"});
+        res.status(401).json({message: "email or password does not match"});
     }
     res.status(201).json({message: "Login successful!"});
 }

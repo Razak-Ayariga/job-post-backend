@@ -10,22 +10,22 @@ const jobSeeker = sequelize.define("jobseekers", {
         allowNull: false
     },
    
-    firstName:{
+    first_name:{
         type: DataTypes.STRING,
         allowNull: false
     },
 
-    middleName:{
+    middle_name:{
         type: DataTypes.STRING,
         allowNull: true
     },
 
-    lastName:{
+    last_name:{
         type: DataTypes.STRING,
         allowNull: false
     },
     
-    dateOfBirth:{
+    date_of_birth:{
         type: DataTypes.DATE,
         allowNull: false
     },    
@@ -42,7 +42,7 @@ const jobSeeker = sequelize.define("jobseekers", {
         }
     },
     
-    phoneNumber:{
+    phone_number:{
         type: DataTypes.STRING,
         allowNull: true
     },

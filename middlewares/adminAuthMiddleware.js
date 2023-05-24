@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
-// const { admin } = require("../models/adminModel");
 
 
 const adminToken = async (req, res, next) => {

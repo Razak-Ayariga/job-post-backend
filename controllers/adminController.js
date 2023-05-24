@@ -35,14 +35,15 @@ const adminLoginController = async (req, res) => {
     const { companyEmail, password} = req.body;
 
     //check if admin already exists
-    const findUser = await adminModel.findOne({ where: { companyEmail } });
+    const findUser = await adminModel.findOne({ where: { companyEmail:companyEmail } });
     if(!findUser){
-        const passwordMatch = await bcrypt.compare(password, findUser.password);
-        if(!passwordMatch){
-        res.status(401).json({message: "Administrator does not esxist!. Please register first"});
+        res.status(403).json({message: "user does not exist. Please register first!"});
         return;
-        }
     };
+    const passwordMatch = await bcrypt.compare(password, findUser.password);
+        if(!passwordMatch){
+        res.status(401).json({message: "email or password does not match"});
+        }
     res.status(201).json({message: "Login successful!"});
  };
 

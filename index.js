@@ -6,14 +6,17 @@ const port = process.env.PORT || 4000;
 
 //body parser
 app.use(express.json());
+
 //import routes
 import jobSeekerRoutes from "./routes/jobSeekerRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import jobSeekerProfileRoutes from "./routes/jobSeekerProfileRoute.js";
 
 
 //use routes
 app.use("/jobSeeker", jobSeekerRoutes);
 app.use("/admin", adminRoutes);
+app.use("/profile", jobSeekerProfileRoutes);
 
 
 

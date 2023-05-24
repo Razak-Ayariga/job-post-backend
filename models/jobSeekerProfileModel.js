@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import { sequelize } from "../dataBase/dbConfig";
+import { sequelize } from "../dataBase/dbConfig.js";
 
 const jobSeekerProfile = sequelize.define("jobSeekerProfile",{
     profileId:{
@@ -13,17 +13,17 @@ const jobSeekerProfile = sequelize.define("jobSeekerProfile",{
        type: DataTypes.UUID,
        references: {
             model: "jobSeekers",
-            key: jobSeekerId
+            key: "jobSeekerId"
         }
     },
 
    photo:{
-      type: DataTypes.BLOB,
+      type: DataTypes.STRING,
       allowNull: true
    },
    
    cv:{
-      type: DataTypes.BLOB,
+      type: DataTypes.STRING,
       allowNull: false
    },
 
