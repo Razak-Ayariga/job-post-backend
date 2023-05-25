@@ -1,7 +1,6 @@
 import express from "express";
 const app = express();
-import dotenv from "dotenv"
-dotenv.config();
+import './env.js'
 import {sequelize} from "./dataBase/dbConfig.js";
 const port = process.env.PORT || 4000;
 
@@ -10,16 +9,14 @@ app.use(express.json());
 
 //import routes
 import jobSeekerRoutes from "./routes/jobSeekerRoutes.js";
-import adminRoutes from  "./routes/adminRoutes.js";
-import CompanyRoutes from  "./routes/companyRoutes.js";
-import educationRoutes from  "./routes/educationRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
+import jobSeekerProfileRoutes from "./routes/jobSeekerProfileRoute.js";
 
 
 //use routes
 app.use("/jobSeeker", jobSeekerRoutes);
 app.use("/admin", adminRoutes);
-app.use("/company", CompanyRoutes);
-app.use("/education", educationRoutes);
+app.use("/profile", jobSeekerProfileRoutes);
 
 
 

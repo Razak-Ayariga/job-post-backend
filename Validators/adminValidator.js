@@ -1,36 +1,59 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
 const adminRegisterValidator = (req,res,next) => {
   const schema = Joi.object({
-    firstName: Joi.string().min(3).required(),
-    middleName: Joi.string().min(3).allow(""),
-    lastName: Joi.string().min(3).required(),
-    gender: Joi.string().valid('Male', 'Female', 'Other').required(),
-    companyEmail: Joi.string().email({ minDomainSegments: 2 }).required(), 
-    role: Joi.string().required(),
-    password: Joi.string().min(8).regex(/^(?=.*[!@#$%^&*])(?=.*[A-Z])/).required(),
-    confirmPassword: Joi.ref('password'),
-    //minDomainSegments: 2: This is an option for the email rule. It specifies that the email domain must have at least two segments separated by a dot. 
-    
+    firstName: Joi.string().min(3).required().regex(/^[-A-Za-z-]+$/).messages({
+      "any.required": "First name is required!",
+      "string.min": "First name cannot be less than three letters!",
+      "string.pattern.base": "First name can only be letters and a hyphen(-)!"
+    }),
+    middleName: Joi.string().min(3).allow("").regex(/^[A-Za-z- ]+$/).messages({
+      "any.required": "Middle name is required!",
+      "string.min": "Middle name cannot be less than three letters!",
+      "string.pattern.base": "Middle name can only be letters and a hyphen(-)!"
+    }),
+    lastName: Joi.string().min(3).required().regex(/^[A-Za-z-]+$/).messages({
+      "any.required": "Last name is required!",
+      "string.min": "Last name cannot be less than three letters!",
+      "string.pattern.base": "Last name can only be letters and a hyphen(-)!"
+    }),
+    gender: Joi.string().valid('Male', 'male','Female', 'female', 'Other').required().messages({
+      "any.required": "Gender is required!",
+      "any.only": "Invalid gender value! Choose Male, Female or other!"
+    }),
+    companyEmail: Joi.string().email({ minDomainSegments: 2 }).required().messages({
+      "string.email":"invalid email format. Please provide a valid email address!",
+      "any.required": "Email is required!"
+    }), 
+    role: Joi.string().required().regex(/^[A-Za-z]+$/).messages({
+      "any.required": "Role is required!",
+      "string.pattern.base": "Enter only letters in Role field"
+    }),
+    password: Joi.string().min(8).regex(/^(?=.*[!@#$%^&*])(?=.*[A-Z])/).required().messages({
+      "string.pattern.base":"Password must include at least one special character, lowercase and uppercase!",
+      "string.min": "Password must be at least 8 characters!",
+      "any.required": "Password is required!"
+    }),
+    confirmPassword: Joi.string().equal(Joi.ref('password')).required().messages({
+      "any.only":"passwords do not match!"
+    }),  
   })
-  
-  const {firstName, middleName, lastName, gender, companyEmail, role, password, confirmPassword} = req.body;
-  const {error} = schema.validate({firstName, middleName, lastName, gender, companyEmail, role, password, confirmPassword});
+  const validation = schema.validate(req.body);
+  const {error} = validation;
   if(error){
-    console.log(error);
-    return res.status(400).json("invalid entry");
+    const message = error.details.map(x=>x.message);
+    return res.status(400).json(message);
   }
-  next(); //is used to validate the data object against the defined schema
+  next(); 
 };
 
-
+//validate admin login
 const adminLogInValidator = (req,res,next) => {
   const schema = Joi.object({
      companyEmail: Joi.string().required(),
     password: Joi.string().required()
-  
   })
-  .with("email", "password")
+  .with("companyEmail", "password")
   const {companyEmail, password} = req.body;
   const {error} = schema.validate({companyEmail, password})
   if(error)
@@ -39,4 +62,4 @@ const adminLogInValidator = (req,res,next) => {
   
 };
 
-module.exports = { adminRegisterValidator, adminLogInValidator };
+export { adminRegisterValidator, adminLogInValidator };
