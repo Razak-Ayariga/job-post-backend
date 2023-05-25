@@ -1,17 +1,18 @@
-const express = require("express");
+import express from "express";
 const app = express();
-require("dotenv").config();
-const {sequelize} = require("./dataBase/dbConfig");
+import dotenv from "dotenv"
+dotenv.config();
+import {sequelize} from "./dataBase/dbConfig.js";
 const port = process.env.PORT || 4000;
 
 //body parser
 app.use(express.json());
 
 //import routes
-const jobSeekerRoutes = require("./routes/jobSeekerRoutes");
-const adminRoutes = require("./routes/adminRoutes");
-const CompanyRoutes = require("./routes/companyRoutes");
-const educationRoutes = require("./routes/educationRoutes");
+import jobSeekerRoutes from "./routes/jobSeekerRoutes.js";
+import adminRoutes from  "./routes/adminRoutes.js";
+import CompanyRoutes from  "./routes/companyRoutes.js";
+import educationRoutes from  "./routes/educationRoutes.js";
 
 
 //use routes
