@@ -1,10 +1,10 @@
-const educationModel = require("../models/educationModel"); // educationModel defined in a separate file
-const jobSeeker = require("../models/jobSeekersModel");
-const jobSeekerModel = require("../models/jobSeekersModel"); // A jobSeekerModel defined in a separate file
+import educationModel from "../models/educationModel"; // educationModel defined in a separate file
+import jobSeeker from "../models/jobSeekersModel";
+import jobSeekerModel from "../models/jobSeekersModel"; // A jobSeekerModel defined in a separate file
 
 
 // Create a new education record for a jobseeker
-async function createEducation(req, res) {
+const createEducation = async(req, res) => {
   const {institution_name, degree, field_of_study, start_date, end_date} = req.body
   const { jobSeekerId } = req.params;
   try {
@@ -30,7 +30,7 @@ async function createEducation(req, res) {
 };
 
 // Update an existing education record for a jobseeker
-async function updateEducation(req, res) {
+const updateEducation = async(req, res) => {
   //const {Institution_name, Degree, Field_of_study, Start_date, End_date} = req.body
   const { Edu_id } = req.params;
   try {
@@ -48,7 +48,7 @@ async function updateEducation(req, res) {
 }
 
 // Get all education records for a jobseeker
-async function getAllEducation(req, res) {
+const getAllEducation = async(req, res) =>{
   const { jobSeekerId } = req.params;
   try {
     const jobseeker = await jobSeekerModel.findByPk(jobSeekerId);
@@ -67,7 +67,7 @@ async function getAllEducation(req, res) {
 
 
 // Delete an existing education record for a jobseeker
-async function deleteEducation(req, res) {
+const deleteEducation = async(req, res) =>{
   try {
     const { Edu_id } = req.params;
     const existingEducation = await educationModel.findByPk(Edu_id);
@@ -82,9 +82,9 @@ async function deleteEducation(req, res) {
     console.error("Error deleting education record:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
-}
+};
 
-module.exports = {
+export  {
   getAllEducation,
   createEducation,
   updateEducation,

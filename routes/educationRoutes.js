@@ -1,11 +1,8 @@
 
-const express = require ("express");
-const router = express.Router();
-const { getAllEducation } = require("../controllers/educationController");
-const { createEducation } = require("../controllers/educationController");
-const { updateEducation } = require("../controllers/educationController");
-const { deleteEducation } = require("../controllers/educationController");
-const { EducationValidator } = require("../Validators/educationValidator");
+import express from "express";
+import router from express.Router();
+import  {getAllEducation, createEducation,  updateEducation, deleteEducation}  from ("../controllers/educationController");
+import { EducationValidator } from "../Validators/educationValidator" ;
 
 
 
@@ -15,5 +12,5 @@ router.get("/get/:jobSeekerId", getAllEducation); //EducationValidator,
 router.put("/update/:Edu_id", EducationValidator, updateEducation);
 router.delete("/delete/:Edu_id", deleteEducation); //EducationValidator,
 
-module.exports = router;
+export default router;
 

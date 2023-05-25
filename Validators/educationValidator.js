@@ -1,4 +1,4 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
 const EducationValidator = (req,res,next) => {
     const schema = Joi.object({
@@ -36,4 +36,4 @@ const EducationValidator = (req,res,next) => {
 
 
 
-module.exports = { EducationValidator};
+export default  EducationValidator ;
