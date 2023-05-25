@@ -2,11 +2,10 @@ import JobSeekersModel from "../models/jobSeekersModel.js";
 import {v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
 
-
 //Job seeker registration
 const registerJobSeekerController = async(req,res)=>{
     try {
-    //get job seeker information 
+//get job seeker information 
 const newJobSeeker = req.body;
 const token = req.token;
 const password = newJobSeeker.password
@@ -34,10 +33,10 @@ const uuid = uuidv4();
 // job seeker login
 const jobSeekerLoginController = async(req,res)=>{
 
-    //get job seeker info from the body
+//get job seeker info from the body
 const { email, password } = req.body;
 
-    //check if job seeker already exists
+//check if job seeker already exists
 const findUser = await JobSeekersModel.findOne({ where: {email:email} });
     if(!findUser){
         res.status(403).json({message: "user does not exist. Please register first!"});
@@ -49,7 +48,5 @@ const findUser = await JobSeekersModel.findOne({ where: {email:email} });
     }
     res.status(201).json({message: "Login successful!"});
 }
-
-
 
 export { registerJobSeekerController, jobSeekerLoginController };

@@ -22,11 +22,6 @@ const jobSeekerProfile = sequelize.define("jobSeekerProfile",{
       allowNull: true
    },
    
-   cv:{
-      type: DataTypes.STRING,
-      allowNull: false
-   },
-
    linkedInLink:{
       type: DataTypes.STRING,
       allowNull: true

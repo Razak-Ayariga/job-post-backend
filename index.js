@@ -12,15 +12,12 @@ import jobSeekerRoutes from "./routes/jobSeekerRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import jobSeekerProfileRoutes from "./routes/jobSeekerProfileRoute.js";
 
-
 //use routes
 app.use("/jobSeeker", jobSeekerRoutes);
 app.use("/admin", adminRoutes);
 app.use("/profile", jobSeekerProfileRoutes);
 
-
-
-;(async () => {
+(async () => {
     try {
       await sequelize.authenticate();
       console.log("Connection established successfully");
