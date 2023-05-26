@@ -30,8 +30,7 @@ const registerAdminController = async(req,res) => {
 
 //admin login
 const adminLoginController = async (req, res) => {
-
-    // get admin login credentials from the body
+// get admin login credentials from the body
     const { companyEmail, password} = req.body;
 
     //check if admin already exists

@@ -7,7 +7,6 @@ const jwtSecret = process.env.JWT_SECRET;
 //middleware to check if job seeker exists in the database and generate a JWT
 const jobseekerToken = async (req, res, next) => {
   try{
-    // const newJobSeeker = req.body;
     const {email}  = req.body;
     const findUser = await JobSeekersModel.findOne( {where:{ email:email }});
       if(findUser){
@@ -32,23 +31,23 @@ const jobseekerToken = async (req, res, next) => {
 };
 
 //middleware to verify token
-const verifyJobseekerToken = (req, res, next) => {
+const verifyJobseekerToken = async(req, res, next) => {
 const token = req.headers.token;
 if (!token) {
     return res.status(401).json({ message: 'No token provided' });
   }
-jwt.verify(token, jwtSecret, (error, userInfo) => {
+const userEmail = jwt.verify(token, jwtSecret, (error, userInfo) => {
     if (error) {
       console.error('Error verifying token:', error);
       return res.status(403).json({ message: 'Failed to authenticate token' });
     }
+    return userInfo
+  })
 
-// Token is valid, attach to the request object
-    req.userId = userInfo.email;
-
-    next(); // Proceed to the next middleware
-  });
+// Token is valid, find userId by verified email
+  const userId = await JobSeekersModel.findAll({where: {email: userEmail}, attributes:['jobSeekerId']})  
+  req.userId = userId[0].dataValues.jobSeekerId;
+  next(); // Proceed to the next middleware
 };
-
 
 export { jobseekerToken, verifyJobseekerToken }

@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import { sequelize } from "../dataBase/dbConfig.js";
+import sequelize from "../dataBase/dbConfig.js";
 
 const jobSeekerProfile = sequelize.define("jobSeekerProfile",{
     profileId:{
@@ -22,11 +22,6 @@ const jobSeekerProfile = sequelize.define("jobSeekerProfile",{
       allowNull: true
    },
    
-   cv:{
-      type: DataTypes.STRING,
-      allowNull: false
-   },
-
    linkedInLink:{
       type: DataTypes.STRING,
       allowNull: true

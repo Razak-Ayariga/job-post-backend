@@ -10,4 +10,4 @@ const dbClose = ()=>{
     sequelize.close();
 }
 
-export { sequelize };
+export default sequelize ;

@@ -1,5 +1,5 @@
 import {DataTypes} from "sequelize";
-import { sequelize } from "../dataBase/dbConfig.js";
+import sequelize from "../dataBase/dbConfig.js";
 
 const jobSeeker = sequelize.define("jobseekers", {
     

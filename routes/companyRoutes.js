@@ -1,14 +1,12 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
-const { registerCompanyController, companyLoginController } = require("../controllers/companiesController");
-const { companyRegisterValidator, companyLogInValidator } = require("../Validators/companyValidator")
-const { companyToken, verifyCompanyToken } = require("../middlewares/companiesAuthMiddleware")
+//import the routes
+import {registerCompanyController, companyLoginController} from "../controllers/companyController.js";
+import {companyToken,/*verifyCompanyToken*/} from "../middlewares/companyAuthMiddleware.js";
+import {companyRegisterValidator,companyLoginValidator} from "../Validators/companyValidator.js";
 
+router.post("/registerCompany", companyRegisterValidator,companyToken,registerCompanyController);
+router.post("/logInCompany",companyLoginValidator,companyToken,companyLoginController);
 
-
-router.post("/registerCompany",companyRegisterValidator, companyToken, registerCompanyController);
-router.post("/companyLogin",companyLogInValidator, verifyCompanyToken, companyLoginController);
-
-
-module.exports = router
+export default router;
