@@ -6,9 +6,9 @@ import jobSeekerModel from "../models/jobSeekersModel.js"; // A jobSeekerModel d
 // Create a new education record for a jobseeker
 const createEducation = async(req, res) => {
   const {institution_name, degree, field_of_study, start_date, end_date} = req.body
-  const { jobSeekerId } = req.params;
+  //const { jobSeekerId } = req.params;
   try {
-    const jobseeker = await jobSeekerModel.findByPk(jobSeekerId);
+    const jobseeker = await jobSeekerModel.findByPk(jobSeeker);
     console.log(jobSeekerId, jobseeker);
     if (!jobseeker) {
       return res.status(404).json({ error: "Jobseeker not found" });

@@ -22,10 +22,8 @@ const EducationValidator = (req,res,next) => {
         .regex(/^[a-zA-Z ]*$/)
         .required()
         .messages({
-          "string.pattern.base":
-            "Password must include at least one special character, lowercase and uppercase!",
-          "string.min":
-            "Field of Study must be at least primary secondary undergraduate mastersdocterate!",
+          "string.pattern.base":"Password must include at least one special character, lowercase and uppercase!",
+          "string.min":"Field of Study must be at least primary secondary undergraduate mastersdocterate!",
           "any.required": "Field of Study is required!",
         })
         .required(), // Specify valid field of study values   Start_date: Joi.date().iso().required(),
