@@ -8,7 +8,7 @@ const createEducation = async(req, res) => {
   const {institution_name, degree, field_of_study, start_date, end_date} = req.body
   //const { jobSeekerId } = req.params;
   try {
-    const jobseeker = await jobSeekerModel.findByPk(jobSeeker);
+    const jobseeker = await jobSeekerModel.findByPk(jobSeekerId);
     console.log(jobSeekerId, jobseeker);
     if (!jobseeker) {
       return res.status(404).json({ error: "Jobseeker not found" });
