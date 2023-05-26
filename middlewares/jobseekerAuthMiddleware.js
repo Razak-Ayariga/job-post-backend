@@ -47,7 +47,6 @@ const userEmail = jwt.verify(token, jwtSecret, (error, userInfo) => {
 // Token is valid, find userId by verified email
   const userId = await JobSeekersModel.findAll({where: {email: userEmail}, attributes:['jobSeekerId']})  
   req.userId = userId[0].dataValues.jobSeekerId;
-
   next(); // Proceed to the next middleware
 };
 

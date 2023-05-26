@@ -25,7 +25,7 @@ const jobSeekerRegisterValidator = (req,res,next) => {
       "any.required": "Gender is required!",
       "any.only": "Invalid gender value! Choose Male, Female or other!"
     }),
-    phone_number: Joi.string().regex(/^[0-9+]+$/).min(13).max(13).required().messages({
+    mobile_number: Joi.string().regex(/^[0-9+]+$/).min(13).max(13).messages({
       "string.pattern.base":"Invalid phone number format!",
       "string.min": "Phone number must be at least 13 digits",
       "string.max": "Phone number can not exceed 13 digits"
@@ -59,7 +59,6 @@ const jobSeekerLogInValidator = (req,res,next) => {
   const schema = Joi.object({
      email: Joi.string().required(),
     password: Joi.string().required()
-  
   })
   .with("email", "password")
   const {email, password} = req.body;
