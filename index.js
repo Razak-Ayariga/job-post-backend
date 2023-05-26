@@ -11,12 +11,14 @@ app.use(express.json());
 import jobSeekerRoutes from "./routes/jobSeekerRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import jobSeekerProfileRoutes from "./routes/jobSeekerProfileRoute.js";
+import educationRoutes from "./routes/educationRoutes.js";
 
 
 //use routes
 app.use("/jobSeeker", jobSeekerRoutes);
 app.use("/admin", adminRoutes);
 app.use("/profile", jobSeekerProfileRoutes);
+app.use("/education", educationRoutes);
 
 
 

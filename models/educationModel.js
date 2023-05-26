@@ -1,5 +1,6 @@
 import {DataTypes} from "sequelize";
-import { sequelize } from "../dataBase/dbConfig";
+import { sequelize } from "../dataBase/dbConfig.js";
+//import jobSeeker from "./jobSeekersModel";
 
 const education = sequelize.define("Education", {
     
@@ -37,7 +38,10 @@ const education = sequelize.define("Education", {
 
     jobSeekerId: {
         type: DataTypes.STRING,
-        allowNull: false
+        references: {
+            model: "jobSeeker",
+            key: "jobSeekerId"
+        }
     }
     
 });

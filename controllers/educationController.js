@@ -1,6 +1,6 @@
-import educationModel from "../models/educationModel"; // educationModel defined in a separate file
-import jobSeeker from "../models/jobSeekersModel";
-import jobSeekerModel from "../models/jobSeekersModel"; // A jobSeekerModel defined in a separate file
+import educationModel from "../models/educationModel.js"; // educationModel defined in a separate file
+import jobSeeker from "../models/jobSeekersModel.js";
+import jobSeekerModel from "../models/jobSeekersModel.js"; // A jobSeekerModel defined in a separate file
 
 
 // Create a new education record for a jobseeker

@@ -45,14 +45,9 @@ const jobSeeker = sequelize.define("jobseekers", {
         type: DataTypes.STRING,
         allowNull: false
     },
-    phoneNumber:{
+    phone_number:{
         type: DataTypes.STRING,
         allowNull: true
-    },
-   
-    password:{
-        type: DataTypes.STRING,
-        allowNull: false
     }
     
 });

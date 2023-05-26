@@ -4,9 +4,9 @@ const EducationValidator = (req,res,next) => {
     const schema = Joi.object({
       institution_name: Joi.string()
         .min(3)
-        .notEmpty()
-        .matches(/^[a-zA-Z ]*$/)
-        .withMessage({
+        .required()
+        .regex(/^[a-zA-Z ]*$/)
+        .messages({
           "any.required": "Institution name is required!",
           "string.min": "Institution name cannot be less than 3 letters!",
           "string.pattern.base":
@@ -15,13 +15,13 @@ const EducationValidator = (req,res,next) => {
         .required(),
       degree: Joi.string()
         .valid("primary", "secondary", "undergraduate", "masters", "docterate")
-        .matches(/^[a-zA-Z ]*$/)
+        .regex(/^[a-zA-Z ]*$/)
         .required(),
       field_of_study: Joi.string()
         .valid()
-        .matches(/^[a-zA-Z ]*$/)
-        .notEmpty()
-        .withMessage({
+        .regex(/^[a-zA-Z ]*$/)
+        .required()
+        .messages({
           "string.pattern.base":
             "Password must include at least one special character, lowercase and uppercase!",
           "string.min":
@@ -29,15 +29,11 @@ const EducationValidator = (req,res,next) => {
           "any.required": "Field of Study is required!",
         })
         .required(), // Specify valid field of study values   Start_date: Joi.date().iso().required(),
-      start_date: Joi.date()
-        .iso()
-        .max(Joi.ref("end_date"))
-        .required()
-        .messages({
+      start_date: Joi.date().iso().required().messages({
           "date.format": "Start date format is YYYY-MM-DD",
           "date.max": "Start date must be less than End date",
         }),
-      end_date: Joi.date().greater(Joi.ref("start_date")).required(),
+      end_date: Joi.date().required(),
     });
   
   const {institution_name, degree, field_of_study, start_date, end_date} = req.body;
