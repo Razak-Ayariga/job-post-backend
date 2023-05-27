@@ -1,7 +1,7 @@
 import {DataTypes} from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
 
-const jobSeeker = sequelize.define("jobseekers", {
+const jobSeeker = sequelize.define("jobSeekers", {
     
     jobSeekerId:{
         type: DataTypes.UUID,
@@ -10,22 +10,22 @@ const jobSeeker = sequelize.define("jobseekers", {
         allowNull: false
     },
    
-    first_name:{
+    firstName:{
         type: DataTypes.STRING,
         allowNull: false
     },
 
-    middle_name:{
+    middleName:{
         type: DataTypes.STRING,
         allowNull: true
     },
 
-    last_name:{
+    lastName:{
         type: DataTypes.STRING,
         allowNull: false
     },
     
-    date_of_birth:{
+    dateOfBirth:{
         type: DataTypes.DATE,
         allowNull: false
     },    
@@ -45,7 +45,7 @@ const jobSeeker = sequelize.define("jobseekers", {
         type: DataTypes.STRING,
         allowNull: false
     },
-    phone_number:{
+    phoneNumber:{
         type: DataTypes.STRING,
         allowNull: true
     }

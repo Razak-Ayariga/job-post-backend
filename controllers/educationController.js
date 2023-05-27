@@ -4,38 +4,35 @@ import jobSeekerModel from "../models/jobSeekersModel.js"; // A jobSeekerModel d
 
 
 // Create a new education record for a jobseeker
-const createEducation = async(req, res) => {
-  const {institution_name, degree, field_of_study, start_date, end_date} = req.body
-  //const { jobSeekerId } = req.params;
-  try {
-    const jobseeker = await jobSeekerModel.findByPk(jobSeekerId);
-    console.log(jobSeekerId, jobseeker);
-    if (!jobseeker) {
-      return res.status(404).json({ error: "Jobseeker not found" });
-    }
-    const newEducation = {
+const createEducation = async (req, res) => {
+  const { institution_name, degree, field_of_study, start_date, end_date } = req.body;
+  try {    
+    const newEducation = await educationModel.create({
       institution_name,
       degree,
       field_of_study,
       start_date,
       end_date,
-      jobSeekerId
+      });
+    if (newEducation) {
+      return res.status(201).json({ msg: "created" });
     }
-    const response = await educationModel.create(newEducation);
-    return res.status(201).json({ msg: 'created', response });
-  } catch (error) {
+  }
+  catch (error) {
     console.error("Error creating education record:", error);
     return res.status(500).json({ error: "Internal server error" });
   };
 };
 
+
 // Update an existing education record for a jobseeker
 const updateEducation = async(req, res) => {
-  //const {Institution_name, Degree, Field_of_study, Start_date, End_date} = req.body
-  const { Edu_id } = req.params;
+  //const { institution_name, degree, field_of_study, start_date, end_date } = req.body;
+  
+  
   try {
-    const existingEducation = await educationModel.findByPk(Edu_id);
-    console.log(Edu_id, existingEducation);
+    const { edu_id } = req.params;
+    const existingEducation = await educationModel.findOne({ where: { edu_id } });
     if (!existingEducation) {
       return res.status(404).json({ error: "Education record not found" });
     }
@@ -47,18 +44,22 @@ const updateEducation = async(req, res) => {
   };
 }
 
+
+
 // Get all education records for a jobseeker
-const getAllEducation = async(req, res) =>{
-  const { jobSeekerId } = req.params;
+const getAllEducation = async (req, res) => {
   try {
-    const jobseeker = await jobSeekerModel.findByPk(jobSeekerId);
-    console.log(jobSeekerId, jobseeker);
-    if (!jobseeker) {
-      console.log(error);
-      return res.status(404).json({ error: "Jobseeker not found" });
-    }
-    //  await jobseeker.findAll(req.body);
-    return res.status(200).json(jobseeker);
+    const { edu_id } = req.params;
+    const educationRecords = await educationModel.findOne({
+      where: { edu_id },
+    });
+    if (!educationRecords) {
+      return res.status(404).json({ error: "Education not found" });
+    };
+    // const educationRecords = await educationModel.findAll({
+    //   where: { jobseekerId: edu_id },
+    // });
+    return res.json(educationRecords);
   } catch (error) {
     console.error("Error fetching education records:", error);
     return res.status(500).json({ error: "Internal server error" });
@@ -66,11 +67,13 @@ const getAllEducation = async(req, res) =>{
 };
 
 
+
+
 // Delete an existing education record for a jobseeker
 const deleteEducation = async(req, res) =>{
   try {
-    const { Edu_id } = req.params;
-    const existingEducation = await educationModel.findByPk(Edu_id);
+    const { edu_id } = req.params;
+    const existingEducation = await educationModel.findByPk(edu_id);
     if (!existingEducation) {
       return res.status(404).json({ error: "Education record not found" });
     }
