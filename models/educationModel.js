@@ -11,6 +11,14 @@ const education = sequelize.define("Education", {
         allowNull: false
     },
    
+    jobSeekerId: {
+        type: DataTypes.UUID,
+        references: {
+            model: "jobSeekers",
+            key: "jobSeekerId"
+        }
+    },
+    
     institution_name:{
         type: DataTypes.STRING,
         allowNull: false
@@ -36,14 +44,6 @@ const education = sequelize.define("Education", {
         allowNull: false
     },
 
-    jobSeekerId: {
-        type: DataTypes.UUID,
-        references: {
-            model: jobSeeker,
-            key: "jobSeekerId"
-        }
-    }
-    
 });
 
 (async()=>{

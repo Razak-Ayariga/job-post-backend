@@ -13,6 +13,7 @@ import adminRoutes from "./routes/adminRoutes.js";
 import companyRoutes from "./routes/companyRoutes.js";
 import jobSeekerProfileRoutes from "./routes/jobSeekerProfileRoute.js";
 import educationRoutes from "./routes/educationRoutes.js";
+import recruiterRoutes from "./routes/recruiterRoutes.js"
 
 //use routes
 app.use("/jobSeeker", jobSeekerRoutes);
@@ -20,7 +21,7 @@ app.use("/admin", adminRoutes);
 app.use("/company", companyRoutes);
 app.use("/profile", jobSeekerProfileRoutes);
 app.use("/education", educationRoutes);
-
+app.use("/recruiter", recruiterRoutes);
 (async () => {
   try {
     await sequelize.authenticate();

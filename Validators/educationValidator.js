@@ -34,18 +34,22 @@ const EducationValidator = (req,res,next) => {
       end_date: Joi.date().required(),
     });
   
-  const {institution_name, degree, field_of_study, start_date, end_date} = req.body;
-  const {error} = schema.validate({institution_name, degree, field_of_study, start_date, end_date});
-  if(error){
-    console.log("Validation ERROR", error);
-    return res.status(400).json("Invalid entry");
-    };
-  next(); //is used to validate the data object against the defined schema
-};
+    const validation = schema.validate(req.body);
+    const { error } = validation;
+    if (error) {
+      const message = error.details.map((x) => x.message);
+      return res.status(400).json({ message });
+    }
+    next(); 
+  
+  };
+  // const {institution_name, degree, field_of_study, start_date, end_date} = req.body;
+  // const {error} = schema.validate({institution_name, degree, field_of_study, start_date, end_date});
+  // if(error){
+  //   console.log("Validation ERROR", error);
+  //   return res.status(400).json("Invalid entry");
+  // };
+  // next(); //is used to validate the data object against the defined schema
+  
+  export default  EducationValidator ;
 
-
-
-
-
-
-export default  EducationValidator ;

@@ -7,6 +7,7 @@ import jobSeekerModel from "../models/jobSeekersModel.js"; // A jobSeekerModel d
 const createEducation = async (req, res) => {
   const { institution_name, degree, field_of_study, start_date, end_date } = req.body;
   try {    
+  
     const newEducation = await educationModel.create({
       institution_name,
       degree,
