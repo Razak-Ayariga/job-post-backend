@@ -54,9 +54,4 @@ const jobSeeker = sequelize.define("jobseekers", {
     
 });
 
-(async()=>{
-    await sequelize.sync()
-})();
-
-
 export default jobSeeker;

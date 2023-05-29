@@ -2,7 +2,7 @@ import Joi from "joi";
 
 const jobSeekerRegisterValidator = (req,res,next) => {
   const schema = Joi.object({
-    first_name: Joi.string().min(3).required().regex(/^[A-Za-z-]+$/).messages({
+    first_name: Joi.string().min(3).required().regex(/^[A-Za-z- ]+$/).messages({
       "any.required": "First name is required!",
       "string.min": "First name cannot be less than 3 letters!",
       "string.pattern.base": "First name can contain only letters and hyphen(-)!"
@@ -17,18 +17,17 @@ const jobSeekerRegisterValidator = (req,res,next) => {
       "string.min": "Last name cannot be less than 3 letters!",
       "string.pattern.base": "Last name must contain only letters and hyphen(-)!"
     }),
-    date_of_birth: Joi.date().iso().max("2005-01-01").required().messages({
-      "date.format":"date format is YYYY-MM-DD",
-      "date.max":"age must be 18+"
+    date_of_birth: Joi.date().iso().required().messages({
+      "date.format":"date format is YYYY-MM-DD"
     }),
-    gender: Joi.string().valid('Male','male', 'Female', 'female', 'other').required().messages({
+    gender: Joi.string().valid('male', 'female', 'other').required().messages({
       "any.required": "Gender is required!",
       "any.only": "Invalid gender value! Choose Male, Female or other!"
     }),
-    mobile_number: Joi.string().regex(/^[0-9+]+$/).min(13).max(13).messages({
+    phone_number: Joi.string().regex(/^[0-9+]+$/).min(10).max(15).messages({
       "string.pattern.base":"Invalid phone number format!",
-      "string.min": "Phone number must be at least 13 digits",
-      "string.max": "Phone number can not exceed 13 digits"
+      "string.min": "Phone number must be at least 10 digits",
+      "string.max": "Phone number can not exceed 15 digits"
     }),
     password: Joi.string().min(8).regex(/^(?=.*[!@#$%^&*])(?=.*[A-Z])/).required().messages({
       "string.pattern.base":"Password must include at least one special character, lowercase and uppercase!",
@@ -44,8 +43,7 @@ const jobSeekerRegisterValidator = (req,res,next) => {
     }) 
     //minDomainSegments: 2: This is an option for the email rule. It specifies that the email domain must have at least two segments separated by a dot. 
     })
-  
-  const validation = schema.validate(req.body);
+    const validation = schema.validate(req.body);
   const {error} = validation;
   if(error){
    const message = error.details.map(x=>x.message);
@@ -57,10 +55,10 @@ const jobSeekerRegisterValidator = (req,res,next) => {
 //validating job seeker login
 const jobSeekerLogInValidator = (req,res,next) => {
   const schema = Joi.object({
-     email: Joi.string().required(),
+     email: Joi.string().email().required(),
     password: Joi.string().required()
   })
-  .with("email", "password")
+    .with("email", "password")
   const {email, password} = req.body;
   const {error} = schema.validate({email, password})
   if(error)
