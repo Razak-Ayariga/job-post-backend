@@ -5,18 +5,26 @@ dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
 
 //middleware to check if job seeker exists in the database and generate a JWT
-const jobseekerToken = async (req, res, next) => {
+const jobseekerSignUpToken = async (req, res, next) => {
   try{
-    const {email}  = req.body;
-    const findUser = await JobSeekersModel.findOne( {where:{ email:email }});
+    const {first_name, middle_name, last_name, date_of_birth, gender, email, phone_number } = req.body;
+    const jobSeekerInfo = {
+      first_name: first_name,
+      middle_name: middle_name,
+      last_name: last_name,
+      date_of_birth:date_of_birth,
+      gender:gender,
+      email: email,
+      phone_number:phone_number
+    }
+    const findUser = await JobSeekersModel.findOne({ where: { email:jobSeekerInfo.email } });
       if(findUser){
           res.status(403).json("user already exist. Please login!");
           return;
       }
-
-   // generate a token for job seeker for registeration
-        jwt.sign( email , jwtSecret, (error, token) => {
-          if(error){
+// generate a token for job seeker registeration
+        jwt.sign(jobSeekerInfo, jwtSecret, (error, token) => {
+       if(error){
             res.status(400).json({message: " validation error"})
           } else{
             req.token = token;
@@ -30,24 +38,36 @@ const jobseekerToken = async (req, res, next) => {
    };
 };
 
-//middleware to verify token
-const verifyJobseekerToken = async(req, res, next) => {
-const token = req.headers.token;
-if (!token) {
-    return res.status(401).json({ message: 'No token provided' });
-  }
-const userEmail = jwt.verify(token, jwtSecret, (error, userInfo) => {
-    if (error) {
-      console.error('Error verifying token:', error);
-      return res.status(403).json({ message: 'Failed to authenticate token' });
+// token for job seeker log in
+const jobseekerLogInToken = async (req, res, next) => {
+  const jobSeekerInfo = req.body;
+    const findJobSeeker = await JobSeekersModel.findOne({ where: { email: jobSeekerInfo.email } });
+    if (!findJobSeeker) {
+      res.status(403).json({ message: "user does not exist. Please sign up first!" })
     }
-    return userInfo
-  })
-
-// Token is valid, find userId by verified email
-  const userId = await JobSeekersModel.findAll({where: {email: userEmail}, attributes:['jobSeekerId']})  
-  req.userId = userId[0].dataValues.jobSeekerId;
-  next(); // Proceed to the next middleware
+    const token = jwt.sign(jobSeekerInfo, jwtSecret);
+  req.token = token;
+  next();
 };
 
-export { jobseekerToken, verifyJobseekerToken }
+
+// middleware to verify token
+  const verifyJobseekerToken = async (req, res, next) => {
+    const token = req.headers.token;
+    if (!token) {
+      return res.status(401).json({ message: 'No token provided' });
+    }
+    try {
+      const decodedToken = jwt.verify(token, jwtSecret);
+      const jobSeekerInfo = decodedToken;
+      const userId = await JobSeekersModel.findAll({ jobSeekerInfo, attributes: ['jobSeekerId'] }) 
+      req.userId = userId[0].dataValues.jobSeekerId;
+     next();
+    } catch (error) {
+      console.error("error verifying token")
+      return res.status(403).json({ message: 'Failed to authenticate token' });
+    }
+  }
+
+
+export { jobseekerSignUpToken, jobseekerLogInToken, verifyJobseekerToken }

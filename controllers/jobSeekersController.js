@@ -30,19 +30,8 @@ const uuid = uuidv4();
 
 // job seeker login
 const jobSeekerLoginController = async(req,res)=>{
-const { email, password } = req.body;
-
-//check if job seeker already exists
-const findUser = await JobSeekersModel.findOne({ where: {email:email} });
-    if(!findUser){
-        res.status(403).json({message: "user does not exist. Please register first!"});
-        return;
-    }
-    const passwordMatch = bcrypt.compare(password,findUser.password)
-    if (!passwordMatch) {
-        res.status(401).json({message: "email or password does not match"});
-    }
-    res.status(201).json({message: "Login successful!"});
+const token = req.token;
+    res.status(201).json({message: "Login successful!", token});
 }
 
 export { registerJobSeekerController, jobSeekerLoginController };

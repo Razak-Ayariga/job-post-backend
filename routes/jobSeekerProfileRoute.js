@@ -8,8 +8,7 @@ import uploadMiddleware from "../middlewares/JobSeekerProfileMiddleware.js";
 import { verifyJobseekerToken } from "../middlewares/jobseekerAuthMiddleware.js";
 
 //use the routes
-router.put("/jobSeekerProfile", 
-   uploadMiddleware("public/uploads").single("photo"),  
+router.put("/jobSeekerProfile", uploadMiddleware("public/uploads").single("photo"),
    JobSeekerProfileValidator,
    verifyJobseekerToken,
    uploadPhotoController

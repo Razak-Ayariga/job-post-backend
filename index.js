@@ -9,18 +9,21 @@ app.use(express.json());
 
 //import routes
 import jobSeekerRoutes from "./routes/jobSeekerRoutes.js";
-import adminRoutes from "./routes/adminRoutes.js";
+// import adminRoutes from "./routes/adminRoutes.js";
 import companyRoutes from "./routes/companyRoutes.js";
 import jobSeekerProfileRoutes from "./routes/jobSeekerProfileRoute.js";
-import educationRoutes from "./routes/educationRoutes.js";
-
+import addExperienceRoutes from "./routes/experienceRoutes.js";
+import educarionRoutes from "./routes/educationRoutes.js";
+import postJobRoutes from "./routes/postJobRoutes.js";
 
 //use routes
 app.use("/jobSeeker", jobSeekerRoutes);
-app.use("/admin", adminRoutes);
+// app.use("/admin", adminRoutes);
 app.use("/company", companyRoutes);
 app.use("/profile", jobSeekerProfileRoutes);
-app.use("/education", educationRoutes);
+app.use("/experience", addExperienceRoutes);
+app.use("/education", educarionRoutes);
+app.use("/jobPost", postJobRoutes);
 
 (async () => {
   try {
