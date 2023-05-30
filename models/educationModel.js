@@ -43,6 +43,7 @@ const education = sequelize.define("Education", {
         type: DataTypes.DATE,
         allowNull: false
     },
+   
 
 });
 

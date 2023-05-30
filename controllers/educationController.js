@@ -1,29 +1,52 @@
 import educationModel from "../models/educationModel.js"; // educationModel defined in a separate file
-import jobSeeker from "../models/jobSeekersModel.js";
+//import jobSeeker from "../models/jobSeekersModel.js";
 import jobSeekerModel from "../models/jobSeekersModel.js"; // A jobSeekerModel defined in a separate file
 
 
 // Create a new education record for a jobseeker
 const createEducation = async (req, res) => {
-  const { institution_name, degree, field_of_study, start_date, end_date } = req.body;
-  try {    
-  
+  const { institution_name, degree, field_of_study, start_date, end_date } =
+    req.body;
+  try {
+    // Check if the education record already exists for the jobseeker
+    const existingEducation = await educationModel.findOne({
+      where: {
+        institution_name,
+        degree,
+        field_of_study,
+        start_date,
+        end_date,
+        jobSeekerId: req.params.jobSeekerId, // Assuming the job seeker ID is passed as a route parameter
+      },
+    });
+
+    if (existingEducation) {
+      return res.status(403)
+        .json({ message: "Education record already exists!" });
+    }
+
+    // Create a new education record
     const newEducation = await educationModel.create({
+      jobSeekerId: req.params.jobSeekerId,
       institution_name,
       degree,
       field_of_study,
       start_date,
       end_date,
-      });
+      // Assuming the job seeker ID is passed as a route parameter
+    });
+
     if (newEducation) {
-      return res.status(201).json({ msg: "created" });
+      return res
+        .status(201)
+        .json({ msg: "Education record created successfully" });
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.error("Error creating education record:", error);
     return res.status(500).json({ error: "Internal server error" });
-  };
+  }
 };
+
 
 
 // Update an existing education record for a jobseeker
@@ -87,6 +110,8 @@ const deleteEducation = async(req, res) =>{
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+
+ 
 
 export  {
   getAllEducation,

@@ -10,7 +10,7 @@ const EducationValidator = (req,res,next) => {
           "any.required": "Institution name is required!",
           "string.min": "Institution name cannot be less than 3 letters!",
           "string.pattern.base":
-          "Institution name can contain only letters and hyphen(-)!",
+            "Institution name can contain only letters and hyphen(-)!",
         })
         .required(),
       degree: Joi.string()
@@ -18,19 +18,20 @@ const EducationValidator = (req,res,next) => {
         .regex(/^[a-zA-Z ]*$/)
         .required(),
       field_of_study: Joi.string()
-        .valid()
+        .min(6)
+        //.valid("primary", "secondary", "undergraduate", "masters", "docterate")
         .regex(/^[a-zA-Z ]*$/)
         .required()
         .messages({
-          "string.pattern.base":"Password must include at least one special character, lowercase and uppercase!",
-          "string.min":"Field of Study must be at least primary secondary undergraduate mastersdocterate!",
+          "string.pattern.base":
+            "Field of Study can contain only letters and spaces!",
           "any.required": "Field of Study is required!",
         })
         .required(), // Specify valid field of study values   Start_date: Joi.date().iso().required(),
       start_date: Joi.date().iso().required().messages({
-          "date.format": "Start date format is YYYY-MM-DD",
-          "date.max": "Start date must be less than End date",
-        }),
+        "date.format": "Start date format is YYYY-MM-DD",
+        "date.max": "Start date must be less than End date",
+      }),
       end_date: Joi.date().required(),
     });
   
