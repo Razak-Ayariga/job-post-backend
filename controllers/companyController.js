@@ -32,10 +32,7 @@ const companyLoginController = async (req, res) => {
     const token = req.token;
 
     // Check if company exists
-    const findUser = await companyModel.findOne({
-      where: { company_email: company_email },
-      attributes: ["password"],
-    });
+    const findUser = await companyModel.findOne({where: { company_email: company_email }, attributes: ["password"]});
     if (!findUser) {
       return res.status(403).json({ message: "Company does not exist. Please register first!" });
     }

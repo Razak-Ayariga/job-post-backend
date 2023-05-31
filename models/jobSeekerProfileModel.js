@@ -2,35 +2,27 @@ import { DataTypes } from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
 
 const jobSeekerProfile = sequelize.define("jobSeekerProfile",{
-    profileId:{
+    id:{
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false
     },
     
-    jobSeekerId:{
+    js_id:{
        type: DataTypes.UUID,
        references: {
             model: "jobSeekers",
-            key: "jobSeekerId"
+            key: "id"
         }
     },
 
    photo:{
       type: DataTypes.STRING,
       allowNull: true
-   },
-   
-   linkedInLink:{
-      type: DataTypes.STRING,
-      allowNull: true
-   },
-
-   gitHubLink:{
-      type: DataTypes.STRING,
-      allowNull: false
-   }
+    },
+}, {
+    timestamps: false
 });
 (async() => {
     await sequelize.sync()

@@ -2,9 +2,10 @@ import { DataTypes } from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
 
 const postedJobs = sequelize.define("Jobs", {
-    job_id: {
+    id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
         allowNull: false
     },
 
@@ -12,7 +13,7 @@ const postedJobs = sequelize.define("Jobs", {
         type: DataTypes.UUID,
         references: {
             model: "companies",
-            key: "companyId"
+            key: "id"
         }
     },
 
@@ -31,6 +32,16 @@ const postedJobs = sequelize.define("Jobs", {
     salary_range: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+
+    location: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+
+    requirements: {
+        type: DataTypes.STRING,
+       allowNull: false 
     },
     application_deadline: {
         type: DataTypes.DATE,
@@ -51,7 +62,8 @@ const postedJobs = sequelize.define("Jobs", {
     contact: {
         type: DataTypes.STRING,
         allowNull: false
-    }
+    },
+    // timestamp: false
 });
 
 export default postedJobs;

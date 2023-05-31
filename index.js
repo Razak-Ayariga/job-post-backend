@@ -15,6 +15,7 @@ import jobSeekerProfileRoutes from "./routes/jobSeekerProfileRoute.js";
 import addExperienceRoutes from "./routes/experienceRoutes.js";
 import educarionRoutes from "./routes/educationRoutes.js";
 import postJobRoutes from "./routes/postJobRoutes.js";
+import jobSeekerInfoRoutes from "./routes/jobSeekerInfoRoutes.js";
 
 //use routes
 app.use("/jobSeeker", jobSeekerRoutes);
@@ -24,6 +25,7 @@ app.use("/profile", jobSeekerProfileRoutes);
 app.use("/experience", addExperienceRoutes);
 app.use("/education", educarionRoutes);
 app.use("/jobPost", postJobRoutes);
+app.use("/jobSeekerInfo", jobSeekerInfoRoutes);
 
 (async () => {
   try {

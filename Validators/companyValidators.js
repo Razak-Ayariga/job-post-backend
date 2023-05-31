@@ -1,5 +1,6 @@
 import Joi from "joi";
 
+//register company validator
 const companyRegisterValidator = (req, res, next) => {
   const schema = Joi.object({
     company_name: Joi.string().min(3).regex(/^[-A-Za-z0-9 ]+$/).required().messages({

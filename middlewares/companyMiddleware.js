@@ -27,7 +27,6 @@ const companySignupToken = async (req, res, next) => {
     // Generate company signup token
     jwt.sign(companyInfo, jwtSecret, (error, token) => {
       if (error) {
-        console.log(error);
         res.status(400).json({ message: "Validation error" });
       } else {
         req.token = token;
@@ -40,31 +39,10 @@ const companySignupToken = async (req, res, next) => {
   }
 };
 
-// Token verification
-const verifyCompanyToken = async (req, res, next) => {
-  const token = req.headers.token;
-  if (!token) {
-    return res.status(401).json({ message: "No token provided" });
-  }
-
-  const companyEmail = jwt.verify(token, jwtSecret, (error, companyInfo) => {
-    if (error) {
-      console.error("Error verifying token:", error);
-      return res.status(403).json({ message: "Failed to authenticate token" });
-    }
-    return companyInfo;
-  });
-
-  const companyId = await companyModel.findAll({
-    where: { company_email: companyEmail },attributes: ["companyId"],
-  });
-  req.companyId = companyId[0].dataValues.companyId;
-  next();
-};
-
+//log in token
 const companyLoginToken = async (req, res, next) => {
   try {
-    const { company_email, password } = req.body;
+    const { company_email } = req.body;
     const findCompany = await companyModel.findAll({
       where: { company_email },
       attributes: { exclude: ["password", "description"] }, // Exclude password and description from the query result
@@ -77,9 +55,8 @@ const companyLoginToken = async (req, res, next) => {
     }
 
     const companyFound = findCompany[0];
-    const { companyId, company_name, mobile_number, website, region, town } = companyFound;
+    const { company_name, mobile_number, website, region, town } = companyFound;
     const companyInfo = {
-      companyId,
       company_email,
       company_name,
       mobile_number,
@@ -101,6 +78,24 @@ const companyLoginToken = async (req, res, next) => {
   } catch (error) {
     res.status(500).json({ message: "Server error" });
     console.log(error);
+  }
+};
+
+// Token verification
+const verifyCompanyToken = async (req, res, next) => {
+  const token = req.headers.token;
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
+  }
+try {
+     const decodedToken = jwt.verify(token, jwtSecret)
+    const companyInfo = decodedToken;
+  const companyId = await companyModel.findOne({ where: { company_email: companyInfo.company_email }, attributes: ["id"] });
+    req.company_id = companyId.dataValues.id;
+    return next();
+  } catch (error) {
+    console.log(error);
+    res.status(403).json({message: "Failed to authenticate token!"})
   }
 };
 

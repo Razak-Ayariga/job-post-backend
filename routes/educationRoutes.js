@@ -5,11 +5,10 @@ import  {getAllEducation, createEducation,  updateEducation, deleteEducation}  f
 import EducationValidator  from "../Validators/educationValidator.js" ;
 
 // Route to get all education records for a jobseeker
-router.post("/addEducation/:jobSeekerId", EducationValidator, createEducation);
+router.post("/addEducation/:js_id", EducationValidator, createEducation);
 router.get("/getEducation/:edu_id", getAllEducation); //EducationValidator,
 router.put("/updateEducation/:edu_id", EducationValidator, updateEducation);
 router.delete("/deleteEducation/:edu_id", deleteEducation); //EducationValidator,
 
 export default router;
-
 

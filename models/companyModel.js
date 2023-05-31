@@ -2,7 +2,7 @@ import DataTypes from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
 
 const companies = sequelize.define("Companies", {
-  companyId: {
+  id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,

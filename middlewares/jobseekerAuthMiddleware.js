@@ -60,8 +60,8 @@ const jobseekerLogInToken = async (req, res, next) => {
     try {
       const decodedToken = jwt.verify(token, jwtSecret);
       const jobSeekerInfo = decodedToken;
-      const userId = await JobSeekersModel.findAll({ jobSeekerInfo, attributes: ['jobSeekerId'] }) 
-      req.userId = userId[0].dataValues.jobSeekerId;
+      const userId = await JobSeekersModel.findAll({ jobSeekerInfo, attributes: ['id'] }) 
+      req.userId = userId[0].dataValues.id;
      next();
     } catch (error) {
       console.error("error verifying token")

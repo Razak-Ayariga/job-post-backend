@@ -2,23 +2,18 @@ import educationModel from "../models/educationModel.js";
 
 // Create a new education record for a jobseeker
 const createEducation = async (req, res) => {
-  const { institution_name, degree, field_of_study, start_date, end_date } = req.body;
-  try {    
-    const newEducation = await educationModel.create({
-      institution_name,
-      degree,
-      field_of_study,
-      start_date,
-      end_date,
-      });
-    if (newEducation) {
-      return res.status(201).json({ msg: "created" });
+  const addEducation = req.body;
+  const id = req.userId;
+  addEducation["js_id"] = id;
+  try {
+    const newEducation = await educationModel.create(addEducation);
+   if (newEducation) {
+      return res.status(201).json({ msg: "Education record created successfully" });
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.error("Error creating education record:", error);
     return res.status(500).json({ error: "Internal server error" });
-  };
+  }
 };
 
 // Update an existing education record for a jobseeker
@@ -62,13 +57,13 @@ const deleteEducation = async(req, res) =>{
     if (!existingEducation) {
       return res.status(404).json({ error: "Education record not found" });
     }
-await existingEducation.destroy();
-return res.sendStatus(204);
+  await existingEducation.destroy();
+    return res.sendStatus(204);
   } catch (error) {
     console.error("Error deleting education record:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
 };
 
-export  {getAllEducation, createEducation, updateEducation, deleteEducation};
+export  {getAllEducation,createEducation,updateEducation,deleteEducation};
 
