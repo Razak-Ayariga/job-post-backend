@@ -7,7 +7,8 @@ const createEducation = async (req, res) => {
   addEducation["js_id"] = id;
   try {
     const newEducation = await educationModel.create(addEducation);
-   if (newEducation) {
+    console.log(newEducation);
+    if (newEducation) {
       return res.status(201).json({ msg: "Education record created successfully" });
     }
   } catch (error) {
