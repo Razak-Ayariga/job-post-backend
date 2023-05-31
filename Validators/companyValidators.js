@@ -31,30 +31,6 @@ const companyRegisterValidator = (req, res, next) => {
         "string.length": "Phone number must be exactly 13 digits",
         "any.required": "Phone number is required!",
       }),
-    website: Joi.string().pattern(
-        new RegExp("^https?://(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}(?:/\\S*)?$"))
-      .messages({
-        "string.pattern.base":"Invalid website URL format! Please provide a valid URL starting with http:// or https://",
-        "any.required": "Website is required!",
-      }),
-
-    region: Joi.string().min(2).required().regex(/^[A-Za-z- ]+$/).messages({
-      "any.required": "Region is required!",
-      "string.pattern.base": "Region name can only letters and hyphen(-)",
-      "string.min": "Region name cannot be less than two letters"
-    }),
-
-    town: Joi.string().min(2).required().regex(/^[A-Za-z- ]+$/).messages({
-      "any.required": "Town is required!",
-      "string.pattern.base": "Town name can only letters and hyphen(-)",
-      "string.min": "Town name cannot be less than two letters"
-    }),
-
-    description: Joi.string().required().min(15).max(100).messages({
-      "any.required": "Description is required!",
-      "string.min": "Description cannot be less than 15 characters",
-      "string.max": "Description cannot be over 100 characters"
-    }),
   });
 
   const validation = schema.validate(req.body);

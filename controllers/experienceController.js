@@ -3,7 +3,6 @@ import experienceModel from "../models/experienceModel.js";
 const addExperienceController = async (req, res) => {
     const addExperience = req.body;
     const id = req.userId;
-    console.log(id);
     addExperience["js_id"] = id;
     try {
         const newExperience = experienceModel.create(addExperience);

@@ -16,11 +16,13 @@ import addExperienceRoutes from "./routes/experienceRoutes.js";
 import educarionRoutes from "./routes/educationRoutes.js";
 import postJobRoutes from "./routes/postJobRoutes.js";
 import jobSeekerInfoRoutes from "./routes/jobSeekerInfoRoutes.js";
+import companyProfileRoutes from "./routes/companyInfoRoutes.js";
 
 //use routes
 app.use("/jobSeeker", jobSeekerRoutes);
 // app.use("/admin", adminRoutes);
 app.use("/company", companyRoutes);
+app.use("/companyProfile", companyProfileRoutes)
 app.use("/profile", jobSeekerProfileRoutes);
 app.use("/experience", addExperienceRoutes);
 app.use("/education", educarionRoutes);
@@ -31,7 +33,6 @@ app.use("/jobSeekerInfo", jobSeekerInfoRoutes);
   try {
     await sequelize.authenticate();
     console.log("Connection established successfully");
-
     app.listen(port, () => {
       console.log(`Server listening on port ${port}`);
     });

@@ -6,14 +6,11 @@ const jwtSecret = process.env.JWT_SECRET;
 
 const companySignupToken = async (req, res, next) => {
     try {
-      const {company_name, company_email, mobile_number, website, region, town} = req.body;
+      const {company_name, company_email, mobile_number} = req.body;
     const companyInfo = {
       company_name,
       company_email,
       mobile_number,
-      website,
-      region,
-      town,
     };
     
     const findCompany = await companyModel.findOne({
@@ -55,14 +52,11 @@ const companyLoginToken = async (req, res, next) => {
     }
 
     const companyFound = findCompany[0];
-    const { company_name, mobile_number, website, region, town } = companyFound;
+    const { company_name, mobile_number, } = companyFound;
     const companyInfo = {
       company_email,
       company_name,
       mobile_number,
-      website,
-      region,
-      town,
     };
 
     // Generate company login token
