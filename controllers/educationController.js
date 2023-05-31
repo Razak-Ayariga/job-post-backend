@@ -12,7 +12,7 @@ const createEducation = async (req, res) => {
     const existingEducation = await educationModel.findOne({
       where: {
         institution_name,
-        degree,
+        certification,
         field_of_study,
         start_date,
         end_date,
@@ -29,7 +29,7 @@ const createEducation = async (req, res) => {
     const newEducation = await educationModel.create({
       jobSeekerId: req.params.jobSeekerId,
       institution_name,
-      degree,
+      certification,
       field_of_study,
       start_date,
       end_date,

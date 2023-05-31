@@ -8,7 +8,7 @@ const EducationValidator = (req,res,next) => {
           "string.pattern.base":
           "Institution name can contain only letters and hyphen(-)!",
         }),
-      degree: Joi.string().valid("primary", "secondary", "undergraduate", "masters", "docterate")
+      certification: Joi.string().valid("primary", "secondary", "undergraduate", "masters", "docterate")
         .regex(/^[a-zA-Z ]*$/).required(),
       
         field_of_study: Joi.string().valid().regex(/^[a-zA-Z ]*$/).required().messages({
@@ -25,8 +25,8 @@ const EducationValidator = (req,res,next) => {
         end_date: Joi.date().required(),
     });
   
-  const {institution_name, degree, field_of_study, start_date, end_date} = req.body;
-  const {error} = schema.validate({institution_name, degree, field_of_study, start_date, end_date});
+  const {institution_name, certification, field_of_study, start_date, end_date} = req.body;
+  const {error} = schema.validate({institution_name, certification, field_of_study, start_date, end_date});
   if(error){
     console.log("Validation ERROR", error);
     return res.status(400).json("Invalid entry");

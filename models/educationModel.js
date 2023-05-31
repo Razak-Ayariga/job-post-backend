@@ -24,7 +24,7 @@ const education = sequelize.define("Education", {
         allowNull: false
     },
 
-    degree:{
+    certification:{
         type: DataTypes.STRING,
         allowNull: true
     },
@@ -40,7 +40,7 @@ const education = sequelize.define("Education", {
     },    
     
     end_date:{
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
         allowNull: false
     },
    
