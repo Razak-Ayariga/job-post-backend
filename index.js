@@ -1,17 +1,17 @@
 import express from "express";
 const app = express();
 import "./env.js";
-import sequelize  from "./dataBase/dbConfig.js";
+import sequelize from "./dataBase/dbConfig.js";
+import cors from "cors";
+app.use(cors())
+import multer from "multer";
 const port = process.env.PORT || 4000;
 
-//body parser
-app.use(express.json());
+const uploads = multer()
 
 //import routes
 import jobSeekerRoutes from "./routes/jobSeekerRoutes.js";
-// import adminRoutes from "./routes/adminRoutes.js";
 import companyRoutes from "./routes/companyRoutes.js";
-import jobSeekerProfileRoutes from "./routes/jobSeekerProfileRoute.js";
 import addExperienceRoutes from "./routes/experienceRoutes.js";
 import educarionRoutes from "./routes/educationRoutes.js";
 import postJobRoutes from "./routes/postJobRoutes.js";
@@ -19,9 +19,9 @@ import skillsRoute from "./routes/skillsRoute.js";
 
 //use routes
 app.use("/jobSeeker", jobSeekerRoutes);
-// app.use("/admin", adminRoutes);
+// app.use(uploads.none())
 app.use("/company", companyRoutes);
-app.use("/profile", jobSeekerProfileRoutes);
+app.use("/companyProfile", companyProfileRoutes)
 app.use("/experience", addExperienceRoutes);
 app.use("/education", educarionRoutes);
 app.use("/jobPost", postJobRoutes);

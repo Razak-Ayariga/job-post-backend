@@ -51,6 +51,11 @@ const jobSeeker = sequelize.define("jobSeekers", {
         type: DataTypes.STRING,
         allowNull: false
     }, 
+    photo: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue:'avatar.jpg'
+    }
 
 }, {
     timestamps: false
