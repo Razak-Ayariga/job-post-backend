@@ -13,7 +13,7 @@ const uploads = multer()
 import jobSeekerRoutes from "./routes/jobSeekerRoutes.js";
 import companyRoutes from "./routes/companyRoutes.js";
 import addExperienceRoutes from "./routes/experienceRoutes.js";
-import educarionRoutes from "./routes/educationRoutes.js";
+import educationRoutes from "./routes/educationRoutes.js";
 import postJobRoutes from "./routes/postJobRoutes.js";
 import skillsRoute from "./routes/skillsRoute.js";
 
@@ -21,9 +21,9 @@ import skillsRoute from "./routes/skillsRoute.js";
 app.use("/jobSeeker", jobSeekerRoutes);
 // app.use(uploads.none())
 app.use("/company", companyRoutes);
-app.use("/companyProfile", companyProfileRoutes)
+//app.use("/companyProfile", companyProfileRoutes)
 app.use("/experience", addExperienceRoutes);
-app.use("/education", educarionRoutes);
+app.use("/education", educationRoutes);
 app.use("/jobPost", postJobRoutes);
 app.use("/skills", skillsRoute);
 
