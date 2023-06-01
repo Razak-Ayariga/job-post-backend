@@ -15,17 +15,20 @@ import companyRoutes from "./routes/companyRoutes.js";
 import addExperienceRoutes from "./routes/experienceRoutes.js";
 import educationRoutes from "./routes/educationRoutes.js";
 import postJobRoutes from "./routes/postJobRoutes.js";
-import skillsRoute from "./routes/skillsRoute.js";
+import uploadCvRoutes from "./routes/uploadCvRoutes.js";
+import companyProfileRoutes from "./routes/companyInfoRoutes.js";
+import jsLinksRoutes from "./routes/jsSocialLinksRoute.js";
 
 //use routes
 app.use("/jobSeeker", jobSeekerRoutes);
-// app.use(uploads.none())
 app.use("/company", companyRoutes);
 //app.use("/companyProfile", companyProfileRoutes)
 app.use("/experience", addExperienceRoutes);
 app.use("/education", educationRoutes);
 app.use("/jobPost", postJobRoutes);
-app.use("/skills", skillsRoute);
+app.use("/cv", uploadCvRoutes);
+app.use("/links", jsLinksRoutes)
+
 
 (async () => {
   try {
