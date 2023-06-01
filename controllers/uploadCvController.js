@@ -10,11 +10,11 @@ const uploadCvController = async (req, res) => {
     try {
         const newCv = await uploadCvModel.create(addCv);
         if (newCv) {
-            res.status(201).json({ message: "cv uploaded successfully!", cv })
+            res.status(201).json({ message: "cv uploaded successfully!", cv });
         }
     } catch (error) {
         console.log(error);
-        res.status(403).json({message: "Failed to upload cv!"})
-    }
-}
+        res.status(403).json({ message: "Failed to upload cv!" });
+    };
+};
 export default uploadCvController;

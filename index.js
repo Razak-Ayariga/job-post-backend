@@ -17,16 +17,18 @@ import educarionRoutes from "./routes/educationRoutes.js";
 import postJobRoutes from "./routes/postJobRoutes.js";
 import uploadCvRoutes from "./routes/uploadCvRoutes.js";
 import companyProfileRoutes from "./routes/companyInfoRoutes.js";
+import jsLinksRoutes from "./routes/jsSocialLinksRoute.js";
 
 //use routes
 app.use("/jobSeeker", jobSeekerRoutes);
-// app.use(uploads.none())
 app.use("/company", companyRoutes);
 app.use("/companyProfile", companyProfileRoutes)
 app.use("/experience", addExperienceRoutes);
 app.use("/education", educarionRoutes);
 app.use("/jobPost", postJobRoutes);
 app.use("/cv", uploadCvRoutes);
+app.use("/links", jsLinksRoutes)
+
 
 (async () => {
   try {
