@@ -24,14 +24,14 @@ const EducationValidator = (req,res,next) => {
      
         end_date: Joi.date().required(),
     });
-  
-  const {institution_name, certification, field_of_study, start_date, end_date} = req.body;
-  const {error} = schema.validate({institution_name, certification, field_of_study, start_date, end_date});
-  if(error){
-    console.log("Validation ERROR", error);
-    return res.status(400).json("Invalid entry");
-    };
-  next(); //is used to validate the data object against the defined schema
+  const validation = schema.validate(req.body);
+  const { error } = validation;
+  if (error) {
+    const message = error.message.map(x => x.message);
+    res.status(400).json(message);
+    return;
+  }
+  next();
 };
 
 export default  EducationValidator ;

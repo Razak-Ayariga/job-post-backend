@@ -2,7 +2,7 @@ import DataTypes from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
 
 const companies = sequelize.define("Companies", {
-  companyId: {
+  id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
@@ -18,7 +18,7 @@ const companies = sequelize.define("Companies", {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
-      isEmail: true,
+      isEmail: true
     },
   },
   password: {
@@ -29,26 +29,7 @@ const companies = sequelize.define("Companies", {
   mobile_number: {
     type: DataTypes.STRING,
     allowNull: false,
-  },
-
-  website: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-
-  description: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-
-  region: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  town: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
+  }
 });
 
 (async () => {

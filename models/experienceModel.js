@@ -2,17 +2,17 @@ import { DataTypes } from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
 
 const experienceModel = sequelize.define("experience", {
-    exp_id: {
+    id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false
     },
-    jobSeekerId: {
+    js_id: {
         type: DataTypes.UUID,
         references: {
             model: "jobSeekers",
-            key: "jobSeekerId"
+            key: "id"
         }
     },
 
@@ -31,12 +31,7 @@ const experienceModel = sequelize.define("experience", {
     end_date: {
         type: DataTypes.DATE,
         allowNull: false
-    },
-    cv: {
-        type: DataTypes.STRING,
-        allowNull: false
     }
-
 });
 (async () => {
     await sequelize.sync()

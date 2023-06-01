@@ -14,7 +14,7 @@ const addExperienceValidator = (req, res, next) => {
         end_date: Joi.string().required().messages({
             "date.format": "Date format is YYYY-MM-DD"
         })
-    })
+    });
     const validation = schema.validate(req.body);
     const { error } = validation;
     if (error) {

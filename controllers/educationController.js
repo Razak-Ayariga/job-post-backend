@@ -54,9 +54,7 @@ const deleteEducation = async(req, res) =>{
     if (!existingEducation) {
       return res.status(404).json({ error: "Education record not found" });
     }
-
-    await existingEducation.destroy();
-
+  await existingEducation.destroy();
     return res.sendStatus(204);
   } catch (error) {
     console.error("Error deleting education record:", error);
@@ -64,7 +62,8 @@ const deleteEducation = async(req, res) =>{
   }
 };
 
- 
+export  {getAllEducation,createEducation,updateEducation,deleteEducation};
+
 
 export  {
   getAllEducation,

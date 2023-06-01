@@ -1,21 +1,20 @@
 import DataTypes from "sequelize";
 import  sequelize  from "../dataBase/dbConfig.js";
-import jobSeeker from "./jobSeekersModel.js";
 
 const education = sequelize.define("Education", {
     
-    edu_id:{
+    id:{
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false
     },
    
-    jobSeekerId: {
+    js_id: {
         type: DataTypes.UUID,
         references: {
             model: "jobSeekers",
-            key: "jobSeekerId"
+            key: "id"
         }
     },
     
@@ -43,13 +42,12 @@ const education = sequelize.define("Education", {
         type: DataTypes.STRING,
         allowNull: false
     },
-   
-
-});
+},{
+       timestamps: false
+   });
 
 (async()=>{
     await sequelize.sync()
 })()
-
 
 export default  education;
