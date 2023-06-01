@@ -21,7 +21,6 @@ import skillsRoute from "./routes/skillsRoute.js";
 app.use("/jobSeeker", jobSeekerRoutes);
 // app.use("/admin", adminRoutes);
 app.use("/company", companyRoutes);
-app.use("/companyProfile", companyProfileRoutes)
 app.use("/profile", jobSeekerProfileRoutes);
 app.use("/experience", addExperienceRoutes);
 app.use("/education", educarionRoutes);
@@ -32,6 +31,7 @@ app.use("/skills", skillsRoute);
   try {
     await sequelize.authenticate();
     console.log("Connection established successfully");
+
     app.listen(port, () => {
       console.log(`Server listening on port ${port}`);
     });
