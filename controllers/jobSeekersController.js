@@ -49,6 +49,7 @@ const getJobSeekerController = async (req, res) => {
   }
 };
 
+// update job seeker info
 const updateJobSeekerInfo = async (req, res) => {
   try {
     const userInfo = req.body;

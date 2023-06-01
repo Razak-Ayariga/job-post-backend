@@ -15,7 +15,7 @@ import companyRoutes from "./routes/companyRoutes.js";
 import addExperienceRoutes from "./routes/experienceRoutes.js";
 import educarionRoutes from "./routes/educationRoutes.js";
 import postJobRoutes from "./routes/postJobRoutes.js";
-import jobSeekerInfoRoutes from "./routes/jobSeekerInfoRoutes.js";
+import uploadCvRoutes from "./routes/uploadCvRoutes.js";
 import companyProfileRoutes from "./routes/companyInfoRoutes.js";
 
 //use routes
@@ -26,7 +26,7 @@ app.use("/companyProfile", companyProfileRoutes)
 app.use("/experience", addExperienceRoutes);
 app.use("/education", educarionRoutes);
 app.use("/jobPost", postJobRoutes);
-app.use("/jobSeekerInfo", jobSeekerInfoRoutes);
+app.use("/cv", uploadCvRoutes);
 
 (async () => {
   try {
