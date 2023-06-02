@@ -6,7 +6,7 @@ const createSkills = async (req, res) => {
   const id = req.userId;
   addSkills["js_id"] = id;
   try {
-    const newSkills = await addSkills.create(addSkills);
+    const newSkills = await skillsModel.create(addSkills);
     console.log(newSkills);
     if (newSkills) {
       return res.status(201).json({ msg: "skills record created successfully" });
@@ -17,38 +17,36 @@ const createSkills = async (req, res) => {
   }
 };
 
-// Update an existing Skills record for a jobseeker
-const updateSkills = async(req, res) => {
-  //const { institution_name, degree, field_of_study, start_date, end_date } = req.body;
-  
 
+
+// Update an existing Skills record for a jobseeker
+const updateSkills = async (req, res) => {
   try {
     const { id } = req.params;
-    const existingSkills = await skillsModel.findOne({ where: { id } });
+    const existingSkills = await skillsModel.findByPk(id);
     if (!existingSkills) {
       return res.status(404).json({ error: "Skills record not found" });
     }
     await existingSkills.update(req.body);
-    return res.json(existingSkills);
+    return res.json({
+      status: "Skills record updated successfully",
+      skills: existingSkills,
+    });
   } catch (error) {
     console.error("Error updating Skills record:", error);
     return res.status(500).json({ error: "Internal server error" });
-  };
-}
+  }
+};
+
 
 // Get all Skills records for a jobseeker
 const getAllSkills = async (req, res) => {
   try {
     const { id } = req.params;
-    const skillsRecords = await skillsModel.findOne({
-      where: { id },
-    });
-    if (!skillsRecords) {
+    const skillsRecords = await skillsModel.findAll({ where: { js_id: id } });
+    if (!skillsRecords || skillsRecords.length === 0) {
       return res.status(404).json({ error: "Skills not found" });
-    };
-    // const SkillsRecords = await SkillsModel.findAll({
-    //   where: { jobseekerId: id },
-    // });
+    }
     return res.json(skillsRecords);
   } catch (error) {
     console.error("Error fetching Skills records:", error);

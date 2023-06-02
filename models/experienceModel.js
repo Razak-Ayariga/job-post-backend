@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
 
-const experienceModel = sequelize.define("experience", {
+const experienceModel = sequelize.define("experiencesGain", {
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,

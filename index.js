@@ -7,6 +7,8 @@ app.use(cors())
 import multer from "multer";
 const port = process.env.PORT || 4000;
 
+app.use(express.json());
+
 const uploads = multer()
 
 //import routes
@@ -18,23 +20,22 @@ import postJobRoutes from "./routes/postJobRoutes.js";
 import uploadCvRoutes from "./routes/uploadCvRoutes.js";
 import companyProfileRoutes from "./routes/companyInfoRoutes.js";
 import jsLinksRoutes from "./routes/jsSocialLinksRoute.js";
-
+import skillsRoutes from "./routes/skillsRoute.js";
 //use routes
 app.use("/jobSeeker", jobSeekerRoutes);
 app.use("/company", companyRoutes);
-//app.use("/companyProfile", companyProfileRoutes)
+app.use("/companyProfile", companyProfileRoutes)
 app.use("/experience", addExperienceRoutes);
 app.use("/education", educationRoutes);
 app.use("/jobPost", postJobRoutes);
 app.use("/cv", uploadCvRoutes);
-app.use("/links", jsLinksRoutes)
-
+app.use("/links", jsLinksRoutes);
+app.use("/skills", skillsRoutes);
 
 (async () => {
   try {
     await sequelize.authenticate();
     console.log("Connection established successfully");
-
     app.listen(port, () => {
       console.log(`Server listening on port ${port}`);
     });

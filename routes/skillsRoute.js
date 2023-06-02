@@ -6,8 +6,8 @@ import { verifyJobseekerToken } from "../middlewares/jobSeekerAuthMiddleware.js"
 
 // Route to get all Skills records for a jobseeker
 router.post("/addSkills", skillsValidator, verifyJobseekerToken, createSkills);
-router.get("/getSkills/:edu_id", getAllSkills); //SkillsValidator,
-router.put("/updateSkills/:edu_id", skillsValidator, updateSkills);
-router.delete("/deleteSkills/:edu_id", deleteSkills); //SkillsValidator,
+router.get("/getSkills/:id", getAllSkills, verifyJobseekerToken); //SkillsValidator,
+router.put("/updateSkills/:id", skillsValidator,verifyJobseekerToken, updateSkills);
+router.delete("/deleteSkills/:id", deleteSkills, verifyJobseekerToken); //SkillsValidator,
 
 export default router;

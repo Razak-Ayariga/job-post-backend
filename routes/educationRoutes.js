@@ -3,7 +3,7 @@ import express from "express";
 const router = express.Router();
 import  {getAllEducation, createEducation,  updateEducation, deleteEducation}  from "../controllers/educationController.js";
 import EducationValidator from "../Validators/educationValidator.js";
-import { verifyJobseekerToken } from "../middlewares/jobseekerAuthMiddleware.js";
+import { verifyJobseekerToken } from "../middlewares/jobSeekerAuthMiddleware.js";
 
 // Route to get all education records for a jobseeker
 router.post("/addEducation", EducationValidator,verifyJobseekerToken, createEducation);
