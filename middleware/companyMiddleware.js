@@ -3,21 +3,26 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
+import multer from "multer";
+import path from "path";
+const absolutePath = path.resolve("./");
 
 const companySignupToken = async (req, res, next) => {
-    try {
-      const {company_name, company_email, mobile_number} = req.body;
+  try {
+    const { company_name, email, mobile_number } = req.body;
     const companyInfo = {
       company_name,
-      company_email,
+      email,
       mobile_number,
     };
-    
+
     const findCompany = await companyModel.findOne({
-      where: { company_email: companyInfo.company_email },
+      where: { email: companyInfo.email },
     });
     if (findCompany) {
-      res.status(400).json({ message: "Company already exists. Please login!" });
+      res
+        .status(400)
+        .json({ message: "Company already exists. Please login!" });
       return;
     }
 
@@ -39,9 +44,9 @@ const companySignupToken = async (req, res, next) => {
 //log in token
 const companyLoginToken = async (req, res, next) => {
   try {
-    const { company_email } = req.body;
+    const { email } = req.body;
     const findCompany = await companyModel.findAll({
-      where: { company_email },
+      where: { email },
       attributes: { exclude: ["password", "description"] }, // Exclude password and description from the query result
     });
 
@@ -52,10 +57,10 @@ const companyLoginToken = async (req, res, next) => {
     }
 
     const companyFound = findCompany[0];
-    const { company_name, mobile_number, } = companyFound;
+    const { company_name, mobile_number } = companyFound;
     const companyInfo = {
-      company_email,
       company_name,
+      email,
       mobile_number,
     };
 
@@ -71,7 +76,6 @@ const companyLoginToken = async (req, res, next) => {
     });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
-    console.log(error);
   }
 };
 
@@ -81,16 +85,44 @@ const verifyCompanyToken = async (req, res, next) => {
   if (!token) {
     return res.status(401).json({ message: "No token provided" });
   }
-try {
-     const decodedToken = jwt.verify(token, jwtSecret)
+  try {
+    const decodedToken = jwt.verify(token, jwtSecret);
     const companyInfo = decodedToken;
-  const companyId = await companyModel.findOne({ where: { company_email: companyInfo.company_email }, attributes: ["id"] });
-    req.company_id = companyId.dataValues.id;
-    return next();
+    const companyId = await companyModel.findOne({
+      companyInfo,
+      attributes: ["id"],
+    });
+    if (companyId) {
+      req.company_id = companyId.dataValues.id;
+      next();
+    }
   } catch (error) {
     console.log(error);
-    res.status(403).json({message: "Failed to authenticate token!"})
+    res.status(403).json({ message: "Failed to authenticate token!" });
   }
 };
 
-export { companySignupToken, verifyCompanyToken, companyLoginToken };
+//middleware to upload logo
+const uploadLogoMiddleware = (destination) => {
+  const directory = path.join(absolutePath, destination);
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, directory);
+    },
+    filename: function (req, file, cb) {
+      const filename =
+        file.fieldname + "_" + Date.now() + path.extname(file.originalname);
+      cb(null, filename);
+    },
+  });
+
+  const upload = multer({ storage });
+  return upload;
+};
+
+export {
+  companySignupToken,
+  verifyCompanyToken,
+  companyLoginToken,
+  uploadLogoMiddleware,
+};

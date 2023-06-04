@@ -1,5 +1,9 @@
 import {DataTypes} from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
+import experience from "./experienceModel.js";
+import education from "./educationModel.js";
+import skills from "./skillsModel.js";
+import languages from "./languageModel.js";
 
 const jobSeeker = sequelize.define("jobseekers", {
     
@@ -9,27 +13,22 @@ const jobSeeker = sequelize.define("jobseekers", {
         primaryKey: true,
         allowNull: false
     },
-   
     first_name: {
         type: DataTypes.STRING,
         allowNull: false
     },
-
     middle_name: {
         type: DataTypes.STRING,
         allowNull: true
     },
-
     last_name: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    
     date_of_birth: {
         type: DataTypes.DATE,
         allowNull: false
     },
-    
     gender: {
         type: DataTypes.STRING,
         allowNull: false
@@ -38,15 +37,13 @@ const jobSeeker = sequelize.define("jobseekers", {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            isEmail: true, // to ensure that the email provided is in a valid email format
+            isEmail: true
         }
     },
-    
     phone_number: {
         type: DataTypes.STRING,
         allowNull: true
     },
-   
     password: {
         type: DataTypes.STRING,
         allowNull: false
@@ -54,11 +51,13 @@ const jobSeeker = sequelize.define("jobseekers", {
     photo: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue:'avatar.jpg'
+        defaultValue: 'avatar.jpg'
     }
-
-}, {
-    timestamps: false
 });
+
+jobSeeker.hasMany(experience, { foreignKey: "js_id" });
+jobSeeker.hasMany(education, { foreignkey: "js_id" });
+jobSeeker.hasMany(skills, { foreignKey: "js_id" });
+jobSeeker.hasMany(languages, { foreignkey: "js_id" });
 
 export default jobSeeker;

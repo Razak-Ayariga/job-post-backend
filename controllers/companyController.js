@@ -13,13 +13,16 @@ const registerCompanyController = async (req, res) => {
     // Hash password
     const hashPassword = await bcrypt.hash(password, 10);
     const uuid = uuidv4();
+    const logo = req.file?.filename;
+    newCompany["logo"] = logo;
+    newCompany["password"] = hashPassword;
+    newCompany["uuid"] = uuid;
 
-    // Add company to the database
-    newCompany.uuid = uuid;
-    newCompany.password = hashPassword;
-
-    await companyModel.create(newCompany);
-    res.status(201).json({ message: "Company registered successfully!", token });
+    const addCompany = await companyModel.create(newCompany, { fields: ["id", "company_name", "password", "email", "mobile_number", "verification_method"] });
+    const company = addCompany.dataValues;
+    console.log(company);
+    res.status(201).json({ message: "Company registered successfully!", token, company });
+    return;
   } catch (error) {
     res.status(500).json({ message: "Failed to register company!" });
   }
@@ -28,28 +31,36 @@ const registerCompanyController = async (req, res) => {
 // Company login
 const companyLoginController = async (req, res) => {
   try {
-    const { company_email, password } = req.body;
+    const { email } = req.body;
     const token = req.token;
+    const company = req.body;
 
     // Check if company exists
-    const findUser = await companyModel.findOne({where: { company_email: company_email }, attributes: ["password"]});
+    const findUser = await companyModel.findOne({where: { email:email }});
     if (!findUser) {
       return res.status(403).json({ message: "Company does not exist. Please register first!" });
     }
-
-    const passwordMatch = await bcrypt.compare(password, findUser.password);
-    if (!passwordMatch) {
-      return res.status(401).json({ message: "Email or password does not match" });
-    }
-    const message = {
-      message: "Company logged in successfully!",
-      token: token,
-    };
-
-    res.status(200).json({ message });
+    res.status(201).json({ message: "company logged in!", token, company });
+    return;
   } catch (error) {
     res.status(500).json({ message: "Failed to log in!" });
   }
 };
 
-export { registerCompanyController, companyLoginController };
+// update company info
+const updateCompanyInfo = async (req, res) => {
+  try {
+    const companyInfo = req.body;
+    const logo = req.file?.filename;
+    const company_id = req.company_id;
+    companyInfo["logo"] = logo;
+
+    const updateResult = await companyModel.update(companyInfo, { where: { id: company_id } });
+    const findCompany = await companyModel.findAll({ where: { id: company_id } });
+    res.status(201).json({ message: "Updated successfully!", findCompany })
+  } catch (error) {
+    res.status(400).json({ message: "failed to update!" });
+}
+}
+
+export { registerCompanyController, companyLoginController, updateCompanyInfo };

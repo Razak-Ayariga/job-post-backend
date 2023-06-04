@@ -63,7 +63,6 @@ const postedJobs = sequelize.define("Jobs", {
         type: DataTypes.STRING,
         allowNull: false
     },
-    // timestamp: false
 });
 
 export default postedJobs;

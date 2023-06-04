@@ -1,12 +1,20 @@
 import express from "express";
 const router = express.Router();
 
-import { addExperienceController, deleteExperience } from "../controllers/experienceController.js";
+import {addExperienceController,getOneExperience,getAllExperience,deleteExperience} from "../controllers/experienceController.js";
 import addExperienceValidator from "../Validators/experienceValidator.js";
-// import uploadCvMiddleware from "../middlewares/experienceMiddleware.js";
-import { verifyJobseekerToken } from "../middlewares/jobseekerAuthMiddleware.js";
+import {verifyJobseekerToken,uploadPhotoMiddleware} from "../middleware/jobseekerAuthMiddleware.js";
 
-router.put("/addExperience", addExperienceValidator,verifyJobseekerToken,addExperienceController);
-router.delete("/deleteExperience/:exp_id", deleteExperience);
-        
+router.put(
+  "/addExperience",
+  uploadPhotoMiddleware("").none(),
+  addExperienceValidator,
+  verifyJobseekerToken,
+  addExperienceController
+);
+
+router.delete("/deleteExperience/:id",uploadPhotoMiddleware("").none(),deleteExperience);
+router.get("/oneExperience/:id",uploadPhotoMiddleware("").none(),getOneExperience);
+router.get("allExperience/:id",uploadPhotoMiddleware("").none(),getAllExperience);
+
 export default router;

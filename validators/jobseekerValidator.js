@@ -57,7 +57,6 @@ const jobSeekerLogInValidator = (req,res,next) => {
     password: Joi.string().required()
   })
     .with("email", "password")
-    console.log(req.body);
   const { email, password } = req.body;
   const {error} = schema.validate({email, password})
   if(error)

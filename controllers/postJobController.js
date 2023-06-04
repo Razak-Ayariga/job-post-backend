@@ -7,8 +7,9 @@ const postJob = async (req, res) => {
 
     try {
         const newJob = await postJobsModel.create(addJobInfo);
+        const job = newJob.dataValues;
         if (newJob) {
-            return res.status(201).json({ message: "Job posted successfully!" });
+            return res.status(201).json({ message: "Job posted successfully!", job});
         }
     } catch (error) {
         return res.status(400).json({ message: " Failed to post job!" });

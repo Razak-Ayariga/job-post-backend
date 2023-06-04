@@ -2,14 +2,15 @@ import educationModel from "../models/educationModel.js";
 
 // Create a new education record for a jobseeker
 const createEducation = async (req, res) => {
+  try {
   const addEducation = req.body;
   const id = req.userId;
-  addEducation["js_id"] = id;
-  try {
+    addEducation["js_id"] = id;
+    console.log("add education*******",addEducation);
     const newEducation = await educationModel.create(addEducation);
-    console.log(newEducation);
+    console.log("new new new new new new",newEducation);
     if (newEducation) {
-      return res.status(201).json({ msg: "Education record created successfully" });
+      return res.status(201).json({ msg: "Education record created successfully",newEducation });
     }
   } catch (error) {
     console.error("Error creating education record:", error);
@@ -53,8 +54,8 @@ const getAllEducation = async (req, res) => {
 // Delete an existing education record for a jobseeker
 const deleteEducation = async(req, res) =>{
   try {
-    const { edu_id } = req.params;
-    const existingEducation = await educationModel.findByPk(edu_id);
+    const { id } = req.params;
+    const existingEducation = await educationModel.findByPk(id);
     if (!existingEducation) {
       return res.status(404).json({ error: "Education record not found" });
     }

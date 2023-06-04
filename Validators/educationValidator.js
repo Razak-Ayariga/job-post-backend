@@ -8,10 +8,9 @@ const EducationValidator = (req,res,next) => {
           "string.pattern.base":
           "Institution name can contain only letters and hyphen(-)!",
         }),
-      certification: Joi.string().valid("primary", "secondary", "undergraduate", "masters", "docterate")
-        .regex(/^[a-zA-Z ]*$/).required(),
-      
-        field_of_study: Joi.string().valid().regex(/^[a-zA-Z ]*$/).required().messages({
+      certification: Joi.string().regex(/^[a-zA-Z ]*$/).required(),
+
+        field_of_study: Joi.string().regex(/^[a-zA-Z ]*$/).required().messages({
           "string.pattern.base":"Password must include at least one special character, lowercase and uppercase!",
           "string.min":"Field of Study must be at least primary secondary undergraduate mastersdocterate!",
           "any.required": "Field of Study is required!",
@@ -27,8 +26,8 @@ const EducationValidator = (req,res,next) => {
   const validation = schema.validate(req.body);
   const { error } = validation;
   if (error) {
-    const message = error.message.map(x => x.message);
-    res.status(400).json(message);
+    // const message = error.message?.map(x => x.message);
+    // res.status(400).json(message);
     return;
   }
   next();

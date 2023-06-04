@@ -14,11 +14,11 @@ const companies = sequelize.define("Companies", {
     allowNull: false,
   },
 
-  company_email: {
+  email: {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
-      isEmail: true
+      isEmail: true,
     },
   },
   password: {
@@ -29,11 +29,19 @@ const companies = sequelize.define("Companies", {
   mobile_number: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  verification_method: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  logo: {
+    type: DataTypes.STRING,
+    allowNull: true
   }
 });
 
 (async () => {
   await sequelize.sync();
-})(); 
+})();
 
 export default companies;

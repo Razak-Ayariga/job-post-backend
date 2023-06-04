@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
 
-const jobSeekerProfile = sequelize.define("jsSocialLinks",{
+const jsSocialLinks = sequelize.define("jsSocialLinks",{
     id:{
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
@@ -26,11 +26,9 @@ const jobSeekerProfile = sequelize.define("jsSocialLinks",{
     type: DataTypes.STRING,
     allowNull: true
       }
-}, {
-    timestamps: false
 });
 (async() => {
     await sequelize.sync()
 })();
 
-export default jobSeekerProfile;
+export default jsSocialLinks;

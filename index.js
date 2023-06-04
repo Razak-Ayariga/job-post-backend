@@ -7,28 +7,31 @@ app.use(cors())
 import multer from "multer";
 const port = process.env.PORT || 4000;
 
-const uploads = multer()
+const uploads = multer();
 
 //import routes
 import jobSeekerRoutes from "./routes/jobSeekerRoutes.js";
 import companyRoutes from "./routes/companyRoutes.js";
 import addExperienceRoutes from "./routes/experienceRoutes.js";
-import educarionRoutes from "./routes/educationRoutes.js";
+import educationRoutes from "./routes/educationRoutes.js";
 import postJobRoutes from "./routes/postJobRoutes.js";
 import uploadCvRoutes from "./routes/uploadCvRoutes.js";
-import companyProfileRoutes from "./routes/companyInfoRoutes.js";
 import jsLinksRoutes from "./routes/jsSocialLinksRoute.js";
+import languageRoutes from "./routes/languageRoutes.js";
+import companyRegistrationRoutes from "./routes/companyRegistrationRoutes.js";
+import skillsRoutes from "./routes/skillsRoutes.js";
 
 //use routes
 app.use("/jobSeeker", jobSeekerRoutes);
 app.use("/company", companyRoutes);
-app.use("/companyProfile", companyProfileRoutes)
 app.use("/experience", addExperienceRoutes);
-app.use("/education", educarionRoutes);
+app.use("/education", educationRoutes);
 app.use("/jobPost", postJobRoutes);
 app.use("/cv", uploadCvRoutes);
-app.use("/links", jsLinksRoutes)
-
+app.use("/links", jsLinksRoutes);
+app.use("/language", languageRoutes);
+app.use("/registration", companyRegistrationRoutes);
+app.use("/skills", skillsRoutes);
 
 (async () => {
   try {
