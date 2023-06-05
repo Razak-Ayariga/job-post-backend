@@ -4,9 +4,9 @@ import Education from "../models/educationModel.js";
 import Languages from "../models/languageModel.js";
 import Skills from "../models/skillsModel.js";
 import jsSocialLinks from "../models/jsSocialLinksModel.js";
-
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
+
 //Job seeker registration
 const registerJobSeekerController = async (req, res) => {
   try {
@@ -84,7 +84,7 @@ const getJobSeekerAllInfo = async (req, res) => {
       ], attributes: { exclude: ["id", "js_id","password"]}
     });
     if(!allInfo) {
-      return res.status(200).json({message:"no info found!"});
+      return res.status(400).json({message:"no information found!"});
     }
     res.status(200).json(allInfo);
   } catch (error) {

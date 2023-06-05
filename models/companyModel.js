@@ -1,5 +1,7 @@
 import DataTypes from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
+import companyRegistration from "./companyRegistrationModel.js";
+import postJob from "./postJobsModel.js";
 
 const companies = sequelize.define("Companies", {
   id: {
@@ -43,5 +45,8 @@ const companies = sequelize.define("Companies", {
 (async () => {
   await sequelize.sync();
 })();
+
+companies.hasMany(postJob, { foreignKey: "company_id" });
+companies.hasOne(companyRegistration, { foreignKey: "company_id" });
 
 export default companies;

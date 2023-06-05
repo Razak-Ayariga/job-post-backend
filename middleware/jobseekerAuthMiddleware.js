@@ -5,7 +5,7 @@ dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
 import multer from "multer";
 import path from "path";
-import { log } from "util";
+// import { log } from "util";
 const absolutePath = path.resolve("./");
 
 //middleware to check if job seeker exists in the database and generate a JWT

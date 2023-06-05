@@ -1,6 +1,8 @@
 import companyModel from "../models/companyModel.js";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
+import companyRegistration from "../models/companyRegistrationModel.js";
+import postedJobs from "../models/postJobsModel.js";
 
 // Company register
 const registerCompanyController = async (req, res) => {
@@ -60,7 +62,27 @@ const updateCompanyInfo = async (req, res) => {
     res.status(201).json({ message: "Updated successfully!", findCompany })
   } catch (error) {
     res.status(400).json({ message: "failed to update!" });
-}
+  }
+};
+
+// get all info of a company
+const getCompanyAllInfo = async (req, res) => {
+  try {
+    const company_id = req.company_id;
+    const allCompanyInfo = await companyModel.findAll({
+      where: { id: company_id },
+      include: [
+        { model: companyRegistration, required: false },
+        { model: postedJobs, required: false }
+      ],
+    });
+    if (!allCompanyInfo) return req.status(400).json({ message: "No information found!" });
+    res.status(200).json(allCompanyInfo);
+  } catch(error) {
+    console.log(error);
+    return res.staus(400).json({message:"Error getting information!"})
+  }
+  
 }
 
-export { registerCompanyController, companyLoginController, updateCompanyInfo };
+export { registerCompanyController, companyLoginController, updateCompanyInfo, getCompanyAllInfo };
