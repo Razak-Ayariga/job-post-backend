@@ -1,20 +1,14 @@
-
 import express from "express";
 const router = express.Router();
-import  {getAllEducation, createEducation,  updateEducation, deleteEducation}  from "../controllers/educationController.js";
-import EducationValidator from "../Validators/educationValidator.js";
-import { verifyJobseekerToken, uploadPhotoMiddleware } from "../middleware/jobseekerAuthMiddleware.js";
 
-// Route to get all education records for a jobseeker
+import addEducationController from "../controllers/educationController.js";
+import { verifyJobseekerToken, uploadPhotoMiddleware } from "../middleware/jobseekerAuthMiddleware.js";
+import educationValidator from "../Validators/educationValidators.js";
+
 router.post("/addEducation",
     uploadPhotoMiddleware("").none(),
-    EducationValidator,
     verifyJobseekerToken,
-    createEducation);
-    
-router.get("/getEducation/:edu_id", getAllEducation); //EducationValidator,
-router.put("/updateEducation/:edu_id", EducationValidator, updateEducation);
-router.delete("/deleteEducation/:edu_id", deleteEducation); //EducationValidator,
+    educationValidator,
+    addEducationController);
 
 export default router;
-

@@ -9,14 +9,13 @@ const languages = Sequelize.define("language", {
         allowNull: false,
     },
 
-    js_id: {
+   js_id: {
         type: DataTypes.UUID,
         references: {
-            model: "jobSeekers",
-            key: "id",
+            model: "job_seekers",
+            key: "id"
         }
     },
-
     language: {
         type: DataTypes.STRING,
         allowNull: false,

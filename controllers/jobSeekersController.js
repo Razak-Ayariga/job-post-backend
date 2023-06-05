@@ -3,6 +3,7 @@ import Experience from "../models/experienceModel.js";
 import Education from "../models/educationModel.js";
 import Languages from "../models/languageModel.js";
 import Skills from "../models/skillsModel.js";
+import jsSocialLinks from "../models/jsSocialLinksModel.js";
 
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
@@ -68,11 +69,20 @@ const updateJobSeekerInfo = async (req, res) => {
   }
 };
 
+//get all the information of a job seeker
 const getJobSeekerAllInfo = async (req, res) => {
   try {
     const userId = req.userId;
-    const allInfo = await JobSeekersModel.findAll({include: Experience, Education, where: { id: userId }});
-    console.log(allInfo);
+    const allInfo = await JobSeekersModel.findAll({
+      where: { id: userId },
+      include: [
+        { model: Education, required: false, attributes: { exclude: ["id", "js_id"]} },
+        { model: Experience, required: false,attributes: { exclude: ["id", "js_id"]} },
+        { model: Languages, required: false,attributes: { exclude: ["id", "js_id"]} },
+        { model: Skills, required: false,attributes: { exclude: ["id", "js_id"]} },
+        {model: jsSocialLinks, required: false,attributes: { exclude: ["id", "js_id"]}}
+      ], attributes: { exclude: ["id", "js_id","password"]}
+    });
     if(!allInfo) {
       return res.status(200).json({message:"no info found!"});
     }
@@ -82,19 +92,6 @@ const getJobSeekerAllInfo = async (req, res) => {
     res.status(400).json({ message: "Error getting information!" });
   }
 };
-
-// get all info of a job seeker
-// const allJobSeekerInfo = async (req, res) => {
-//   const id = req.userId;
-//   const findInfo = await JobSeekersModel.findAll({
-//     include: [{ model: experienceModel }, { model: jsSocialLinks }, { model: languages }]
-//   });
-//   if (findInfo) {
-//     res.status(200).json({jobSeeker:findInfo.dataValues})
-//   } else {
-//     res.status(400).json({message: "User not found!"})
-//   }
-// }
 
 export {
   registerJobSeekerController,

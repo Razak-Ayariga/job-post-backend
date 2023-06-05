@@ -76,7 +76,6 @@ const verifyJobseekerToken = async (req, res, next) => {
   }
     const decodedToken = jwt.verify(token, jwtSecret);
     const jobSeekerInfo = decodedToken;
-    // const user = await JobSeekersModel.findAll({ jobSeekerInfo, attributes: ["id"] });
     if (jobSeekerInfo) {
       req.userId = jobSeekerInfo.id;
       next();

@@ -11,11 +11,10 @@ const experience = sequelize.define("experience", {
     js_id: {
         type: DataTypes.UUID,
         references: {
-            model: "jobseekers",
+            model: "job_seekers",
             key: "id"
         }
     },
-
     company_name: {
         type: DataTypes.STRING,
         allowNull: false

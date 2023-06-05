@@ -1,7 +1,7 @@
 import DataTypes from "sequelize";
 import sequelize  from "../dataBase/dbConfig.js";
 
-const companyRegistration = sequelize.define("companyRegistration", {
+const companyRegistration = sequelize.define("company_registration", {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
