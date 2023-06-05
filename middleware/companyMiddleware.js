@@ -43,10 +43,9 @@ const companySignupToken = async (req, res, next) => {
 
 //log in token
 const companyLoginToken = async (req, res, next) => {
-  
   const companyInfo = req.body;
   const findCompany = await companyModel.findOne({
-    where: { email: companyInfo.email },
+    where: { email:companyInfo.email },
     attributes: { exclude: ["password", "description"] }, // Exclude password and description from the query result
   });
   if (!findCompany) {
@@ -60,8 +59,6 @@ const companyLoginToken = async (req, res, next) => {
   req.company = findCompany.dataValues;
   next();
 };
-    
-   
 
 // Token verification
 const verifyCompanyToken = async (req, res, next) => {
@@ -72,7 +69,7 @@ const verifyCompanyToken = async (req, res, next) => {
   try {
     const decodedToken = jwt.verify(token, jwtSecret);
     const companyInfo = decodedToken;
-    if (companyId) {
+    if (companyInfo) {
       req.company_id = companyInfo.id;
       next();
     }

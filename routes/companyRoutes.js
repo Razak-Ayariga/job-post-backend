@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 
 //import the routes
-import {registerCompanyController,companyLoginController, updateCompanyInfo} from "../controllers/companyController.js";
+import {registerCompanyController,companyLoginController, updateCompanyInfo, getCompanyAllInfo} from "../controllers/companyController.js";
 import {companySignupToken,companyLoginToken, verifyCompanyToken, uploadLogoMiddleware} from "../middleware/companyMiddleware.js";
 import {companyRegisterValidator,companyLoginValidator} from "../Validators/companyValidators.js";
 
@@ -21,7 +21,12 @@ router.post("/logInCompany",
 router.put("/updateInfo",
     uploadLogoMiddleware("public/logos").single("logo"),
     verifyCompanyToken,
-     updateCompanyInfo
-)
+    updateCompanyInfo
+);
+
+router.get("/getAll",
+    companyLoginToken,
+    getCompanyAllInfo
+);
 
 export default router;

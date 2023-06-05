@@ -1,6 +1,7 @@
 import Joi from "joi";
 
 const educationValidator = (req, res, next) => {
+  console.log(req.body);
   const schema = Joi.object({
     institution: Joi.string().required().message({
       "any.required": "Name of Institution is required!",
@@ -14,7 +15,7 @@ const educationValidator = (req, res, next) => {
     start_date: Joi.date().required().messages({
       "any.required": "Start_date is required!",
     }),
-    end_date: Joi.string(),
+    end_date: Joi.date()
   });
   const validation = schema.validate(req.body);
   const { error } = validation;
@@ -24,5 +25,4 @@ const educationValidator = (req, res, next) => {
   }
   next();
 };
-
 export default educationValidator;

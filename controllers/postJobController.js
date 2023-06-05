@@ -2,8 +2,8 @@ import postJobsModel from "../models/postJobsModel.js";
 
 const postJob = async (req, res) => {
     const addJobInfo = req.body;
-    const company_id = req.company_id;
-    addJobInfo["company_id"] = company_id;
+    const id = req.company_id;
+    addJobInfo["company_id"] = id;
 
     try {
         const newJob = await postJobsModel.create(addJobInfo);

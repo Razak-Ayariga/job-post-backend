@@ -17,7 +17,7 @@ const addExperienceController = async (req, res) => {
   }
 };
 
-// get one experience
+// get one experience record
 const getOneExperience = async (req, res) => {
   try {
     const { id } = req.params;
@@ -31,21 +31,20 @@ const getOneExperience = async (req, res) => {
   }
 };
 
-// get all experience
+// get all experience records
 const getAllExperience = async (req, res) => {
   try {
-    const js_id = req.params;
-    const findAllExperience = await experience.findAll({
-      where: { js_id: js_id },
-    });
+  const js_id = req.params.js_id;
+    const findAllExperience = await experience.findAll({where: { js_id: js_id }});
     if (findAllExperience) {
       return res.status(200).json(findAllExperience);
     }
   } catch (error) {
+    console.log(error);
     res.status(400).json({ message: "Error getting experience" });
   }
 };
-// delete an experience
+// delete an experience record
 const deleteExperience = async (req, res) => {
   try {
     const { id } = req.params;
@@ -58,7 +57,7 @@ const deleteExperience = async (req, res) => {
       });
       if (deleteResults)
         return res
-          .status(201)
+          .status(204)
           .json({ message: "Eperience deleted successfully" });
     }
   } catch (error) {
