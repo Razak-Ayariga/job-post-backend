@@ -24,9 +24,9 @@ const addLanguage = async (req, res) => {
 // Get all language records for a jobseeker
 const getAllLanguages = async (req, res) => {
   try {
-    const { id } = req.params;
+    const js_id = req.params;
     const languageRecords = await languageModel.findAll({
-      where: { js_id: id },
+      where: { js_id: js_id },
     });
     if (!languageRecords || languageRecords.length === 0) {
       return res.status(404).json({ error: "language not found" });
@@ -59,9 +59,11 @@ const deleteLanguage = async (req, res) => {
     if (!existingLanguage)
       return res.status(404).json({ error: "language record not found" });
     await existingLanguage.destroy();
-    return res.sendStatus(204);
+    const deleteLanguage = await languageModel.destroy({ where: { id: id } });
+    if (deleteLanguage)
+      return res.status(200).json({ message: "language deleted successfully" });
   } catch (error) {
-    console.error("Error deleting language record:", error);
+    console.error(error);
     return res.status(500).json({ error: "Internal server error" });
   }
 };
