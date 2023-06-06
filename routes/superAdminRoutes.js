@@ -4,9 +4,9 @@ const router = express.Router();
 import {
   mainAdminRegister,
   mainAdminLogin,
-} from "../controllers/superAdminController";
+} from "../controllers/superAdminController.js";
 
-import mainAdminToken from "../middleware/superAdminMiddleware";
+import mainAdminToken from "../middleware/superAdminMiddleware.js";
 
 import {
   registersuperAdminValidator,
