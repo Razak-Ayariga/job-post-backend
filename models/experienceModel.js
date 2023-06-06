@@ -11,11 +11,10 @@ const experienceModel = sequelize.define("experiencesGain", {
     js_id: {
         type: DataTypes.UUID,
         references: {
-            model: "jobSeekers",
+            model: "job_seekers",
             key: "id"
         }
     },
-
     company_name: {
         type: DataTypes.STRING,
         allowNull: false
@@ -37,4 +36,4 @@ const experienceModel = sequelize.define("experiencesGain", {
     await sequelize.sync()
 })();
 
-export default experienceModel;
+export default experience;

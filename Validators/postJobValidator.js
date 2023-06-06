@@ -5,7 +5,7 @@ const postJobValidator = (req, res, next) => {
             "any.required": "Job title is required!",
             "string.pattern.base": "First name can contain only letters and hyphen(-)!"
         }),
-        job_type: Joi.string().required().valid("Full time", "Part time", "Internship","Contract").messages({
+        job_type: Joi.string().required().messages({
             "any.required": "Choose the type of job!",
         }),
         job_description: Joi.string().required().messages({
@@ -15,12 +15,12 @@ const postJobValidator = (req, res, next) => {
             "any.required": "Enter the salary for this job!",
             // "string.pattern.base": "Please enter numbers and $ or ₵"
         }),
-        location: Joi.string().required().min(10).max(25).messages({
+        location: Joi.string().required().min(3).max(25).messages({
             "any.required": "Enter the location of this job!",
             "string.min": "Location cannot be less than 10 characters",
             "string.max":"Location cannot be more than 25 characters"
         }),
-        requirements: Joi.string().min(20).max(80).required().messages({
+        requirements: Joi.string().min(3).max(80).required().messages({
             "any.required": "Enter the requirements for this job!",
             "string.min": "Requirements cannot be less than 20 characters",
             "string.max":"Requirements cannot be more than 80 characters"

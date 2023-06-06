@@ -1,31 +1,50 @@
-import express from"express";
+import express from "express";
 const router = express.Router();
 
-import { registerJobSeekerController, jobSeekerLoginController, getJobSeekerController, updateJobSeekerInfo} from "../controllers/jobSeekersController.js";
-import { jobSeekerRegisterValidator, jobSeekerLogInValidator} from "../validators/jobSeekerValidator.js"
-import { jobseekerSignUpToken, jobseekerLogInToken, verifyJobseekerToken,uploadPhotoMiddleware } from "../middlewares/jobSeekerAuthMiddleware.js";
+import {
+  registerJobSeekerController,
+  jobSeekerLoginController,
+  getJobSeekerController,
+  updateJobSeekerInfo,
+  getJobSeekerAllInfo,
+} from "../controllers/jobSeekersController.js";
 
+import {
+  jobSeekerRegisterValidator,
+  jobSeekerLogInValidator,
+} from "../validators/jobseekerValidator.js";
 
-router.post("/registerJobSeeker",
-   uploadPhotoMiddleware("").none(),
-    jobSeekerRegisterValidator,
-    jobseekerSignUpToken,
-    registerJobSeekerController);
+import {
+  jobseekerSignUpToken,
+  jobseekerLogInToken,
+  verifyJobseekerToken,
+  uploadPhotoMiddleware,
+} from "../middleware/jobseekerAuthMiddleware.js";
 
-router.post("/logInJobSeeker",
-    uploadPhotoMiddleware("").none(),
-    jobSeekerLogInValidator,
-    jobseekerLogInToken,
-    verifyJobseekerToken,
-    jobSeekerLoginController);
+router.post(
+  "/registerJobSeeker",
+  uploadPhotoMiddleware("").none(),
+  jobSeekerRegisterValidator,
+  jobseekerSignUpToken,
+  registerJobSeekerController
+);
 
-router.get("/getInfo",
-    verifyJobseekerToken,
-    getJobSeekerController);
+router.post(
+  "/logInJobSeeker",
+  uploadPhotoMiddleware("").none(),
+  jobSeekerLogInValidator,
+  jobseekerLogInToken,
+  jobSeekerLoginController
+);
 
-router.put("/updateJobSeeker",
-    uploadPhotoMiddleware("public/uploads").single("photo"),
-    verifyJobseekerToken,
-    updateJobSeekerInfo);
+router.get("/getInfo", verifyJobseekerToken, getJobSeekerController);
+router.get("/getAllInfo", verifyJobseekerToken, getJobSeekerAllInfo);
+
+router.put(
+  "/updateJobSeeker",
+  uploadPhotoMiddleware("public/uploads").single("photo"),
+  verifyJobseekerToken,
+  updateJobSeekerInfo
+);
 
 export default router;

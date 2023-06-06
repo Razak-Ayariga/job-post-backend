@@ -1,73 +1,67 @@
-import educationModel from "../models/educationModel.js";
+import education from "../models/educationModel.js";
 
-// Create a new education record for a jobseeker
-const createEducation = async (req, res) => {
-  const addEducation = req.body;
-  const id = req.userId;
-  addEducation["js_id"] = id;
-  try {
-    const newEducation = await educationModel.create(addEducation);
-    console.log(newEducation);
-    if (newEducation) {
-      return res
-        .status(201)
-        .json({ msg: "Education record created successfully" });
+const newEducationController = async (req, res) => {
+    try {
+        const newEducation = req.body;
+        const id = req.userId;
+        newEducation["js_id"] = id;
+
+        const addEducation = await education.create(newEducation);
+        if (addEducation) return res.status(200).json({ message: "Education record added successfully!", addEducation });
+        
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ message: "Failed to add education record!" })
     }
-  } catch (error) {
-    console.error("Error creating education record:", error);
-    return res.status(500).json({ error: "Internal server error" });
-  }
 };
 
-// Update an existing education record for a jobseeker
-const updateEducation = async (req, res) => {
-  try {
-    const { edu_id } = req.params;
-    const existingEducation = await educationModel.findOne({
-      where: { edu_id },
-    });
-    if (!existingEducation) {
-      return res.status(404).json({ error: "Education record not found" });
+//get one education record
+const getOneEducation = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const findEducation = await education.findByPk(id);
+        if (!findEducation) {
+            return res.status(404).json({ messaage: "Education record not found!" });
+        }
+        res.status(200).json(findEducation);
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({ message: "Error getting education!" })
     }
-    await existingEducation.update(req.body);
-    return res.json(existingEducation);
-  } catch (error) {
-    console.error("Error updating education record:", error);
-    return res.status(500).json({ error: "Internal server error" });
-  }
 };
 
-// Get all education records for a jobseeker
+// get all education records
 const getAllEducation = async (req, res) => {
-  try {
-    const { edu_id } = req.params;
-    const educationRecords = await educationModel.findOne({
-      where: { edu_id },
-    });
-    if (!educationRecords) {
-      return res.status(404).json({ error: "Education not found" });
+    try {
+        const js_id = req.params.js_id;
+        const findAllEducation = await education.findAll({ where: { js_id: js_id } });
+        if (!findAllEducation) {
+            return res.status(404).json({ message: "No education records found!" });
+        }
+        res.status(200).json(findAllEducation);
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({ message: "Error getting all education records!" });
     }
-    return res.json(educationRecords);
-  } catch (error) {
-    console.error("Error fetching education records:", error);
-    return res.status(500).json({ error: "Internal server error" });
-  }
 };
 
-// Delete an existing education record for a jobseeker
+// delete an education record
 const deleteEducation = async (req, res) => {
-  try {
-    const { edu_id } = req.params;
-    const existingEducation = await educationModel.findByPk(edu_id);
-    if (!existingEducation) {
-      return res.status(404).json({ error: "Education record not found" });
+    try {
+        const { id } = req.params;
+        const findEducation = await education.findByPk(id);
+        if (!findEducation) {
+            return res.status(404).json({ message: "Education record not found" });
+        } else {
+            const deleteResults = await education.destroy({ where: { id: id } });
+            if (deleteResults) {
+                return res.status(204).json({ message: "Education record deleted successfully" });
+            }
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ message: "Error deleting education record!" });
     }
-    await existingEducation.destroy();
-    return res.sendStatus(204);
-  } catch (error) {
-    console.error("Error deleting education record:", error);
-    return res.status(500).json({ error: "Internal server error" });
-  }
 };
 
-export { getAllEducation, createEducation, updateEducation, deleteEducation };
+export {newEducationController, getOneEducation, getAllEducation, deleteEducation};

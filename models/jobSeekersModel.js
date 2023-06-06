@@ -1,35 +1,35 @@
-import {DataTypes} from "sequelize";
+import { DataTypes } from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
+import education from "./educationModel.js";
+import experience from "./experienceModel.js";
+import skills from "./skillsModel.js";
+import languages from "./languageModel.js";
+import jsSocialLinks from "./jsSocialLinksModel.js";
+import uploadCvModel from "./uploadCvModel.js";
 
-const jobSeeker = sequelize.define("jobSeekers", {
-    
+const jobSeeker = sequelize.define("job_seeker", {
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false
     },
-   
     first_name: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-
-    middle_name: {
         type: DataTypes.STRING,
         allowNull: true
     },
-
+    middle_name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     last_name: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    
     date_of_birth: {
         type: DataTypes.DATE,
         allowNull: false
     },
-    
     gender: {
         type: DataTypes.STRING,
         allowNull: false
@@ -38,27 +38,32 @@ const jobSeeker = sequelize.define("jobSeekers", {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            isEmail: true, // to ensure that the email provided is in a valid email format
+            isEmail: true
         }
     },
-    
-    phone_number: {
+    phone: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: false
     },
-   
     password: {
         type: DataTypes.STRING,
         allowNull: false
-    }, 
+    },
     photo: {
         type: DataTypes.STRING,
-        allowNull: false,
-        defaultValue:'avatar.jpg'
+        defaultValue: "avatar.jpg",
+        allowNull: true
     }
-
-}, {
-    timestamps: false
 });
+(async () => {
+    await sequelize.sync()
+})();
+
+jobSeeker.hasMany(experience, { foreignKey: "js_id" });
+jobSeeker.hasMany(education, { foreignKey: "js_id" });
+jobSeeker.hasMany(skills, { foreignKey: "js_id" });
+jobSeeker.hasMany(languages, { foreignKey: "js_id" });
+jobSeeker.hasOne(uploadCvModel, { foreignKey: "js_id" });
+jobSeeker.hasOne(jsSocialLinks, { foreignKey: "js_id" });
 
 export default jobSeeker;

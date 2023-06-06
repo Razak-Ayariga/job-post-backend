@@ -1,7 +1,6 @@
 import DataTypes from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
 
-
 const skills = sequelize.define("Skills", {
   id: {
     type: DataTypes.UUID,
@@ -13,16 +12,15 @@ const skills = sequelize.define("Skills", {
   js_id: {
     type: DataTypes.UUID,
     references: {
-      model: "jobSeekers",
+      model: "job_seekers",
       key: "id",
     },
   },
 
-  skills_name: {
+  skill_name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-
 
 });
 

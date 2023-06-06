@@ -5,12 +5,20 @@ dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
 import multer from "multer";
 import path from "path";
-const absolutePath = path.resolve('./')
+// import { log } from "util";
+const absolutePath = path.resolve("./");
 
 //middleware to check if job seeker exists in the database and generate a JWT
 const jobseekerSignUpToken = async (req, res, next) => {
-  console.log(req.body);
-  const {first_name,middle_name,last_name,date_of_birth,gender,email,phone_number} = req.body;
+  const {
+    first_name,
+    middle_name,
+    last_name,
+    date_of_birth,
+    gender,
+    email,
+    phone_number,
+  } = req.body;
   const jobSeekerInfo = {
     first_name,
     middle_name,
@@ -18,9 +26,8 @@ const jobseekerSignUpToken = async (req, res, next) => {
     date_of_birth,
     gender,
     email,
-    phone_number
+    phone_number,
   };
-console.log(jobSeekerInfo);
   try {
     const findUser = await JobSeekersModel.findOne({ where: { email } });
     if (findUser) {
@@ -50,30 +57,29 @@ const jobseekerLogInToken = async (req, res, next) => {
     attributes: { exclude: ["password"] },
   });
   if (!findJobSeeker) {
-    res.status(403).json({ message: "user does not exist. Please sign up first!" });
+    res
+      .status(403)
+      .json({ message: "user does not exist. Please sign up first!" });
   }
-  const token = jwt.sign(jobSeekerInfo.email, jwtSecret);
+  const token = jwt.sign(findJobSeeker.dataValues, jwtSecret);
   req.token = token;
-  req.user = findJobSeeker;
+  req.user = findJobSeeker.dataValues;
   next();
 };
 
 // middleware to verify token
 const verifyJobseekerToken = async (req, res, next) => {
+  try {
   const token = req.headers.token;
   if (!token) {
     return res.status(401).json({ message: "No token provided" });
   }
-  try {
     const decodedToken = jwt.verify(token, jwtSecret);
     const jobSeekerInfo = decodedToken;
-    const userId = await JobSeekersModel.findAll({
-      jobSeekerInfo,
-      attributes: ["id"],
-    });
-    if (userId) {
-      req.userId = userId[0].dataValues.id;
+    if (jobSeekerInfo) {
+      req.userId = jobSeekerInfo.id;
       next();
+      
     }
   } catch (error) {
     console.error("error verifying token");
@@ -82,20 +88,26 @@ const verifyJobseekerToken = async (req, res, next) => {
 };
 
 //middleware to upload photo
-const uploadPhotoMiddleware = (destination) => { 
-  const directory = path.join(absolutePath, destination)
-    const storage = multer.diskStorage({
-        destination: function (req, file, cb) {
-            cb(null, directory)
-        },
-        filename: function (req, file, cb) {
-            const filename = file.fieldname + '_' + Date.now() + path.extname(file.originalname)
-            cb(null, filename)
-        }
-    });
-    
-    const upload = multer({ storage });
-    return upload;
-}
+const uploadPhotoMiddleware = (destination) => {
+  const directory = path.join(absolutePath, destination);
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, directory);
+    },
+    filename: function (req, file, cb) {
+      const filename =
+        file.fieldname + "_" + Date.now() + path.extname(file.originalname);
+      cb(null, filename);
+    },
+  });
 
-export { jobseekerSignUpToken, jobseekerLogInToken, verifyJobseekerToken, uploadPhotoMiddleware };
+  const upload = multer({ storage });
+  return upload;
+};
+
+export {
+  jobseekerSignUpToken,
+  jobseekerLogInToken,
+  verifyJobseekerToken,
+  uploadPhotoMiddleware,
+};
