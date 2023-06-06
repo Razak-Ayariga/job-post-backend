@@ -39,7 +39,6 @@ const mainAdminLogin = async (req, res) => {
         .status(403)
         .json({ message: "admin does not exist. Please register first!" });
     }
-
     const passwordMatch = await bcrypt.compare(password, foundAdmin.password);
     if (!passwordMatch) {
       return res.status(403).json({ message: "Incorrect email or password" });
