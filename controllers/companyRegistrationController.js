@@ -6,9 +6,11 @@ const editRegistrationInfo = async (req, res) => {
     const company_certificate = req.file?.filename;
     const company_id = req.company_id;
     addRegistration["company_id"] = company_id;
-      addRegistration["company_certificate"] = company_certificate;
-//create registeration
-    const registrationDetails = await companyRegistration.create( addRegistration);
+    addRegistration["company_certificate"] = company_certificate;
+    //create registeration
+    const registrationDetails = await companyRegistration.create(
+      addRegistration
+    );
     if (registrationDetails) {
       res.status(201).json({ message: "Registration added!" });
     }
