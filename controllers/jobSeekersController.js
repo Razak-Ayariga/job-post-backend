@@ -73,11 +73,12 @@ const updateJobSeekerInfo = async (req, res) => {
     const userInfo = req.body;
     const userId = req.userId;
     const photo = req.file?.filename
-    userInfo['photo'] = photo
-  
-    const updateResult = await JobSeekersModel.update(userInfo, { where: { id: userId } });
+    userInfo['photo'] = photo;
     const findJobSeeker = await JobSeekersModel.findAll({ where: { id: userId } });
-    res.status(201).json({ message: "Updated successfully!", findJobSeeker });
+    if (findJobSeeker) {
+      const updateResult = await JobSeekersModel.update(userInfo, { where: { id: userId } });
+      res.status(201).json({ message: "Updated successfully!",updateResult });
+    }
   } catch (error) {
     res.status(400).json({ message: "failed to update!" });
   }
@@ -90,12 +91,12 @@ const getJobSeekerAllInfo = async (req, res) => {
     const allInfo = await JobSeekersModel.findAll({
       where: { id: userId },
       include: [
-        { model: Education, required: false, attributes: { exclude: ["id", "js_id"]} },
-        { model: Experience, required: false,attributes: { exclude: ["id", "js_id"]} },
-        { model: Languages, required: false,attributes: { exclude: ["id", "js_id"]} },
-        { model: Skills, required: false,attributes: { exclude: ["id", "js_id"]} },
-        {model: jsSocialLinks, required: false,attributes: { exclude: ["id", "js_id"]}}
-      ], attributes: { exclude: ["id", "js_id","password"]}
+        { model: Education, required: false, attributes: { exclude: ["id", "js_id","deletedAt","createdAt","updatedAt"]} },
+        { model: Experience, required: false,attributes: { exclude: ["id", "js_id","deletedAt","createdAt","updatedAt"]} },
+        { model: Languages, required: false,attributes: { exclude: ["id", "js_id","deletedAt","createdAt","updatedAt"]} },
+        { model: Skills, required: false,attributes: { exclude: ["id", "js_id","deletedAt","createdAt","updatedAt"]} },
+        {model: jsSocialLinks, required: false,attributes: { exclude: ["id", "js_id","deletedAt","createdAt","updatedAt"]}}
+      ], attributes: { exclude: ["id", "js_id","password","deletedAt","createdAt","updatedAt"]}
     });
     if(!allInfo) {
       return res.status(400).json({message:"no information found!"});
@@ -121,7 +122,7 @@ const deleteJobSeeker = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json({message:"Could not delete record!"})
+    res.status(400).json({ message: "Could not delete record!" });
   }
 }
 
