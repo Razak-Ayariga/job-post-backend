@@ -55,7 +55,7 @@ const deleteEducation = async (req, res) => {
         } else {
             const deleteResults = await education.destroy({ where: { id: id } });
             if (deleteResults) {
-                return res.status(204).json({ message: "Education record deleted successfully" });
+                return res.status(200).json({ message: "Education record deleted successfully" });
             }
         }
     } catch (error) {

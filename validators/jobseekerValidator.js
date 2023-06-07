@@ -2,35 +2,19 @@ import Joi from "joi";
 
 const jobSeekerRegisterValidator = (req, res, next) => {
   const schema = Joi.object({
-    first_name: Joi.string()
-      .min(3)
-      .regex(/^[A-Za-z- ]+$/)
-      .required()
-      .messages({
-        "any.required": "First name is required!",
-        "string.min": "First name cannot be less than 3 letters!",
-        "string.pattern.base":
-          "First name can contain only letters and hyphen(-)!",
-      }),
-    middle_name: Joi.string()
-      .min(3)
-      .regex(/^[A-Za-z- ]+$/)
-      .messages({
-        "any.required": "Middle name is required!",
-        "string.min": "Middle name cannot be less than 3 letters!",
-        "string.pattern.base":
-          "Middle name can contain only letters and hyphen(-)!",
-      }),
-    last_name: Joi.string()
-      .min(3)
-      .regex(/^[A-Za-z-]+$/)
-      .required()
-      .messages({
-        "any.required": "Last name is required!",
-        "string.min": "Last name cannot be less than 3 letters!",
-        "string.pattern.base":
-          "Last name must contain only letters and hyphen(-)!",
-      }),
+    first_name: Joi.string().min(3).regex(/^[A-Za-z- ]+$/).required().messages({
+      "any.required": "First name is required!",
+      "string.min": "First name cannot be less than 3 letters!",
+      "string.pattern.base": "First name can contain only letters and hyphen(-)!"
+    }),
+    middle_name: Joi.string().allow("").regex(/^[A-Za-z- ]+$/).messages({
+      "string.pattern.base": "Middle name can contain only letters and hyphen(-)!"
+    }),
+    last_name: Joi.string().min(3).regex(/^[A-Za-z-]+$/).required().messages({
+      "any.required": "Last name is required!",
+      "string.min": "Last name cannot be less than 3 letters!",
+      "string.pattern.base": "Last name must contain only letters and hyphen(-)!"
+    }),
     date_of_birth: Joi.date().iso().required(),
     gender: Joi.string().valid("male", "female", "Others").messages({
       "any.required": "Gender is required!",

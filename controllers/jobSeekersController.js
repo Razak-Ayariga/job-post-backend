@@ -6,9 +6,10 @@ import Skills from "../models/skillsModel.js";
 import jsSocialLinks from "../models/jsSocialLinksModel.js";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
+import jobSeeker from "../models/jobSeekersModel.js";
 
 //Job seeker registration
-const registerJobSeekerController = async (req, res) => {
+const registerJobSeeker = async (req, res) => {
   try {
     //get job seeker information
     const newJobSeeker = req.body;
@@ -36,14 +37,14 @@ const registerJobSeekerController = async (req, res) => {
 };
 
 // job seeker login
-const jobSeekerLoginController = async (req, res) => {
+const jobSeekerLogin = async (req, res) => {
   const token = req.token;
   const user = req.user;
   res.status(201).json({ message: "Login successful!", token, user });
 };
 
 //get a job seeker
-const getJobSeekerController = async (req, res) => {
+const getJobSeeker = async (req, res) => {
   const id = req.userId;
     const findUser = await JobSeekersModel.findOne({ id, attributes: { exclude: ['password'] } });
   if (findUser) {
@@ -53,6 +54,19 @@ const getJobSeekerController = async (req, res) => {
   }
 };
 
+// get all job seekers
+const getAllJobSeekers = async (req, res) => {
+  try {
+    const findAllJobSeekers = await JobSeekersModel.findAll({attributes:{exclude:["id","password","deletedAt"]}});
+    if (!findAllJobSeekers) {
+      return res.status(400).json("No job seekers available!")
+    }
+    res.status(200).json(findAllJobSeekers);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({message: "Can not get all job seekers!"})
+    }
+};
 // update job seeker info
 const updateJobSeekerInfo = async (req, res) => {
   try {
@@ -93,11 +107,30 @@ const getJobSeekerAllInfo = async (req, res) => {
   }
 };
 
+//delete a job seeker's record
+const deleteJobSeeker = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const findJobSeeker = await jobSeeker.findByPk(userId);
+    if (!findJobSeeker) {
+      return res.status(404).json({ message: "Record not found" });
+    }
+    const deleteResults = await jobSeeker.destroy({ where: { id: userId } });
+    if (deleteResults) {
+      res.status(200).json({ message: "Record deleted successfully!" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({message:"Could not delete record!"})
+  }
+}
+
 export {
-  registerJobSeekerController,
-  jobSeekerLoginController,
-  getJobSeekerController,
+  registerJobSeeker,
+  jobSeekerLogin,
+  getJobSeeker,
   updateJobSeekerInfo,
-  getJobSeekerAllInfo
-  // allJobSeekerInfo
+  getJobSeekerAllInfo,
+  deleteJobSeeker,
+  getAllJobSeekers
 };

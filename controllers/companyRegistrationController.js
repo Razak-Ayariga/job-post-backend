@@ -7,8 +7,7 @@ const editRegistrationInfo = async (req, res) => {
     const company_id = req.company_id;
     addRegistration["company_id"] = company_id;
       addRegistration["company_certificate"] = company_certificate;
-
-    // Create a new language record
+//create registeration
     const registrationDetails = await companyRegistration.create( addRegistration);
     if (registrationDetails) {
       res.status(201).json({ message: "Registration added!" });

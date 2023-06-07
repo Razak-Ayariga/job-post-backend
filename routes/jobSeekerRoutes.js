@@ -2,11 +2,13 @@ import express from "express";
 const router = express.Router();
 
 import {
-  registerJobSeekerController,
-  jobSeekerLoginController,
-  getJobSeekerController,
+  registerJobSeeker,
+  jobSeekerLogin,
+  getJobSeeker,
   updateJobSeekerInfo,
-  getJoboSeekerAllInfo,
+  getJobSeekerAllInfo,
+  deleteJobSeeker,
+  getAllJobSeekers,
 } from "../controllers/jobSeekersController.js";
 
 import {
@@ -26,7 +28,7 @@ router.post(
   uploadPhotoMiddleware("").none(),
   jobSeekerRegisterValidator,
   jobseekerSignUpToken,
-  registerJobSeekerController
+  registerJobSeeker
 );
 
 router.post(
@@ -34,11 +36,12 @@ router.post(
   uploadPhotoMiddleware("").none(),
   jobSeekerLogInValidator,
   jobseekerLogInToken,
-  jobSeekerLoginController
+  jobSeekerLogin
 );
 
-router.get("/getInfo", verifyJobseekerToken, getJobSeekerController);
+router.get("/getInfo", verifyJobseekerToken, getJobSeeker);
 router.get("/getAllInfo", verifyJobseekerToken, getJobSeekerAllInfo);
+router.get("/allJobSeekers", getAllJobSeekers);
 
 router.put(
   "/updateJobSeeker",
@@ -46,5 +49,5 @@ router.put(
   verifyJobseekerToken,
   updateJobSeekerInfo
 );
-
+router.delete("/deleteJobSeeker/:id", deleteJobSeeker)
 export default router;

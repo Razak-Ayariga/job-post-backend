@@ -1,4 +1,4 @@
-import superAdminModel from "../models/superAdminModel";
+import superAdminModel from "../models/superAdminModel.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();

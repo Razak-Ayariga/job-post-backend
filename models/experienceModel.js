@@ -31,6 +31,8 @@ const experienceModel = sequelize.define("experiencesGain", {
         type: DataTypes.DATE,
         allowNull: false
     }
+}, {
+    paranoid: true
 });
 (async () => {
     await sequelize.sync()

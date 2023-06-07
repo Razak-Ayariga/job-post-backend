@@ -26,6 +26,8 @@ const jsSocialLinks = sequelize.define("js_social_links",{
     type: DataTypes.STRING,
     allowNull: true
       }
+}, {
+    paranoid: true
 });
 (async() => {
     await sequelize.sync()

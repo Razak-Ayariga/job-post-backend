@@ -35,6 +35,8 @@ const education = sequelize.define("education", {
         type: DataTypes.STRING,
         allowNull: false
     }
+}, {
+    paranoid: true
 });
 (async () => {
     await sequelize.sync()

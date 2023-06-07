@@ -20,6 +20,8 @@ const JobSeekerInfo = sequelize.define("cv", {
         type: DataTypes.STRING,
         allowNull: false
     }
+}, {
+  paranoid: true
 });
 (async() => {
     await sequelize.sync();

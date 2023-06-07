@@ -28,6 +28,8 @@ const companyRegistration = sequelize.define("company_registration", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+}, {
+  paranoid: true
 });
 
 (async () => {

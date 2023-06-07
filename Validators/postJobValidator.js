@@ -25,7 +25,7 @@ const postJobValidator = (req, res, next) => {
             "string.min": "Requirements cannot be less than 20 characters",
             "string.max":"Requirements cannot be more than 80 characters"
         }),
-        application_deadline: Joi.string().required().messages({
+        application_deadline: Joi.date().required().messages({
             "any.required": "Enter the apllication deadline!"
         }),
         how_to_apply: Joi.string().required().messages({

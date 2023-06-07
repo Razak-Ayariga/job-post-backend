@@ -57,7 +57,7 @@ const deleteExperience = async (req, res) => {
       });
       if (deleteResults)
         return res
-          .status(204)
+          .status(200)
           .json({ message: "Eperience deleted successfully" });
     }
   } catch (error) {

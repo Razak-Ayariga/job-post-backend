@@ -20,7 +20,7 @@ const jobSeeker = sequelize.define("job_seeker", {
     },
     middle_name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     last_name: {
         type: DataTypes.STRING,
@@ -53,7 +53,9 @@ const jobSeeker = sequelize.define("job_seeker", {
         type: DataTypes.STRING,
         defaultValue: "avatar.jpg",
         allowNull: true
-    }
+    }  
+}, {
+    paranoid: true
 });
 (async () => {
     await sequelize.sync()
