@@ -6,7 +6,7 @@ import {
   jobSeekerLoginController,
   getJobSeekerController,
   updateJobSeekerInfo,
-  getJobSeekerAllInfo,
+  getJoboSeekerAllInfo,
 } from "../controllers/jobSeekersController.js";
 
 import {
