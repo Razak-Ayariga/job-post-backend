@@ -20,6 +20,8 @@ const languages = Sequelize.define("language", {
         type: DataTypes.STRING,
         allowNull: false,
     },
+}, {
+    paranoid: true
 });
     (async () => {
     await Sequelize.sync()

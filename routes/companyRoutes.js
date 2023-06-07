@@ -2,31 +2,51 @@ import express from "express";
 const router = express.Router();
 
 //import the routes
-import {registerCompanyController,companyLoginController, updateCompanyInfo, getCompanyAllInfo} from "../controllers/companyController.js";
-import {companySignupToken,companyLoginToken, verifyCompanyToken, uploadLogoMiddleware} from "../middleware/companyMiddleware.js";
-import {companyRegisterValidator,companyLoginValidator} from "../Validators/companyValidators.js";
+import {
+  registerCompany,
+  companyLoginController,
+  updateCompanyInfo,
+    getCompanyAllInfo,
+  getAllcompanies
+} from "../controllers/companyController.js";
 
-router.post("/registerCompany",
-    uploadLogoMiddleware("").none(),
-    companyRegisterValidator,
-    companySignupToken,
-    registerCompanyController);
+import {
+  companySignupToken,
+  companyLoginToken,
+  verifyCompanyToken,
+  uploadLogoMiddleware,
+} from "../middleware/companyMiddleware.js";
 
-router.post("/logInCompany",
-    uploadLogoMiddleware("").none(),
-    companyLoginValidator,
-    companyLoginToken,
-    companyLoginController);
+import {
+  companyRegisterValidator,
+  companyLoginValidator,
+} from "../Validators/companyValidators.js";
 
-router.put("/updateInfo",
-    uploadLogoMiddleware("public/logos").single("logo"),
-    verifyCompanyToken,
-    updateCompanyInfo
+
+router.post(
+  "/registerCompany",
+  uploadLogoMiddleware("").none(),
+  companyRegisterValidator,
+  companySignupToken,
+  registerCompany
 );
 
-router.get("/getAll",
-    companyLoginToken,
-    getCompanyAllInfo
+router.post(
+  "/logInCompany",
+  uploadLogoMiddleware("").none(),
+  companyLoginValidator,
+  companyLoginToken,
+  companyLoginController
 );
+
+router.put(
+  "/updateInfo",
+  uploadLogoMiddleware("public/logos").single("logo"),
+  verifyCompanyToken,
+  updateCompanyInfo
+);
+
+router.get("/getAll", verifyCompanyToken, getCompanyAllInfo);
+router.get("/allCompanies", getAllcompanies);
 
 export default router;

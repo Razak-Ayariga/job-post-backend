@@ -26,7 +26,7 @@ app.use("/jobSeeker", jobSeekerRoutes);
 app.use("/company", companyRoutes);
 app.use("/experience", addExperienceRoutes);
 app.use("/education", educationRoutes);
-app.use("/jobPost", postJobRoutes);
+app.use("/job", postJobRoutes);
 app.use("/cv", uploadCvRoutes);
 app.use("/links", jsLinksRoutes);
 app.use("/language", languageRoutes);

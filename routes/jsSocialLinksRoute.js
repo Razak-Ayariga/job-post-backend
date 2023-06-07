@@ -8,7 +8,7 @@ import { verifyJobseekerToken } from "../middleware/jobseekerAuthMiddleware.js";
 import { uploadPhotoMiddleware } from "../middleware/jobseekerAuthMiddleware.js";
 
 //use the routes
-router.put(
+router.post(
   "/jsLinks",
   uploadPhotoMiddleware("").none(),
   verifyJobseekerToken,

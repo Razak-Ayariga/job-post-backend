@@ -40,6 +40,8 @@ const companies = sequelize.define("Companies", {
     type: DataTypes.STRING,
     allowNull: true
   }
+}, {
+  paranoid: true
 });
 
 (async () => {

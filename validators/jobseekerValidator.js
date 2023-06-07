@@ -7,9 +7,7 @@ const jobSeekerRegisterValidator = (req,res,next) => {
       "string.min": "First name cannot be less than 3 letters!",
       "string.pattern.base": "First name can contain only letters and hyphen(-)!"
     }),
-    middle_name: Joi.string().min(3).regex(/^[A-Za-z- ]+$/).messages({
-      "any.required": "Middle name is required!",
-      "string.min": "Middle name cannot be less than 3 letters!",
+    middle_name: Joi.string().allow("").regex(/^[A-Za-z- ]+$/).messages({
       "string.pattern.base": "Middle name can contain only letters and hyphen(-)!"
     }),
     last_name: Joi.string().min(3).regex(/^[A-Za-z-]+$/).required().messages({

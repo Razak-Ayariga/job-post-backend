@@ -22,6 +22,8 @@ const skills = sequelize.define("Skills", {
     allowNull: false,
   },
 
+}, {
+  paranoid: true
 });
 
 (async () => {

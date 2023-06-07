@@ -5,7 +5,7 @@ import companyRegistration from "../models/companyRegistrationModel.js";
 import postedJobs from "../models/postJobsModel.js";
 
 // Company register
-const registerCompanyController = async (req, res) => {
+const registerCompany = async (req, res) => {
   try {
     // Get company info
     const newCompany = req.body;
@@ -72,17 +72,37 @@ const getCompanyAllInfo = async (req, res) => {
     const allCompanyInfo = await companyModel.findAll({
       where: { id: company_id },
       include: [
-        { model: companyRegistration, required: false },
-        { model: postedJobs, required: false }
+        { model: companyRegistration, required: false, attributes:{exclude:["id","company_id", "deletedAt"]} },
+        { model: postedJobs, required: false,attributes:{exclude:["id","company_id", "deletedAt"]} }
       ],
     });
     if (!allCompanyInfo) return req.status(400).json({ message: "No information found!" });
     res.status(200).json(allCompanyInfo);
-  } catch(error) {
+  } catch (error) {
     console.log(error);
-    return res.staus(400).json({message:"Error getting information!"})
+    return res.staus(400).json({ message: "Error getting information!" })
   }
   
-}
+};
 
-export { registerCompanyController, companyLoginController, updateCompanyInfo, getCompanyAllInfo };
+// get all companies
+const getAllcompanies = async (req, res) => {
+  try {
+    const findAllCompanies = await companyModel.findAll({attributes:{exclude:["id", "password"]}});
+    if (!findAllCompanies) {
+      return res.status(400).json("No companies available!")
+    }
+    res.status(200).json(findAllCompanies);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({message: "Can not get all companies!"})
+    }
+};
+
+export {
+  registerCompany,
+  companyLoginController,
+  updateCompanyInfo,
+  getCompanyAllInfo,
+  getAllcompanies
+};

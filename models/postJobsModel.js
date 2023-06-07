@@ -63,6 +63,8 @@ const postedJobs = sequelize.define("Jobs", {
         type: DataTypes.STRING,
         allowNull: false
     },
+}, {
+    paranoid: true
 });
 
 export default postedJobs;
