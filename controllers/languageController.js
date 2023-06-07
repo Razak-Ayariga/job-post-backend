@@ -37,7 +37,7 @@ const getAllLanguages = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
-
+//get one lang
 const getOneLanguage = async (req, res) => {
   try {
     const { id } = req.params;
