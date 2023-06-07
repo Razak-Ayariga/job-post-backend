@@ -28,12 +28,12 @@ const getAllLanguages = async (req, res) => {
     const languageRecords = await languageModel.findAll({
       where: { js_id: js_id },
     });
-    if (!languageRecords || languageRecords.length === 0) {
+    if (!languageRecords) {
       return res.status(404).json({ error: "language not found" });
     }
     return res.json(languageRecords);
   } catch (error) {
-    console.error("Error fetching language records:", error);
+    console.log(error)
     return res.status(500).json({ error: "Internal server error" });
   }
 };

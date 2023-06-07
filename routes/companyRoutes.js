@@ -4,10 +4,11 @@ const router = express.Router();
 //import the routes
 import {
   registerCompany,
-  companyLoginController,
+  companyLogin,
   updateCompanyInfo,
-    getCompanyAllInfo,
-  getAllcompanies
+  getCompanyAllInfo,
+  getAllcompanies,
+  deleteCompany
 } from "../controllers/companyController.js";
 
 import {
@@ -36,7 +37,7 @@ router.post(
   uploadLogoMiddleware("").none(),
   companyLoginValidator,
   companyLoginToken,
-  companyLoginController
+  companyLogin
 );
 
 router.put(
@@ -48,5 +49,6 @@ router.put(
 
 router.get("/getAll", verifyCompanyToken, getCompanyAllInfo);
 router.get("/allCompanies", getAllcompanies);
+router.delete("/deleteCompany/:id", deleteCompany);
 
 export default router;

@@ -31,7 +31,7 @@ const registerCompany = async (req, res) => {
 };
 
 // Company login
-const companyLoginController = async (req, res) => {
+const companyLogin = async (req, res) => {
   try {
     const { email } = req.body;
     const token = req.token;
@@ -56,10 +56,11 @@ const updateCompanyInfo = async (req, res) => {
     const logo = req.file?.filename;
     const company_id = req.company_id;
     companyInfo["logo"] = logo;
-
     const updateResult = await companyModel.update(companyInfo, { where: { id: company_id } });
     const findCompany = await companyModel.findAll({ where: { id: company_id } });
-    res.status(201).json({ message: "Updated successfully!", findCompany })
+    if (updateResult) {
+      res.status(201).json({ message: "Updated successfully!", findCompany });
+    }
   } catch (error) {
     res.status(400).json({ message: "failed to update!" });
   }
@@ -88,21 +89,40 @@ const getCompanyAllInfo = async (req, res) => {
 // get all companies
 const getAllcompanies = async (req, res) => {
   try {
-    const findAllCompanies = await companyModel.findAll({attributes:{exclude:["id", "password"]}});
+    const findAllCompanies = await companyModel.findAll({attributes:{exclude:["id", "password", "deletedAt"]}});
     if (!findAllCompanies) {
       return res.status(400).json("No companies available!")
     }
     res.status(200).json(findAllCompanies);
   } catch (error) {
     console.log(error);
-    res.status(400).json({message: "Can not get all companies!"})
+    res.status(400).json({ message: "Can not get all companies!" });
     }
 };
 
+// delete a company
+const deleteCompany = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const findCompany = await companyModel.findByPk(id);
+    if (!findCompany) {
+      return res.status(400).json({ message: "Company not available!" });
+    }
+    const deleteResults = await companyModel.destroy({ where: {id:id } });
+    if (deleteResults) {
+      return res.status(200).json({message:"Company record deleted successfully!"})
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({message:"Error deleting company!"})
+  }
+}
+
 export {
   registerCompany,
-  companyLoginController,
+  companyLogin,
   updateCompanyInfo,
   getCompanyAllInfo,
-  getAllcompanies
+  getAllcompanies,
+  deleteCompany
 };
