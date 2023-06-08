@@ -47,7 +47,7 @@ const companyLoginToken = async (req, res, next) => {
   console.log(companyInfo);
   const findCompany = await companyModel.findOne({
     where: { email:companyInfo.email },
-    attributes: { exclude: ["password", "description"] }, t
+    attributes: { exclude: ["password", "description"] }, 
   });
   if (!findCompany) {
     res.status(403).json({ message: "Invalid email or password" });

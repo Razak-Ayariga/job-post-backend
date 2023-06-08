@@ -5,10 +5,11 @@ const postJob = async (req, res) => {
     const addJobInfo = req.body;
     const id = req.company_id;
     addJobInfo["company_id"] = id;
-
     try {
         const newJob = await postJobsModel.create(addJobInfo);
         const job = newJob.dataValues;
+        const jobId = newJob.dataValues.id;
+        console.log(jobId);
         if (newJob) {
             return res.status(201).json({ message: "Job posted successfully!", job});
         }
