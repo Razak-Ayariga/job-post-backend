@@ -14,14 +14,11 @@ const companyRegisterValidator = (req, res, next) => {
           "Company name can only contain letters, numbers and a hyphen(-)!",
       }),
 
-    email: Joi.string()
-      .required()
-      .email({ minDomainSegments: 2 })
-      .messages({
-        "string.email":
-          "Invalid email format. Please provide a valid email address!",
-        "any.required": "Email is required!",
-      }),
+    email: Joi.string().required().email({ minDomainSegments: 2 }).messages({
+      "string.email":
+        "Invalid email format. Please provide a valid email address!",
+      "any.required": "Email is required!",
+    }),
 
     password: Joi.string()
       .min(8)
@@ -50,13 +47,11 @@ const companyRegisterValidator = (req, res, next) => {
         "string.length": "Phone number must be exactly 13 digits",
         "any.required": "Phone number is required!",
       }),
-    verification_method: Joi.string()
-      .required()
-      .messages({
-        "any.only":
-          "Verification method must be either 'Registration Certificate' or 'VAT Number'!",
-        "any.required": "Verification method is required!",
-      }),
+    verification_method: Joi.string().required().messages({
+      "any.only":
+        "Verification method must be either 'Registration Certificate' or 'VAT Number'!",
+      "any.required": "Verification method is required!",
+    }),
   });
 
   const validation = schema.validate(req.body);
@@ -82,4 +77,20 @@ const companyLoginValidator = (req, res, next) => {
   next();
 };
 
-export { companyRegisterValidator, companyLoginValidator };
+//validate website&linkedin
+const validateLinks = (req, res, next) => {
+  // Define the validation schema
+  const schema = Joi.object({
+    linkedin: Joi.string()
+      .uri()
+      .regex(/linkedin.com\/in\/[a-zA-Z0-9_-]+$/),
+    website: Joi.string().uri(),
+  });
+  const { error } = schema.validate(req.body);
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+  next();
+};
+
+export { companyRegisterValidator, companyLoginValidator, validateLinks };

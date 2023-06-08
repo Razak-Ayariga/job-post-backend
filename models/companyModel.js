@@ -42,6 +42,18 @@ const companies = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    website: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    linkedin: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    industry: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   {
     paranoid: true,

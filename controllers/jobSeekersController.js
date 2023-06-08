@@ -25,8 +25,21 @@ const registerJobSeeker = async (req, res) => {
     newJobSeeker["password"] = hashPassword;
     newJobSeeker["photo"] = filename;
 
-    JobSeekersModel.create(newJobSeeker, {fields: ["id","first_name","middle_name","last_name","date_of_birth","password", "gender","email","phone_number"]}).then((response) => {
-      const user = response.dataValues
+    JobSeekersModel.create(newJobSeeker, {
+      fields: [
+        "id",
+        "first_name",
+        "middle_name",
+        "last_name",
+        "date_of_birth",
+        "password",
+        "gender",
+        "email",
+        "phone",
+      ],
+    }).then((response) => {
+      const user = response.dataValues;
+
       res.status(201).json({ message: "registered successfully", token, user });
       return;
     });
@@ -46,7 +59,10 @@ const jobSeekerLogin = async (req, res) => {
 //get a job seeker
 const getJobSeeker = async (req, res) => {
   const id = req.userId;
-    const findUser = await JobSeekersModel.findOne({ id, attributes: { exclude: ['password'] } });
+  const findUser = await JobSeekersModel.findOne({
+    id,
+    attributes: { exclude: ["password"] },
+  });
   if (findUser) {
     return res.status(200).json({ jobseeker: findUser.dataValues });
   } else {
@@ -57,27 +73,33 @@ const getJobSeeker = async (req, res) => {
 // get all job seekers
 const getAllJobSeekers = async (req, res) => {
   try {
-    const findAllJobSeekers = await JobSeekersModel.findAll({attributes:{exclude:["id","password","deletedAt"]}});
+    const findAllJobSeekers = await JobSeekersModel.findAll({
+      attributes: { exclude: ["id", "password", "deletedAt"] },
+    });
     if (!findAllJobSeekers) {
-      return res.status(400).json("No job seekers available!")
+      return res.status(400).json("No job seekers available!");
     }
     res.status(200).json(findAllJobSeekers);
   } catch (error) {
     console.log(error);
-    res.status(400).json({message: "Can not get all job seekers!"})
-    }
+    res.status(400).json({ message: "Can not get all job seekers!" });
+  }
 };
 // update job seeker info
 const updateJobSeekerInfo = async (req, res) => {
   try {
     const userInfo = req.body;
     const userId = req.userId;
-    const photo = req.file?.filename
-    userInfo['photo'] = photo;
-    const findJobSeeker = await JobSeekersModel.findAll({ where: { id: userId } });
+    const photo = req.file?.filename;
+    userInfo["photo"] = photo;
+    const findJobSeeker = await JobSeekersModel.findAll({
+      where: { id: userId },
+    });
     if (findJobSeeker) {
-      const updateResult = await JobSeekersModel.update(userInfo, { where: { id: userId } });
-      res.status(201).json({ message: "Updated successfully!",updateResult });
+      const updateResult = await JobSeekersModel.update(userInfo, {
+        where: { id: userId },
+      });
+      res.status(201).json({ message: "Updated successfully!", updateResult });
     }
   } catch (error) {
     res.status(400).json({ message: "failed to update!" });
@@ -91,15 +113,55 @@ const getJobSeekerAllInfo = async (req, res) => {
     const allInfo = await JobSeekersModel.findAll({
       where: { id: userId },
       include: [
-        { model: Education, required: false, attributes: { exclude: ["id", "js_id","deletedAt","createdAt","updatedAt"]} },
-        { model: Experience, required: false,attributes: { exclude: ["id", "js_id","deletedAt","createdAt","updatedAt"]} },
-        { model: Languages, required: false,attributes: { exclude: ["id", "js_id","deletedAt","createdAt","updatedAt"]} },
-        { model: Skills, required: false,attributes: { exclude: ["id", "js_id","deletedAt","createdAt","updatedAt"]} },
-        {model: jsSocialLinks, required: false,attributes: { exclude: ["id", "js_id","deletedAt","createdAt","updatedAt"]}}
-      ], attributes: { exclude: ["id", "js_id","password","deletedAt","createdAt","updatedAt"]}
+        {
+          model: Education,
+          required: false,
+          attributes: {
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+          },
+        },
+        {
+          model: Experience,
+          required: false,
+          attributes: {
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+          },
+        },
+        {
+          model: Languages,
+          required: false,
+          attributes: {
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+          },
+        },
+        {
+          model: Skills,
+          required: false,
+          attributes: {
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+          },
+        },
+        {
+          model: jsSocialLinks,
+          required: false,
+          attributes: {
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+          },
+        },
+      ],
+      attributes: {
+        exclude: [
+          "id",
+          "js_id",
+          "password",
+          "deletedAt",
+          "createdAt",
+          "updatedAt",
+        ],
+      },
     });
-    if(!allInfo) {
-      return res.status(400).json({message:"no information found!"});
+    if (!allInfo) {
+      return res.status(400).json({ message: "no information found!" });
     }
     res.status(200).json(allInfo);
   } catch (error) {
@@ -124,7 +186,7 @@ const deleteJobSeeker = async (req, res) => {
     console.log(error);
     res.status(400).json({ message: "Could not delete record!" });
   }
-}
+};
 
 export {
   registerJobSeeker,
@@ -133,5 +195,5 @@ export {
   updateJobSeekerInfo,
   getJobSeekerAllInfo,
   deleteJobSeeker,
-  getAllJobSeekers
+  getAllJobSeekers,
 };
