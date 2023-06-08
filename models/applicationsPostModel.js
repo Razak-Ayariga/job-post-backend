@@ -1,9 +1,9 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
-import postJob from "./postJobsModel.js";
-import jobSeekers from "./jobSeekersModel.js";
+import postJobsModel from "./postJobsModel.js";
+import jobSeekersModel from "./jobSeekersModel.js";
 
-const application = sequelize.define(
+const applicationsPostModel = sequelize.define(
   "applications",
   {
     id: {
@@ -15,18 +15,18 @@ const application = sequelize.define(
     js_id: {
       type: DataTypes.UUID,
       references: {
-        model: "job_seekers",
+        model: jobSeekersModel,
         key: "id",
       },
     },
     jobs_id: {
       type: DataTypes.UUID,
       references: {
-        model: "postJobs",
+        model: postJobsModel,
         key: "id",
       },
     },
-    application: {
+    applications: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -35,10 +35,12 @@ const application = sequelize.define(
     paranoid: true,
   }
 );
+
 (async () => {
   await sequelize.sync();
 })();
 
-jobSeekers.hasMany(application, { foreignKey: "js_id" });
+jobSeekersModel.hasMany(applicationsPostModel, { foreignKey: "js_id" });
+postJobsModel.hasMany(applicationsPostModel, { foreignKey: "jobs_id" });
 
-export default application;
+export default applicationsPostModel;

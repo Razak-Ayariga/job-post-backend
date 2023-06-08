@@ -23,7 +23,7 @@ import languageRoutes from "./routes/languageRoutes.js";
 import companyRegistrationRoutes from "./routes/companyRegistrationRoutes.js";
 import skillsRoutes from "./routes/skillsRoutes.js";
 import superAdminRoutes from "./routes/superAdminRoutes.js";
-import applicationRoutes from "./routes/applicationRoutes.js";
+import applicationRoutes from "./routes/applicationsPostRoutes.js";
 
 //use routes
 app.use("/jobSeeker", jobSeekerRoutes);
