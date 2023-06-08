@@ -9,7 +9,7 @@ import {
   getCompanyAllInfo,
   getAllcompanies,
   deleteCompany,
-   jobSeekerAllInfo
+  jobSeekerAllInfo,
 } from "../controllers/companyController.js";
 
 import {
@@ -23,7 +23,6 @@ import {
   companyRegisterValidator,
   companyLoginValidator,
 } from "../Validators/companyValidators.js";
-
 
 router.post(
   "/registerCompany",

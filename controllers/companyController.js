@@ -75,8 +75,12 @@ const updateCompanyInfo = async (req, res) => {
     const logo = req.file?.filename;
     const company_id = req.company_id;
     companyInfo["logo"] = logo;
-    const updateResult = await companyModel.update(companyInfo, { where: { id: company_id } });
-    const findCompany = await companyModel.findAll({ where: { id: company_id } });
+    const updateResult = await companyModel.update(companyInfo, {
+      where: { id: company_id },
+    });
+    const findCompany = await companyModel.findAll({
+      where: { id: company_id },
+    });
     if (updateResult) {
       res.status(201).json({ message: "Updated successfully!", findCompany });
     }
@@ -104,18 +108,21 @@ const getCompanyAllInfo = async (req, res) => {
         },
       ],
     });
-    if (!allCompanyInfo) return req.status(400).json({ message: "No information found!" });   
+    if (!allCompanyInfo)
+      return req.status(400).json({ message: "No information found!" });
     res.status(200).json(allCompanyInfo);
   } catch (error) {
     console.log(error);
-    return res.staus(400).json({ message: "Error getting information!" });
+    return res.status(400).json({ message: "Error getting information!" });
   }
 };
 
 // get all companies
 const getAllcompanies = async (req, res) => {
   try {
-    const findAllCompanies = await companyModel.findAll({attributes:{exclude:["id", "password", "deletedAt"]}});
+    const findAllCompanies = await companyModel.findAll({
+      attributes: { exclude: ["id", "password", "deletedAt"] },
+    });
     if (!findAllCompanies) {
       return res.status(400).json("No companies available!");
     }
@@ -123,25 +130,65 @@ const getAllcompanies = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Can not get all companies!" });
-    }
+  }
 };
 
 //company to get all info of a job seeker
 const jobSeekerAllInfo = async (req, res) => {
   try {
-    const {id} = req.params;
+    const { id } = req.params;
     const allInfo = await jobSeeker.findAll({
       where: { id: id },
       include: [
-        { model: Education, required: false, attributes: { exclude: ["id", "js_id","deletedAt","createdAt","updatedAt"]} },
-        { model: Experience, required: false,attributes: { exclude: ["id", "js_id","deletedAt","createdAt","updatedAt"]} },
-        { model: Languages, required: false,attributes: { exclude: ["id", "js_id","deletedAt","createdAt","updatedAt"]} },
-        { model: Skills, required: false,attributes: { exclude: ["id", "js_id","deletedAt","createdAt","updatedAt"]} },
-        {model: jsSocialLinks, required: false,attributes: { exclude: ["id", "js_id","deletedAt","createdAt","updatedAt"]}}
-      ], attributes: { exclude: ["id", "js_id","password","deletedAt","createdAt","updatedAt"]}
+        {
+          model: Education,
+          required: false,
+          attributes: {
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+          },
+        },
+        {
+          model: Experience,
+          required: false,
+          attributes: {
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+          },
+        },
+        {
+          model: Languages,
+          required: false,
+          attributes: {
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+          },
+        },
+        {
+          model: Skills,
+          required: false,
+          attributes: {
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+          },
+        },
+        {
+          model: jsSocialLinks,
+          required: false,
+          attributes: {
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+          },
+        },
+      ],
+      attributes: {
+        exclude: [
+          "id",
+          "js_id",
+          "password",
+          "deletedAt",
+          "createdAt",
+          "updatedAt",
+        ],
+      },
     });
-    if(!allInfo) {
-      return res.status(400).json({message:"no information found!"});
+    if (!allInfo) {
+      return res.status(400).json({ message: "no information found!" });
     }
     res.status(200).json(allInfo);
   } catch (error) {
@@ -160,11 +207,13 @@ const deleteCompany = async (req, res) => {
     }
     const deleteResults = await companyModel.destroy({ where: { id: id } });
     if (deleteResults) {
-      return res.status(200).json({ message: "Company record deleted successfully!" })
+      return res
+        .status(200)
+        .json({ message: "Company record deleted successfully!" });
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json({ message: "Error deleting company!" })
+    res.status(400).json({ message: "Error deleting company!" });
   }
 };
 
@@ -175,5 +224,5 @@ export {
   getCompanyAllInfo,
   getAllcompanies,
   deleteCompany,
-  jobSeekerAllInfo
+  jobSeekerAllInfo,
 };

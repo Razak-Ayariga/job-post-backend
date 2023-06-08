@@ -1,0 +1,527 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API Documentation",
+    "version": "1.0.0"
+  },
+  "host": "localhost:5000",
+  "basePath": "/",
+  "schemes": ["http"],
+  "paths": {
+    "/company/register": {
+      "post": {
+        "summary": "Register a company",
+        "tags": ["Company"],
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "logo",
+            "description": "Company logo",
+            "type": "file",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "companyName",
+            "description": "Company name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "description": "Company email",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "description": "Company password",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Company"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/company/login": {
+      "post": {
+        "summary": "Login as a company",
+        "tags": ["Company"],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Company login details",
+            "schema": {
+              "$ref": "#/definitions/CompanyLogin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Company"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/company/updateInfo": {
+      "put": {
+        "summary": "Update company information",
+        "tags": ["Company"],
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "logo",
+            "description": "Updated company logo",
+            "type": "file"
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Company"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/company/getAll": {
+      "get": {
+        "summary": "Get all companies",
+        "tags": ["Company"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CompanyList"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/company/deleteCompany/{id}": {
+      "delete": {
+        "summary": "Delete a company",
+        "tags": ["Company"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Company ID",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/company/allJobSeekerInfo/{id}": {
+      "get": {
+        "summary": "Get all job seeker info for a company",
+        "tags": ["Company"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Company ID",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/JobSeekerList"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/registration/registrationInfo": {
+      "post": {
+        "summary": "Edit company registration information",
+        "tags": ["Company"],
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "company_certificate",
+            "description": "Company registration certificate",
+            "type": "file",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CompanyRegistration"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/job/postJob": {
+      "post": {
+        "summary": "Post a job",
+        "tags": ["Job"],
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "title",
+            "description": "Job title",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "description",
+            "description": "Job description",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "company_id",
+            "description": "Company ID",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Job"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/job/getOne/{id}": {
+      "get": {
+        "summary": "Get a job by ID",
+        "tags": ["Job"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Job ID",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Job"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/job/getAll": {
+      "get": {
+        "summary": "Get all jobs",
+        "tags": ["Job"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/JobList"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "JobSeekerRegister": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "JobSeekerLogin": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "JobSeeker": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "Company": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "companyName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "logoUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "CompanyLogin": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "CompanyList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Company"
+      }
+    },
+    "JobSeekerList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/JobSeeker"
+      }
+    },
+    "CompanyRegistration": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "companyName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "logoUrl": {
+          "type": "string"
+        },
+        "certificateUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "Job": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "company_id": {
+          "type": "integer"
+        }
+      }
+    },
+    "JobList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Job"
+      }
+    }
+  }
+}
