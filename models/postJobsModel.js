@@ -1,7 +1,8 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
 
-const postedJobs = sequelize.define("Jobs", {
+const postedJobs = sequelize.define("Jobs",
+    {
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,

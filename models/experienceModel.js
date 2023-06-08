@@ -38,4 +38,4 @@ const experienceModel = sequelize.define("experiencesGain", {
     await sequelize.sync()
 })();
 
-export default experience;
+export default experienceModel;

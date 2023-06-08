@@ -7,6 +7,8 @@ app.use(cors());
 import multer from "multer";
 const port = process.env.PORT || 4000;
 
+app.use(express.json());
+
 const uploads = multer();
 
 //import routes
