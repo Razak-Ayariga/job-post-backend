@@ -1,0 +1,488 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Job Seeker API",
+    "version": "1.0.0",
+    "description": "API endpoints for managing job seekers"
+  },
+  "basePath": "/",
+  "paths": {
+    "/jobSeeker/registerJobSeeker": {
+      "post": {
+        "summary": "Register a job seeker",
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "photo",
+            "type": "file",
+            "description": "Job seeker photo"
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "type": "string",
+            "description": "Job seeker email",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "type": "string",
+            "description": "Job seeker password",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Job seeker registered"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/jobSeeker/logInJobSeeker": {
+      "post": {
+        "summary": "Log in a job seeker",
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "photo",
+            "type": "file",
+            "description": "Job seeker photo"
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "type": "string",
+            "description": "Job seeker email",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "type": "string",
+            "description": "Job seeker password",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Job seeker logged in"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/jobSeeker/getInfo": {
+      "get": {
+        "summary": "Get job seeker information",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "description": "Job seeker token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Job seeker information retrieved"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/jobSeeker/getAllInfo": {
+      "get": {
+        "summary": "Get all job seeker information",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "description": "Job seeker token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All job seeker information retrieved"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/jobSeeker/allJobSeekers": {
+      "get": {
+        "summary": "Get information of all job seekers",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "All job seekers retrieved"
+          }
+        }
+      }
+    },
+    "/jobSeeker/updateJobSeeker": {
+      "put": {
+        "summary": "Update job seeker information",
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "photo",
+            "type": "file",
+            "description": "Job seeker photo"
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "description": "Job seeker token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Job seeker information updated"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/jobSeeker/deleteJobSeeker/{id}": {
+      "delete": {
+        "summary": "Delete a job seeker",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "Job seeker ID",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Job seeker deleted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/cv/uploadCv": {
+      "put": {
+        "summary": "Upload job seeker CV",
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "cv",
+            "type": "file",
+            "description": "Job seeker CV",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "description": "Job seeker token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CV uploaded"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/links/jsLinks": {
+      "post": {
+        "summary": "Add job seeker social links",
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "photo",
+            "type": "file",
+            "description": "Job seeker photo"
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "description": "Job seeker token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Social links added"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/application/jobApp": {
+      "post": {
+        "summary": "Submit a job application",
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "cv",
+            "type": "file",
+            "description": "Job seeker CV",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "cover_letter",
+            "type": "file",
+            "description": "Job application cover letter",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "description": "Job seeker token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Job application submitted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/education/addEducation": {
+      "post": {
+        "summary": "Add education details",
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "photo",
+            "type": "file",
+            "description": "Job seeker photo"
+          },
+          {
+            "in": "formData",
+            "name": "education",
+            "type": "string",
+            "description": "Education details",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "description": "Job seeker token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Education details added"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/education/oneEducation/{id}": {
+      "get": {
+        "summary": "Get a specific education detail",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "Education detail ID",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Education detail retrieved"
+          }
+        }
+      }
+    },
+    "/education/allEducation/{js_id}": {
+      "get": {
+        "summary": "Get all education details of a job seeker",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "js_id",
+            "type": "string",
+            "description": "Job seeker ID",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All education details retrieved"
+          }
+        }
+      }
+    },
+    "/education/deleteEducation/{id}": {
+      "delete": {
+        "summary": "Delete an education detail",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "Education detail ID",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Education detail deleted"
+          }
+        }
+      }
+    },
+    "/experience/addExperience": {
+      "put": {
+        "summary": "Add experience details",
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "photo",
+            "type": "file",
+            "description": "Job seeker photo"
+          },
+          {
+            "in": "formData",
+            "name": "experience",
+            "type": "string",
+            "description": "Experience details",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "description": "Job seeker token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Experience details added"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/experience/oneExperience/{id}": {
+      "get": {
+        "summary": "Get a specific experience detail",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "Experience detail ID",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Experience detail retrieved"
+          }
+        }
+      }
+    },
+    "/experience/allExperience/{js_id}": {
+      "get": {
+        "summary": "Get all experience details of a job seeker",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "js_id",
+            "type": "string",
+            "description": "Job seeker ID",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All experience details retrieved"
+          }
+        }
+      }
+    },
+    "/experience/deleteExperience/{id}": {
+      "delete": {
+        "summary": "Delete an experience detail",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "Experience detail ID",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Experience detail deleted"
+          }
+        }
+      }
+    }
+  }
+}
