@@ -21,6 +21,7 @@ import languageRoutes from "./routes/languageRoutes.js";
 import companyRegistrationRoutes from "./routes/companyRegistrationRoutes.js";
 import skillsRoutes from "./routes/skillsRoutes.js";
 import superAdminRoutes from "./routes/superAdminRoutes.js";
+import applicationRoutes from "./routes/applicationsRoutes.js";
 
 //use routes
 app.use("/jobSeeker", jobSeekerRoutes);
@@ -34,6 +35,7 @@ app.use("/links", jsLinksRoutes);
 app.use("/language", languageRoutes);
 app.use("/registration", companyRegistrationRoutes);
 app.use("/skills", skillsRoutes);
+app.use("/application", applicationRoutes);
 
 (async () => {
   try {

@@ -28,7 +28,7 @@ const registerCompany = async (req, res) => {
 
     const addCompany = await companyModel.create(newCompany, {
       fields: [
-        "id",
+        // "id",
         "company_name",
         "password",
         "email",
@@ -37,7 +37,7 @@ const registerCompany = async (req, res) => {
       ],
     });
     const company = addCompany.dataValues;
-    console.log(company);
+    // console.log(company);
     res
       .status(201)
       .json({ message: "Company registered successfully!", token, company });
