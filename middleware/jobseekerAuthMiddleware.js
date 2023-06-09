@@ -56,7 +56,7 @@ const jobseekerLogInToken = async (req, res, next) => {
     where: { email: jobSeekerInfo.email },
   });
   if (!findJobSeeker) {
-    return res.status(403).json({ message: "user does not exist. Please sign up first!" });
+    return res.status(403).json({ message: "Invalid email or password!" });
   }
   const token = jwt.sign(findJobSeeker.dataValues, jwtSecret);
   req.token = token;
