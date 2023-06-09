@@ -52,6 +52,9 @@ const companyRegisterValidator = (req, res, next) => {
         "Verification method must be either 'Registration Certificate' or 'VAT Number'!",
       "any.required": "Verification method is required!",
     }),
+    website:Joi.string().optional(),
+    linkedin:Joi.string(),
+    industry:Joi.string()
   });
 
   const validation = schema.validate(req.body);
@@ -77,20 +80,4 @@ const companyLoginValidator = (req, res, next) => {
   next();
 };
 
-//validate website&linkedin
-const validateLinks = (req, res, next) => {
-  // Define the validation schema
-  const schema = Joi.object({
-    linkedin: Joi.string()
-      .uri()
-      .regex(/linkedin.com\/in\/[a-zA-Z0-9_-]+$/),
-    website: Joi.string().uri(),
-  });
-  const { error } = schema.validate(req.body);
-  if (error) {
-    return res.status(400).json({ message: error.details[0].message });
-  }
-  next();
-};
-
-export { companyRegisterValidator, companyLoginValidator, validateLinks };
+export { companyRegisterValidator, companyLoginValidator };

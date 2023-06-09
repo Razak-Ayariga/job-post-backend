@@ -6,10 +6,10 @@ import {
   registerCompany,
   companyLogin,
   updateCompanyInfo,
-  getCompanyAllInfo,
+  // getCompanyAllInfo,
   getAllcompanies,
-  deleteCompany,
-  jobSeekerAllInfo,
+  deleteCompany
+  // jobSeekerAllInfo,
 } from "../controllers/companyController.js";
 
 import {
@@ -21,8 +21,7 @@ import {
 
 import {
   companyRegisterValidator,
-  companyLoginValidator,
-  validateLinks,
+  companyLoginValidator
 } from "../Validators/companyValidators.js";
 
 router.post(
@@ -45,13 +44,12 @@ router.put(
   "/updateInfo",
   uploadLogoMiddleware("public/logos").single("logo"),
   verifyCompanyToken,
-  validateLinks,
   updateCompanyInfo
 );
 
-router.get("/getAll", verifyCompanyToken, getCompanyAllInfo);
+// router.get("/getAll", verifyCompanyToken, getCompanyAllInfo);
 router.get("/allCompanies", getAllcompanies);
 router.delete("/deleteCompany/:id", deleteCompany);
-router.get("/allJobSeekerInfo/:id", jobSeekerAllInfo);
+// router.get("/allJobSeekerInfo/:id", jobSeekerAllInfo);
 
 export default router;

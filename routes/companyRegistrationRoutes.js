@@ -8,9 +8,7 @@ import { verifyCompanyToken } from "../middleware/companyMiddleware.js";
 
 router.post(
   "/registrationInfo",
-  uploadRegistrationCertificate("public/companyCert").single(
-    "company_certificate"
-  ),
+  uploadRegistrationCertificate("public/companyCert").single("company_certificate"),
   verifyCompanyToken,
   companyRegistrationValidator,
   editRegistrationInfo

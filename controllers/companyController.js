@@ -1,8 +1,8 @@
 import companyModel from "../models/companyModel.js";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
-import companyRegistration from "../models/companyRegistrationModel.js";
-import postedJobs from "../models/postJobsModel.js";
+// import companyRegistration from "../models/companyRegistrationModel.js";
+// import postedJobs from "../models/postJobsModel.js";
 import jobSeeker from "../models/jobSeekersModel.js";
 import Experience from "../models/experienceModel.js";
 import Education from "../models/educationModel.js";
@@ -34,7 +34,7 @@ const registerCompany = async (req, res) => {
         "email",
         "mobile_number",
         "verification_method",
-      ],
+      ]
     });
     const company = addCompany.dataValues;
     // console.log(company);
@@ -50,7 +50,7 @@ const registerCompany = async (req, res) => {
 // Company login
 const companyLogin = async (req, res) => {
   try {
-    const { email } = req.body;
+    const {email}  = req.body;
     const token = req.token;
     const company = req.body;
 
@@ -90,38 +90,38 @@ const updateCompanyInfo = async (req, res) => {
 };
 
 // get all info of a company
-const getCompanyAllInfo = async (req, res) => {
-  try {
-    const company_id = req.company_id;
-    const allCompanyInfo = await companyModel.findAll({
-      where: { id: company_id },
-      include: [
-        {
-          model: companyRegistration,
-          required: false,
-          attributes: { exclude: ["id", "company_id", "deletedAt"] },
-        },
-        {
-          model: postedJobs,
-          required: false,
-          attributes: { exclude: ["id", "company_id", "deletedAt"] },
-        },
-      ],
-    });
-    if (!allCompanyInfo)
-      return req.status(400).json({ message: "No information found!" });
-    res.status(200).json(allCompanyInfo);
-  } catch (error) {
-    console.log(error);
-    return res.status(400).json({ message: "Error getting information!" });
-  }
-};
+// const getCompanyAllInfo = async (req, res) => {
+//   try {
+//     const company_id = req.company_id;
+//     const allCompanyInfo = await companyModel.findAll({
+//       where: { id: company_id },
+//       include: [
+//         {
+//           model: companyRegistration,
+//           required: false,
+//           attributes: { exclude: ["id", "company_id", "deletedAt"] },
+//         },
+//         {
+//           model: postedJobs,
+//           required: false,
+//           attributes: { exclude: ["id", "company_id", "deletedAt"] },
+//         },
+//       ],
+//     });
+//     if (!allCompanyInfo)
+//       return req.status(400).json({ message: "No information found!" });
+//     res.status(200).json(allCompanyInfo);
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(400).json({ message: "Error getting information!" });
+//   }
+// };
 
 // get all companies
 const getAllcompanies = async (req, res) => {
   try {
     const findAllCompanies = await companyModel.findAll({
-      attributes: { exclude: ["id", "password", "deletedAt"] },
+      attributes: { exclude: ["id", "password", "deletedAt"] }
     });
     if (!findAllCompanies) {
       return res.status(400).json("No companies available!");
@@ -145,36 +145,36 @@ const jobSeekerAllInfo = async (req, res) => {
           required: false,
           attributes: {
             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+          }
         },
         {
           model: Experience,
           required: false,
           attributes: {
             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+          }
         },
         {
           model: Languages,
           required: false,
           attributes: {
             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+          }
         },
         {
           model: Skills,
           required: false,
           attributes: {
             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+          }
         },
         {
           model: jsSocialLinks,
           required: false,
           attributes: {
             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
-        },
+          }
+        }
       ],
       attributes: {
         exclude: [
@@ -221,8 +221,8 @@ export {
   registerCompany,
   companyLogin,
   updateCompanyInfo,
-  getCompanyAllInfo,
+  // getCompanyAllInfo,
   getAllcompanies,
   deleteCompany,
-  jobSeekerAllInfo,
+  jobSeekerAllInfo
 };

@@ -8,24 +8,24 @@ const postedJobs = sequelize.define(
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
-      allowNull: false,
+      allowNull: false
     },
 
     company_id: {
       type: DataTypes.UUID,
       references: {
         model: "companies",
-        key: "id",
-      },
+        key: "id"
+      }
     },
 
     job_title: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     job_type: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     job_description: {
       type: DataTypes.STRING,
@@ -33,41 +33,41 @@ const postedJobs = sequelize.define(
     },
     salary_range: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
 
     location: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
 
     requirements: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     application_deadline: {
       type: DataTypes.DATE,
-      allowNull: false,
+      allowNull: false
     },
     how_to_apply: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     name_of_poster: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     role: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     contact: {
       type: DataTypes.STRING,
-      allowNull: false,
-    },
+      allowNull: false
+    }
   },
   {
-    paranoid: true,
+    paranoid: true
   }
 );
 
