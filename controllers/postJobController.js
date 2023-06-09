@@ -50,9 +50,7 @@ const getAllJobs = async (req, res) => {
 // get all available jobs
 const getAllAvailableJobs = async (req, res) => {
   try {
-    const findAllJobs = await postJobsModel.findAll({
-      attributes: { exclude: ["id", "company_id", "deletedAt"] },
-    });
+    const findAllJobs = await postJobsModel.findAll();
     if (findAllJobs) {
       res.status(200).json(findAllJobs);
     }

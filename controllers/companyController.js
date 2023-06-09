@@ -1,14 +1,15 @@
 import companyModel from "../models/companyModel.js";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
-// import companyRegistration from "../models/companyRegistrationModel.js";
-// import postedJobs from "../models/postJobsModel.js";
+import companyRegistration from "../models/companyRegistrationModel.js";
+import postedJobs from "../models/postJobsModel.js";
 import jobSeeker from "../models/jobSeekersModel.js";
 import Experience from "../models/experienceModel.js";
 import Education from "../models/educationModel.js";
 import Languages from "../models/languageModel.js";
 import Skills from "../models/skillsModel.js";
 import jsSocialLinks from "../models/jsSocialLinksModel.js";
+import locations from "../models/locationModel.js";
 
 // Company register
 const registerCompany = async (req, res) => {
@@ -90,32 +91,37 @@ const updateCompanyInfo = async (req, res) => {
 };
 
 // get all info of a company
-// const getCompanyAllInfo = async (req, res) => {
-//   try {
-//     const company_id = req.company_id;
-//     const allCompanyInfo = await companyModel.findAll({
-//       where: { id: company_id },
-//       include: [
-//         {
-//           model: companyRegistration,
-//           required: false,
-//           attributes: { exclude: ["id", "company_id", "deletedAt"] },
-//         },
-//         {
-//           model: postedJobs,
-//           required: false,
-//           attributes: { exclude: ["id", "company_id", "deletedAt"] },
-//         },
-//       ],
-//     });
-//     if (!allCompanyInfo)
-//       return req.status(400).json({ message: "No information found!" });
-//     res.status(200).json(allCompanyInfo);
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(400).json({ message: "Error getting information!" });
-//   }
-// };
+const getCompanyAllInfo = async (req, res) => {
+  try {
+    const company_id = req.company_id;
+    const allCompanyInfo = await companyModel.findAll({
+      where: { id: company_id },
+      include: [
+        {
+          model: companyRegistration,
+          required: false,
+          attributes: { exclude: ["id", "company_id", "deletedAt"] },
+        },
+        {
+          model: postedJobs,
+          required: false,
+          attributes: { exclude: ["id", "company_id", "deletedAt"] },
+        },
+        {
+          model: locations,
+          required: false,
+          attributes: { exclude: ["id", "company_id","deletedAt"]}
+        }
+      ],
+    });
+    if (!allCompanyInfo)
+      return req.status(400).json({ message: "No information found!" });
+    res.status(200).json(allCompanyInfo);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: "Error getting information!" });
+  }
+};
 
 // get all companies
 const getAllcompanies = async (req, res) => {
@@ -221,7 +227,7 @@ export {
   registerCompany,
   companyLogin,
   updateCompanyInfo,
-  // getCompanyAllInfo,
+  getCompanyAllInfo,
   getAllcompanies,
   deleteCompany,
   jobSeekerAllInfo

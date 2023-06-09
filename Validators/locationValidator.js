@@ -10,7 +10,7 @@ const validateLocation = (req, res, next) => {
       "any.required": "Region is required!",
       "string.empty": "Region is required!",
     }),
-    address: Joi.string().required().messages({
+    address: Joi.string().messages({
       "any.required": "Address is required!",
       "string.empty": "Address is required!",
     }),

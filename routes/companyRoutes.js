@@ -6,7 +6,7 @@ import {
   registerCompany,
   companyLogin,
   updateCompanyInfo,
-  // getCompanyAllInfo,
+  getCompanyAllInfo,
   getAllcompanies,
   deleteCompany
   // jobSeekerAllInfo,
@@ -47,7 +47,7 @@ router.put(
   updateCompanyInfo
 );
 
-// router.get("/getAll", verifyCompanyToken, getCompanyAllInfo);
+router.get("/getAll", verifyCompanyToken, getCompanyAllInfo);
 router.get("/allCompanies", getAllcompanies);
 router.delete("/deleteCompany/:id", deleteCompany);
 // router.get("/allJobSeekerInfo/:id", jobSeekerAllInfo);

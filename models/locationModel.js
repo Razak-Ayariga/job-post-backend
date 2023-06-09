@@ -14,7 +14,7 @@ const locations = sequelize.define(
       type: DataTypes.UUID,
       references: {
         model: "companies",
-        key: "id",
+        key: "id"
       },
     },
     country: {
@@ -26,8 +26,7 @@ const locations = sequelize.define(
       allowNull: false,
     },
     address: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.STRING
     },
   },
   {
