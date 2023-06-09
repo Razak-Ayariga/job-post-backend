@@ -38,8 +38,8 @@ const updateSkills = async (req, res) => {
 // Get all Skills records for a jobseeker
 const getAllSkills = async (req, res) => {
   try {
-    const { id } = req.params;
-    const skillsRecords = await skillsModel.findAll({ where: { js_id: id } });
+    // const { id } = req.params;
+    const skillsRecords = await skillsModel.findAll({attributes:{exclude:["id","js_id","deletedAt"]} });
     if (!skillsRecords || skillsRecords.length === 0) {
       return res.status(404).json({ error: "Skills not found" });
     }

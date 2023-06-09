@@ -14,14 +14,11 @@ const companyRegisterValidator = (req, res, next) => {
           "Company name can only contain letters, numbers and a hyphen(-)!",
       }),
 
-    email: Joi.string()
-      .required()
-      .email({ minDomainSegments: 2 })
-      .messages({
-        "string.email":
-          "Invalid email format. Please provide a valid email address!",
-        "any.required": "Email is required!",
-      }),
+    email: Joi.string().required().email({ minDomainSegments: 2 }).messages({
+      "string.email":
+        "Invalid email format. Please provide a valid email address!",
+      "any.required": "Email is required!",
+    }),
 
     password: Joi.string()
       .min(8)
@@ -50,13 +47,15 @@ const companyRegisterValidator = (req, res, next) => {
         "string.length": "Phone number must be exactly 13 digits",
         "any.required": "Phone number is required!",
       }),
-    verification_method: Joi.string()
-      .required()
-      .messages({
-        "any.only":
-          "Verification method must be either 'Registration Certificate' or 'VAT Number'!",
-        "any.required": "Verification method is required!",
-      }),
+    verification_method: Joi.string().required().messages({
+      "any.only":
+        "Verification method must be either 'Registration Certificate' or 'VAT Number'!",
+      "any.required": "Verification method is required!",
+    }),
+
+    linkedin: Joi.string().uri().regex(/linkedin.com\/in\/[a-zA-Z0-9_-]+$/),
+    website: Joi.string().uri(),
+    industry: Joi.string()
   });
 
   const validation = schema.validate(req.body);

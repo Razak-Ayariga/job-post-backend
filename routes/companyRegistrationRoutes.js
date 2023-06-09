@@ -6,9 +6,11 @@ import uploadRegistrationCertificate from "../middleware/companyRegistrationMidd
 import companyRegistrationValidator from "../Validators/companyRegistrationValidator.js";
 import { verifyCompanyToken } from "../middleware/companyMiddleware.js";
 
-router.put(
+router.post(
   "/registrationInfo",
-  uploadRegistrationCertificate("public/companyCert").single("company_certificate"),
+  uploadRegistrationCertificate("public/companyCert").single(
+    "company_certificate"
+  ),
   verifyCompanyToken,
   companyRegistrationValidator,
   editRegistrationInfo

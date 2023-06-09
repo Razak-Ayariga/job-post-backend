@@ -1,12 +1,12 @@
 import DataTypes from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
 
-const companyRegistration = sequelize.define(
-  "company_registration",
+const locations = sequelize.define(
+  "locations",
   {
     id: {
       type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV1,
       primaryKey: true,
       allowNull: false,
     },
@@ -17,16 +17,15 @@ const companyRegistration = sequelize.define(
         key: "id",
       },
     },
-
-    registration_number: {
+    country: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
-    vat_number: {
+    region: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
-    company_certificate: {
+    address: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -40,4 +39,4 @@ const companyRegistration = sequelize.define(
   await sequelize.sync();
 })();
 
-export default companyRegistration;
+export default locations;

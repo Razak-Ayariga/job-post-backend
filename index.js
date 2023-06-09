@@ -23,7 +23,8 @@ import languageRoutes from "./routes/languageRoutes.js";
 import companyRegistrationRoutes from "./routes/companyRegistrationRoutes.js";
 import skillsRoutes from "./routes/skillsRoutes.js";
 import superAdminRoutes from "./routes/superAdminRoutes.js";
-import applicationRoutes from "./routes/applicationsPostRoutes.js";
+import applicationRoutes from "./routes/applicationsRoutes.js";
+import locationRoutes from "./routes/locationRoutes.js";
 
 //use routes
 app.use("/jobSeeker", jobSeekerRoutes);
@@ -31,6 +32,7 @@ app.use("/superAdmin", superAdminRoutes);
 app.use("/company", companyRoutes);
 app.use("/experience", addExperienceRoutes);
 app.use("/education", educationRoutes);
+app.use("/companyLocation", locationRoutes);
 app.use("/job", postJobRoutes);
 app.use("/cv", uploadCvRoutes);
 app.use("/links", jsLinksRoutes);
@@ -38,6 +40,7 @@ app.use("/language", languageRoutes);
 app.use("/registration", companyRegistrationRoutes);
 app.use("/skills", skillsRoutes);
 app.use("/application", applicationRoutes);
+
 (async () => {
   try {
     await sequelize.authenticate();
