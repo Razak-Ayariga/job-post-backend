@@ -22,7 +22,6 @@ import {
 import {
   companyRegisterValidator,
   companyLoginValidator,
-  validateLinks,
 } from "../Validators/companyValidators.js";
 
 router.post(
@@ -45,7 +44,6 @@ router.put(
   "/updateInfo",
   uploadLogoMiddleware("public/logos").single("logo"),
   verifyCompanyToken,
-  validateLinks,
   updateCompanyInfo
 );
 
