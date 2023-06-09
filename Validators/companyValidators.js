@@ -52,9 +52,10 @@ const companyRegisterValidator = (req, res, next) => {
         "Verification method must be either 'Registration Certificate' or 'VAT Number'!",
       "any.required": "Verification method is required!",
     }),
-    website:Joi.string().optional(),
-    linkedin:Joi.string(),
-    industry:Joi.string()
+
+    linkedin: Joi.string().uri().regex(/linkedin.com\/in\/[a-zA-Z0-9_-]+$/),
+    website: Joi.string().uri(),
+    industry: Joi.string()
   });
 
   const validation = schema.validate(req.body);

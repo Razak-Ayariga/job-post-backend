@@ -54,12 +54,9 @@ const jobseekerLogInToken = async (req, res, next) => {
   const jobSeekerInfo = req.body;
   const findJobSeeker = await JobSeekersModel.findOne({
     where: { email: jobSeekerInfo.email },
-    attributes: { exclude: ["password"] },
   });
   if (!findJobSeeker) {
-    res
-      .status(403)
-      .json({ message: "user does not exist. Please sign up first!" });
+    return res.status(403).json({ message: "Invalid email or password!" });
   }
   const token = jwt.sign(findJobSeeker.dataValues, jwtSecret);
   req.token = token;
@@ -70,16 +67,16 @@ const jobseekerLogInToken = async (req, res, next) => {
 // middleware to verify token
 const verifyJobseekerToken = async (req, res, next) => {
   try {
-  const token = req.headers.token;
-  if (!token) {
-    return res.status(401).json({ message: "No token provided" });
-  }
+    const token = req.headers.token;
+    if (!token) {
+      return res.status(401).json({ message: "No token provided" });
+    }
     const decodedToken = jwt.verify(token, jwtSecret);
     const jobSeekerInfo = decodedToken;
     if (jobSeekerInfo) {
       req.userId = jobSeekerInfo.id;
       next();
-      
+
     }
   } catch (error) {
     console.error("error verifying token");

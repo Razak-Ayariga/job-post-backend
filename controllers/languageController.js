@@ -1,4 +1,3 @@
-import languages from "../models/languageModel.js";
 import languageModel from "../models/languageModel.js";
 
 const addLanguage = async (req, res) => {
@@ -33,7 +32,7 @@ const getAllLanguages = async (req, res) => {
     }
     return res.json(languageRecords);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).json({ error: "Internal server error" });
   }
 };
