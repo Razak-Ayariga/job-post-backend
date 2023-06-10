@@ -53,8 +53,8 @@ const companyRegisterValidator = (req, res, next) => {
       "any.required": "Verification method is required!",
     }),
 
-    linkedin: Joi.string().uri().regex(/linkedin.com\/in\/[a-zA-Z0-9_-]+$/),
-    website: Joi.string().uri(),
+    linkedin: Joi.string(),
+    website: Joi.string(),
     industry: Joi.string()
   });
 

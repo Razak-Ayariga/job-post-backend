@@ -9,6 +9,7 @@ import Education from "../models/educationModel.js";
 import Languages from "../models/languageModel.js";
 import Skills from "../models/skillsModel.js";
 import jsSocialLinks from "../models/jsSocialLinksModel.js";
+import locations from "../models/locationModel.js";
 
 // Company register
 const registerCompany = async (req, res) => {
@@ -34,7 +35,7 @@ const registerCompany = async (req, res) => {
         "email",
         "mobile_number",
         "verification_method",
-      ],
+      ]
     });
     const company = addCompany.dataValues;
     // console.log(company);
@@ -50,7 +51,7 @@ const registerCompany = async (req, res) => {
 // Company login
 const companyLogin = async (req, res) => {
   try {
-    const { email } = req.body;
+    const {email}  = req.body;
     const token = req.token;
     const company = req.body;
 
@@ -106,6 +107,11 @@ const getCompanyAllInfo = async (req, res) => {
           required: false,
           attributes: { exclude: ["id", "company_id", "deletedAt"] },
         },
+        {
+          model: locations,
+          required: false,
+          attributes: { exclude: ["id", "company_id","deletedAt"]}
+        }
       ],
     });
     if (!allCompanyInfo)
@@ -121,7 +127,7 @@ const getCompanyAllInfo = async (req, res) => {
 const getAllcompanies = async (req, res) => {
   try {
     const findAllCompanies = await companyModel.findAll({
-      attributes: { exclude: ["id", "password", "deletedAt"] },
+      attributes: { exclude: ["id", "password", "deletedAt"] }
     });
     if (!findAllCompanies) {
       return res.status(400).json("No companies available!");
@@ -145,36 +151,36 @@ const jobSeekerAllInfo = async (req, res) => {
           required: false,
           attributes: {
             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+          }
         },
         {
           model: Experience,
           required: false,
           attributes: {
             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+          }
         },
         {
           model: Languages,
           required: false,
           attributes: {
             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+          }
         },
         {
           model: Skills,
           required: false,
           attributes: {
             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+          }
         },
         {
           model: jsSocialLinks,
           required: false,
           attributes: {
             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
-        },
+          }
+        }
       ],
       attributes: {
         exclude: [
@@ -224,5 +230,5 @@ export {
   getCompanyAllInfo,
   getAllcompanies,
   deleteCompany,
-  jobSeekerAllInfo,
+  jobSeekerAllInfo
 };

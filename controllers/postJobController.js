@@ -8,8 +8,6 @@ const postJob = async (req, res) => {
   try {
     const newJob = await postJobsModel.create(addJobInfo);
     const job = newJob.dataValues;
-    const jobId = newJob.dataValues.id;
-    console.log(jobId);
     if (newJob) {
       return res.status(201).json({ message: "Job posted successfully!", job });
     }
@@ -52,9 +50,7 @@ const getAllJobs = async (req, res) => {
 // get all available jobs
 const getAllAvailableJobs = async (req, res) => {
   try {
-    const findAllJobs = await postJobsModel.findAll({
-      attributes: { exclude: ["id", "company_id", "deletedAt"] },
-    });
+    const findAllJobs = await postJobsModel.findAll();
     if (findAllJobs) {
       res.status(200).json(findAllJobs);
     }

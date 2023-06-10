@@ -17,16 +17,13 @@ const addLocation = async (req, res) => {
       newLocation = await locations.create(locationInfo);
     }
 
-    const location = newLocation.dataValues;
-    const locationId = newLocation.dataValues.id;
-    console.log(locationId);
-
     if (newLocation) {
       return res
         .status(201)
-        .json({ message: "Location posted successfully!", location });
+        .json({ message: "Location posted successfully!", locationInfo });
     }
   } catch (error) {
+    console.log(error);
     return res.status(400).json({ message: "Failed to post location!" });
   }
 };
