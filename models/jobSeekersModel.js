@@ -58,7 +58,10 @@ const jobSeeker = sequelize.define(
     },
   },
   {
-    paranoid: true,
+    paranoid: {
+      deletedAt: "hardDeleteAfter",
+      hardDeleteAfter: new Date(Date.now() + (5 * 60 * 1000)),
+    }
   }
 );
 (async () => {

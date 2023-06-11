@@ -115,11 +115,35 @@ const getCompanyAllInfo = async (req, res) => {
       ],
     });
     if (!allCompanyInfo)
-      return req.status(400).json({ message: "No information found!" });
+      return res.status(400).json({ message: "No information found!" });
     res.status(200).json(allCompanyInfo);
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: "Error getting information!" });
+  }
+};
+
+//Get posted job info
+const companyDetails = async (req, res) => {
+  try {
+    // const company_id = req.company_id;
+    const allDetails = await companyModel.findAll({
+      // where: { id: company_id },
+      include: [
+        {
+          model: postedJobs,
+          required: false,
+          attributes:{exclude:["deletedAt","company_id","createdAt","updatedAt"]}
+        }
+      ], attributes:{exclude:["id","deletedAt","createdAt","updatedAt"]}
+    });
+    if (!allDetails) {
+      return res.status(400).json({ message: "No information found!" });
+    }
+    res.status(200).json(allDetails);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Error getting information" })
   }
 };
 
@@ -183,14 +207,7 @@ const jobSeekerAllInfo = async (req, res) => {
         }
       ],
       attributes: {
-        exclude: [
-          "id",
-          "js_id",
-          "password",
-          "deletedAt",
-          "createdAt",
-          "updatedAt",
-        ],
+        exclude: ["id","js_id","password","deletedAt","createdAt","updatedAt"],
       },
     });
     if (!allInfo) {
@@ -230,5 +247,6 @@ export {
   getCompanyAllInfo,
   getAllcompanies,
   deleteCompany,
-  jobSeekerAllInfo
+  jobSeekerAllInfo,
+  companyDetails
 };

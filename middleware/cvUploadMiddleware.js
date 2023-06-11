@@ -15,6 +15,6 @@ const uploadCvMiddleware = (destination) => {
     })
     const upload = multer({ storage })
     return upload
-}
+};
 
 export default uploadCvMiddleware;
