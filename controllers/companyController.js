@@ -29,7 +29,6 @@ const registerCompany = async (req, res) => {
 
     const addCompany = await companyModel.create(newCompany, {
       fields: [
-        // "id",
         "company_name",
         "password",
         "email",
@@ -126,10 +125,7 @@ const getCompanyAllInfo = async (req, res) => {
 //Get posted job info
 const companyDetails = async (req, res) => {
   try {
-    // const company_id = req.company_id;
-    const allDetails = await companyModel.findAll({
-      // where: { id: company_id },
-      include: [
+    const allDetails = await companyModel.findAll({ include: [
         {
           model: postedJobs,
           required: false,

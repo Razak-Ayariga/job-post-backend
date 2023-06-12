@@ -58,21 +58,18 @@ const jobSeeker = sequelize.define(
     },
   },
   {
-    paranoid: {
-      deletedAt: "hardDeleteAfter",
-      hardDeleteAfter: new Date(Date.now() + (5 * 60 * 1000)),
-    }
+    paranoid: true
   }
 );
 (async () => {
   await sequelize.sync();
 })();
 
-jobSeeker.hasMany(experience, { foreignKey: "js_id" });
-jobSeeker.hasMany(education, { foreignKey: "js_id" });
-jobSeeker.hasMany(skills, { foreignKey: "js_id" });
-jobSeeker.hasMany(languages, { foreignKey: "js_id" });
-jobSeeker.hasOne(uploadCvModel, { foreignKey: "js_id" });
-jobSeeker.hasOne(jsSocialLinks, { foreignKey: "js_id" });
+jobSeeker.hasMany(experience, { foreignKey: "js_id", onDelete:"CASCADE" });
+jobSeeker.hasMany(education, { foreignKey: "js_id", onDelete: "CASCADE" });
+jobSeeker.hasMany(skills, { foreignKey: "js_id", onDelete:"CASCADE" });
+jobSeeker.hasMany(languages, { foreignKey: "js_id", onDelete:"CASCADE" });
+jobSeeker.hasOne(uploadCvModel, { foreignKey: "js_id", onDelete: "CASCADE" });
+jobSeeker.hasOne(jsSocialLinks, { foreignKey: "js_id", onDelete: "CASCADE" });
 
 export default jobSeeker;

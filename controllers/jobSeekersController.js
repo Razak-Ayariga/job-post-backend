@@ -1,13 +1,16 @@
 
+import jobSeeker from "../models/jobSeekersModel.js";
 import Experience from "../models/experienceModel.js";
 import Education from "../models/educationModel.js";
 import Languages from "../models/languageModel.js";
 import Skills from "../models/skillsModel.js";
 import jsSocialLinks from "../models/jsSocialLinksModel.js";
+import cv from "../models/uploadCvModel.js";
 import { Op } from "sequelize";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
-import jobSeeker from "../models/jobSeekersModel.js";
+// import education from "../models/educationModel.js";
+
 
 //Job seeker registration
 const registerJobSeeker = async (req, res) => {
@@ -18,7 +21,7 @@ const registerJobSeeker = async (req, res) => {
     const password = newJobSeeker.password;
 
     //hash the password
-    const hashPassword = await bcrypt.hash(password, 10); // await to wait for the password to finish encrypting
+    const hashPassword = await bcrypt.hash(password, 10);
     //add the job seeker to the database
     const uuid = uuidv4();
     const filename = req.file;
@@ -186,30 +189,34 @@ const deleteJobSeeker = async (req, res) => {
     if (!findJobSeeker) {
       return res.status(404).json({ message: "Record not found" });
     }
+    await Education.destroy({ where: { js_id: userId } });
+    await Experience.destroy({ where: { js_id: userId } });
+    await Languages.destroy({ where: { js_id: userId } });
+    await Skills.destroy({ where: { js_id: userId } });
+    await jsSocialLinks.destroy({ where: { js_id: userId } });
+    await cv.destroy({ where: { js_id: userId } });
+    await findJobSeeker.destroy();
+    res.status(200).json({ message: "Record deleted successfully!" });
 
-    const deleteResults = await jobSeeker.destroy({
-      where: { id: userId, deletedAt: null },
-    });
+    setTimeout(async () => {
+      const permanentDelete = await jobSeeker.destroy({
+        where: {
+          id: userId,
+          deletedAt: { [Op.not]: null },
+        },
+        force: true, // Permanently delete the record
+        include: [Education, Experience, Skills, Languages, jsSocialLinks, cv],
+      });
 
-    if (deleteResults) {
-      res.status(200).json({ message: "Record deleted successfully!" });
-
-      setTimeout(async () => {
-        const permanentDelete = await jobSeeker.destroy({
-          where: { id: userId, deletedAt: { [Op.not]: null } },
-        });
-
-        if (permanentDelete) {
-          console.log(`Record permanently deleted for ID: ${userId}`);
-        }
-      }, 2 * 60 * 1000);
-    }
+      if (permanentDelete) {
+        console.log(`Record permanently deleted for ID: ${userId}`);
+      }
+    }, 30 * 24 * 60 * 60 * 1000);
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Could not delete record!" });
   }
 };
-
 
 export {
   registerJobSeeker,

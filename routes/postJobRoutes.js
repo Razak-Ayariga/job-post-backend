@@ -6,8 +6,7 @@ import {
   getOneJob,
   getAllJobs,
   deleteJob,
-  getAllAvailableJobs,
-  // companyDetails
+  // getAllAvailableJobs,
 } from "../controllers/postJobController.js";
 
 import { companyDetails } from "../controllers/companyController.js";
