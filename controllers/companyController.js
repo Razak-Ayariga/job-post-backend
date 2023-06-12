@@ -51,17 +51,20 @@ const registerCompany = async (req, res) => {
 // Company login
 const companyLogin = async (req, res) => {
   try {
-    const {email}  = req.body;
+    const { email, password } = req.body;
     const token = req.token;
     const company = req.body;
 
     // Check if company exists
     const findUser = await companyModel.findOne({ where: { email: email } });
     if (!findUser) {
-      return res
-        .status(403)
-        .json({ message: "Company does not exist. Please register first!" });
+      return res.status(403).json({ message: "Company does not exist. Please register first!" });
     }
+    bcrypt.compare(password, findUser.password)
+    if (password !== findUser.password) {
+      return res.status(401).json({ message: "Invalid email or password" })
+    }
+
     res.status(201).json({ message: "company logged in!", token, company });
     return;
   } catch (error) {
@@ -110,7 +113,7 @@ const getCompanyAllInfo = async (req, res) => {
         {
           model: locations,
           required: false,
-          attributes: { exclude: ["id", "company_id","deletedAt"]}
+          attributes: { exclude: ["id", "company_id", "deletedAt"] }
         }
       ],
     });
