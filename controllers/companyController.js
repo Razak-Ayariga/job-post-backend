@@ -10,6 +10,7 @@ import Languages from "../models/languageModel.js";
 import Skills from "../models/skillsModel.js";
 import jsSocialLinks from "../models/jsSocialLinksModel.js";
 import locations from "../models/locationModel.js";
+import { Op } from "sequelize";
 
 // Company register
 const registerCompany = async (req, res) => {
@@ -224,12 +225,22 @@ const deleteCompany = async (req, res) => {
     if (!findCompany) {
       return res.status(400).json({ message: "Company not available!" });
     }
-    const deleteResults = await companyModel.destroy({ where: { id: id } });
-    if (deleteResults) {
-      return res
-        .status(200)
-        .json({ message: "Company record deleted successfully!" });
-    }
+    await companyRegistration.destroy({ where: { id: id } });
+    await postedJobs.destroy({ where: { company_id: id } });
+    await locations.destroy({ where: { company_id: id } });
+    await findCompany.destroy();
+    res.status(200).json("Record deleted successfully!");
+
+    setTimeout(async () => {
+      const permanentDelete = await companyModel.destroy({
+        where: { id: id, deletedAt: { [Op.not]: null } },
+        force: true,
+        include: [postedJobs, companyRegistration, locations]
+      });
+      if (permanentDelete) {
+        console.log("Record permanetly deleted!S");
+      }
+    }, 2 * 60 * 1000);
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Error deleting company!" });

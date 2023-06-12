@@ -45,7 +45,6 @@ const companies = sequelize.define(
     },
     website: {
       type: DataTypes.STRING,
-      // allowNull: true,
     },
     linkedin: {
       type: DataTypes.STRING,
@@ -65,8 +64,8 @@ const companies = sequelize.define(
   await sequelize.sync();
 })();
 
-companies.hasMany(postJob, { foreignKey: "company_id" });
-companies.hasOne(companyRegistration, { foreignKey: "company_id" });
-companies.hasOne(locations,{ foreignKey: "company_id"});
+companies.hasMany(postJob, { foreignKey: "company_id", onDelete: "CASCADE" });
+companies.hasOne(companyRegistration, { foreignKey: "company_id", onDelete: "CASCADE" });
+companies.hasOne(locations,{ foreignKey: "company_id", onDelete: "CASCADE"});
 
 export default companies;
