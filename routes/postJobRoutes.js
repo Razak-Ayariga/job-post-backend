@@ -6,12 +6,12 @@ import {
   getOneJob,
   getAllJobs,
   deleteJob,
-  getAllAvailableJobs,
+  getAllAvailableJobs
 } from "../controllers/postJobController.js";
 import postJobValidator from "../Validators/postJobValidator.js";
 import {
   uploadLogoMiddleware,
-  verifyCompanyToken,
+  verifyCompanyToken
 } from "../middleware/companyMiddleware.js";
 
 router.post(

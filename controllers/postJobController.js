@@ -36,7 +36,7 @@ const getAllJobs = async (req, res) => {
   try {
     const company_id = req.params.id;
     const findAllJobs = await postJobsModel.findAll({
-      where: { company_id: company_id },
+      where: { company_id: company_id }
     });
     if (findAllJobs) {
       res.status(200).json(findAllJobs);
