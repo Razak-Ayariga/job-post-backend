@@ -8,8 +8,9 @@ import {
   updateCompanyInfo,
   getCompanyAllInfo,
   getAllcompanies,
-  deleteCompany
-  // jobSeekerAllInfo,
+  deleteCompany,
+  jobSeekerAllInfo,
+  companyDetails
 } from "../controllers/companyController.js";
 
 import {
@@ -50,6 +51,7 @@ router.put(
 router.get("/getAll", verifyCompanyToken, getCompanyAllInfo);
 router.get("/allCompanies", getAllcompanies);
 router.delete("/deleteCompany/:id", deleteCompany);
-// router.get("/allJobSeekerInfo/:id", jobSeekerAllInfo);
+router.get("/allJobSeekerInfo/:id", jobSeekerAllInfo);
+router.get("/companyDetails/",verifyCompanyToken, companyDetails);
 
 export default router;

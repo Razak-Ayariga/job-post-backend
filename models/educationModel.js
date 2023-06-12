@@ -13,7 +13,8 @@ const education = sequelize.define("education", {
         references: {
             model: "job_seekers",
             key: "id"
-        }
+        },
+        onDelete: "CASCADE"
     },
     institution: {
         type: DataTypes.STRING,
@@ -35,8 +36,6 @@ const education = sequelize.define("education", {
         type: DataTypes.STRING,
         allowNull: false
     }
-}, {
-    paranoid: true
 });
 (async () => {
     await sequelize.sync()

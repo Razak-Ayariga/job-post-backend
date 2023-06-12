@@ -1,4 +1,6 @@
 import postJobsModel from "../models/postJobsModel.js";
+import companies from "../models/companyModel.js";
+// import postedJobs from "../models/postJobsModel.js";
 
 // create a job post
 const postJob = async (req, res) => {
@@ -12,6 +14,7 @@ const postJob = async (req, res) => {
       return res.status(201).json({ message: "Job posted successfully!", job });
     }
   } catch (error) {
+    console.log(error);
     return res.status(400).json({ message: " Failed to post job!" });
   }
 };
@@ -59,6 +62,29 @@ const getAllAvailableJobs = async (req, res) => {
     res.status(400).json({ message: "Error geetting all jobs!" });
   }
 };
+//get all company details of a job
+// const companyDetails = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const getDetails = await postJobsModel.findAll({
+//       where: { id: id },
+//       include: [{
+//         model: companies,
+//         required: false,
+//         attributes: {
+//           exclude: ["deletedAt", "createdAt", "updatedAt"]
+//         }
+//       }]
+//     });
+//     if (!getDetails) {
+//       return res.status(400).json({ message: "No information found!" });
+//     }
+//     res.status(200).json(getDetails);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(400).json({message:"Failed to get information!"})
+//   }
+// }
 
 //delete a posted job
 const deleteJob = async (req, res) => {
@@ -78,4 +104,4 @@ const deleteJob = async (req, res) => {
   }
 };
 
-export { postJob, getOneJob, getAllJobs, deleteJob, getAllAvailableJobs };
+export { postJob, getOneJob, getAllJobs, deleteJob, getAllAvailableJobs }; //companyDetails };

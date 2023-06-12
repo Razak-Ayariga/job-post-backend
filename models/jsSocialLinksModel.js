@@ -14,7 +14,8 @@ const jsSocialLinks = sequelize.define("js_social_links",{
        references: {
             model: "job_seekers",
             key: "id"
-        }
+        },
+       onDelete:"CASCADE"
     },
 
    linkedIn_link:{
@@ -26,8 +27,6 @@ const jsSocialLinks = sequelize.define("js_social_links",{
     type: DataTypes.STRING,
     allowNull: true
       }
-}, {
-    paranoid: true
 });
 (async() => {
     await sequelize.sync()

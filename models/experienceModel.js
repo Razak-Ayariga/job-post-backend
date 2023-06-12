@@ -13,7 +13,8 @@ const experienceModel = sequelize.define("experiencesGain", {
         references: {
             model: "job_seekers",
             key: "id"
-        }
+        },
+        onDelete:"CASCADE"
     },
     company_name: {
         type: DataTypes.STRING,
@@ -31,8 +32,6 @@ const experienceModel = sequelize.define("experiencesGain", {
         type: DataTypes.DATE,
         allowNull: false
     }
-}, {
-    paranoid: true
 });
 (async () => {
     await sequelize.sync()
