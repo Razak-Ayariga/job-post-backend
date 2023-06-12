@@ -5,7 +5,7 @@ import {
   postJob,
   getOneJob,
   getAllJobs,
-  deleteJob,
+  deleteJob
   // getAllAvailableJobs,
 } from "../controllers/postJobController.js";
 
