@@ -132,22 +132,22 @@ const getJobSeekerAllInfo = async (req, res) => {
           required: false,
           attributes: {
             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+          }
         },
         {
           model: Skills,
           required: false,
           attributes: {
             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+          }
         },
         {
           model: jsSocialLinks,
           required: false,
           attributes: {
             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
-        },
+          }
+        }
       ],
       attributes: {
         exclude: [
@@ -156,8 +156,8 @@ const getJobSeekerAllInfo = async (req, res) => {
           "password",
           "deletedAt",
           "createdAt",
-          "updatedAt",
-        ],
+          "updatedAt"
+        ]
       },
     });
     if (!allInfo) {

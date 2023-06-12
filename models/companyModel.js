@@ -11,53 +11,53 @@ const companies = sequelize.define(
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
-      allowNull: false,
+      allowNull: false
     },
 
     company_name: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
 
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isEmail: true,
-      },
+        isEmail: true
+      }
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
 
     mobile_number: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     verification_method: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     logo: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: true
     },
     website: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
       // allowNull: true,
     },
     linkedin: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: true
     },
     industry: {
       type: DataTypes.STRING,
-      allowNull: true,
-    },
+      allowNull: true
+    }
   },
   {
-    paranoid: true,
+    paranoid: true
   }
 );
 
