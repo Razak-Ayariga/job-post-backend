@@ -70,7 +70,7 @@ const getJobSeeker = async (req, res) => {
   if (findUser) {
     return res.status(200).json({ jobseeker: findUser.dataValues });
   } else {
-    return res.status(400).json("User not found...");
+    return res.status(400).json({ message:"User not found..."});
   }
 };
 
@@ -81,7 +81,7 @@ const getAllJobSeekers = async (req, res) => {
       attributes: { exclude: ["id", "password", "deletedAt"] },
     });
     if (!findAllJobSeekers) {
-      return res.status(400).json("No job seekers available!");
+      return res.status(400).json({message: "No job seekers available!"});
     }
     res.status(200).json(findAllJobSeekers);
   } catch (error) {

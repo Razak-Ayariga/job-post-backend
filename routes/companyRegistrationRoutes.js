@@ -5,13 +5,15 @@ import editRegistrationInfo from "../controllers/companyRegistrationController.j
 import uploadRegistrationCertificate from "../middleware/companyRegistrationMiddleware.js";
 import companyRegistrationValidator from "../Validators/companyRegistrationValidator.js";
 import { verifyCompanyToken } from "../middleware/companyMiddleware.js";
+import { getCompanyAllInfo } from "../controllers/companyController.js";
 
 router.post(
   "/registrationInfo",
   uploadRegistrationCertificate("public/companyCert").single("company_certificate"),
   verifyCompanyToken,
   companyRegistrationValidator,
-  editRegistrationInfo
+  editRegistrationInfo,
+  getCompanyAllInfo
 );
 
 export default router;
