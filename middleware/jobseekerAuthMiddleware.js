@@ -1,4 +1,5 @@
 import JobSeekersModel from "../models/jobSeekersModel.js";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
@@ -58,6 +59,15 @@ const jobseekerLogInToken = async (req, res, next) => {
   if (!findJobSeeker) {
     return res.status(403).json({ message: "Invalid email or password!" });
   }
+
+  const passwordMatch = await bcrypt.compare(
+    jobSeekerInfo.password,
+    findJobSeeker.password
+  );
+  if (!passwordMatch) {
+    return res.status(403).json({ message: "Invalid credentials" });
+  }
+
   const tokenVariables = {
     id: findJobSeeker.dataValues.id,
     first_name: findJobSeeker.dataValues.first_name,
@@ -66,6 +76,7 @@ const jobseekerLogInToken = async (req, res, next) => {
     email: findJobSeeker.dataValues.email,
     gender: findJobSeeker.dataValues.gender,
   };
+
   const token = jwt.sign(tokenVariables, jwtSecret);
   req.token = token;
   req.user = findJobSeeker.dataValues;
