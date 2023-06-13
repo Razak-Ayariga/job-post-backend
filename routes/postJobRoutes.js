@@ -6,8 +6,11 @@ import {
   getOneJob,
   getAllJobs,
   deleteJob,
-  getAllAvailableJobs,
+  // getAllAvailableJobs,
 } from "../controllers/postJobController.js";
+
+import { companyDetails } from "../controllers/companyController.js";
+
 import postJobValidator from "../Validators/postJobValidator.js";
 import {
   uploadLogoMiddleware,
@@ -24,7 +27,8 @@ router.post(
 
 router.get("/getOne/:id", getOneJob);
 router.get("/getAll/:id", getAllJobs);
-router.get("/availableJobs", getAllAvailableJobs);
+router.get("/availableJobs", /*getAllAvailableJobs,*/ companyDetails);
 router.delete("/deleteJob/:id", deleteJob);
+// router.get("/companyDetails/:id", companyDetails);
 
 export default router;

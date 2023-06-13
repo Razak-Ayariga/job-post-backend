@@ -58,7 +58,15 @@ const jobseekerLogInToken = async (req, res, next) => {
   if (!findJobSeeker) {
     return res.status(403).json({ message: "Invalid email or password!" });
   }
-  const token = jwt.sign(findJobSeeker.dataValues, jwtSecret);
+  const tokenVariables = { 
+    id:findJobSeeker.dataValues.id ,
+    first_name: findJobSeeker.dataValues.first_name,
+    middle_name: findJobSeeker.dataValues.middle_name,
+    last_name: findJobSeeker.dataValues.last_name,
+    email: findJobSeeker.dataValues.email,
+    gender:findJobSeeker.dataValues.gender,
+  }
+    const token = jwt.sign(tokenVariables, jwtSecret);
   req.token = token;
   req.user = findJobSeeker.dataValues;
   next();

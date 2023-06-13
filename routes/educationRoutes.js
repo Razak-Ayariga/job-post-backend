@@ -3,12 +3,12 @@ const router = express.Router();
 
 import { newEducationController, getOneEducation, getAllEducation, deleteEducation } from "../controllers/educationController.js";
 import { verifyJobseekerToken, uploadPhotoMiddleware } from "../middleware/jobseekerAuthMiddleware.js";
-// import educationValidator from "../Validators/educationValidators.js";
+import educationValidator from "../Validators/educationValidators.js";
 
 router.post("/addEducation",
     uploadPhotoMiddleware("").none(),
     verifyJobseekerToken,
-    // educationValidator,
+    educationValidator,
     newEducationController);
 
 router.get("/oneEducation/:id", getOneEducation);

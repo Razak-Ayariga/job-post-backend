@@ -36,12 +36,13 @@ router.post(
   uploadPhotoMiddleware("").none(),
   jobSeekerLogInValidator,
   jobseekerLogInToken,
-  jobSeekerLogin
+  jobSeekerLogin,
+  getJobSeekerAllInfo
 );
 
 router.get("/getInfo", verifyJobseekerToken, getJobSeeker);
 router.get("/getAllInfo", verifyJobseekerToken, getJobSeekerAllInfo);
-router.get("/allJobSeekers", getAllJobSeekers);
+router.get("/allJobSeekers", getAllJobSeekers);// SHOULD GO TO THWE ADMIN
 
 router.put(
   "/updateJobSeeker",
