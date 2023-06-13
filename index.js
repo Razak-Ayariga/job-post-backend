@@ -5,12 +5,13 @@ import sequelize from "./dataBase/dbConfig.js";
 import cors from "cors";
 app.use(cors());
 import multer from "multer";
+import seedAdmin from "./seeds/superAdminSeed.js";
 const port = process.env.PORT || 4000;
 
 const uploads = multer();
 
 //import routes
-import superAdminRoutes from "./routes/superAdminRoutes.js";
+import superAdminRoutes from "./seeds/superAdminRoutes.js";
 import jobSeekerRoutes from "./routes/jobSeekerRoutes.js";
 import companyRoutes from "./routes/companyRoutes.js";
 import companyRegistrationRoutes from "./routes/companyRegistrationRoutes.js";
@@ -41,7 +42,7 @@ app.use("/application", applicationRoutes);
 
 (async () => {
   try {
-    await sequelize.authenticate();
+    await sequelize.authenticate().then(() => seedAdmin());
     console.log("Connection established successfully");
     app.listen(port, () => {
       console.log(`Server listening on port ${port}`);

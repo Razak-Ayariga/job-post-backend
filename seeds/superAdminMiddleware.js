@@ -15,9 +15,11 @@ const mainAdminToken = async (req, res, next) => {
       res.status(403).json({ message: "Main Admin Only!" });
       return;
     }
-
+    const id = superAdmin.id
+    const fullName = superAdmin.fullName;
+    const payload = { fullName, email, id }
     // Generate token
-    jwt.sign(email, jwtSecret, (error, token) => {
+    jwt.sign(payload, jwtSecret, (error, token) => {
       if (error) {
         res.status(400).json({ message: "Validation error" });
       } else {
