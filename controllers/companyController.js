@@ -107,7 +107,7 @@ const getCompanyAllInfo = async (req, res) => {
         {
           model: postedJobs,
           required: false,
-          attributes: { exclude: ["id", "company_id", "deletedAt"] },
+          attributes: { exclude: [ "company_id", "deletedAt"] },
         },
         {
           model: locations,
