@@ -127,37 +127,37 @@ const getJobSeekerAllInfo = async (req, res) => {
           model: Education,
           required: false,
           attributes: {
-            exclude: [ "js_id", "deletedAt", "createdAt", "updatedAt"],
+            exclude: ["js_id", "deletedAt", "createdAt", "updatedAt"],
           },
         },
         {
           model: Experience,
           required: false,
           attributes: {
-            exclude: [ "js_id", "deletedAt", "createdAt", "updatedAt"],
+            exclude: ["js_id", "deletedAt", "createdAt", "updatedAt"],
           },
         },
         {
           model: Languages,
           required: false,
           attributes: {
-            exclude: [ "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+          }
         },
         {
           model: Skills,
           required: false,
           attributes: {
-            exclude: [ "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+          }
         },
         {
           model: jsSocialLinks,
           required: false,
           attributes: {
-            exclude: [ "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
-        },
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+          }
+        }
       ],
       attributes: {
         exclude: [
@@ -165,14 +165,14 @@ const getJobSeekerAllInfo = async (req, res) => {
           "password",
           "deletedAt",
           "createdAt",
-          "updatedAt",
-        ],
+          "updatedAt"
+        ]
       },
     });
     if (!allInfo) {
       return res.status(400).json({ message: "no information found!" });
     }
-    res.status(200).json({ token, allInfo});
+    res.status(200).json({ token, allInfo });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Error getting information!" });
@@ -199,7 +199,7 @@ const deleteJobSeeker = async (req, res) => {
 
     setTimeout(async () => {
       const permanentDelete = await jobSeeker.destroy({
-        where: {id: userId, deletedAt: { [Op.not]: null }},
+        where: { id: userId, deletedAt: { [Op.not]: null } },
         force: true, // Permanently delete the record
         include: [Education, Experience, Skills, Languages, jsSocialLinks, cv],
       });

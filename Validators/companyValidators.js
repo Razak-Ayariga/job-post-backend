@@ -1,4 +1,5 @@
 import Joi from "joi";
+// import companies from "../models/companyModel.js";
 
 //register company validator
 const companyRegisterValidator = (req, res, next) => {
@@ -17,7 +18,7 @@ const companyRegisterValidator = (req, res, next) => {
     email: Joi.string().required().email({ minDomainSegments: 2 }).messages({
       "string.email":
         "Invalid email format. Please provide a valid email address!",
-      "any.required": "Email is required!",
+      "any.required": "Email is required!"
     }),
 
     password: Joi.string()
@@ -69,15 +70,15 @@ const companyRegisterValidator = (req, res, next) => {
 
 //validate company login
 const companyLoginValidator = (req, res, next) => {
+  // const storedPassword = companies.password;
   const schema = Joi.object({
-    email: Joi.string().required(),
-    password: Joi.string().required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().required()
   }).with("email", "password");
   const { email, password } = req.body;
   const { error } = schema.validate({ email, password });
-  if (error) {
-    return res.status(400).json({ message: "email and password required" });
-  }
+  if (error) return res.status(400).json("email or password required");
+  // if(password !== storedPassword) return res.status(401).json("Invalid password");
   next();
 };
 

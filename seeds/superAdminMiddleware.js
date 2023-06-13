@@ -6,18 +6,20 @@ const jwtSecret = process.env.JWT_SECRET;
 
 const mainAdminToken = async (req, res, next) => {
   try {
-    const { email } = req.body;
+    const { email } = req.body
 
     const superAdmin = await superAdminModel.findOne({
       where: { email },
     });
     if (!superAdmin) {
-      res.status(403).json({ message: "Main Admin Only!" });
+      res.status(403).json({ message: "Invalid credentials" });
       return;
     }
-
+    const id = superAdmin.id
+    const fullName = superAdmin.fullName;
+    const payload = { fullName, email, id }
     // Generate token
-    jwt.sign(email, jwtSecret, (error, token) => {
+    jwt.sign(payload, jwtSecret, (error, token) => {
       if (error) {
         res.status(400).json({ message: "Validation error" });
       } else {
