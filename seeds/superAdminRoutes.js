@@ -1,17 +1,16 @@
 import express from "express";
 const router = express.Router();
 
-import {
-  mainAdminLogin,
-} from "./superAdminController.js";
+import { mainAdminLogin, changePassword } from "./superAdminController.js";
 
-import mainAdminToken from "./superAdminMiddleware.js"
+import { mainAdminToken, verifyAdminToken } from "./superAdminMiddleware.js";
 
 import {
-  superAdminLoginValidator, passwordChangeValidator
+  superAdminLoginValidator,
+  passwordChangeValidator,
 } from "./superAdminValidator.js";
 
-import { uploadLogoMiddleware } from "../middleware/companyMiddleware.js"
+import { uploadLogoMiddleware } from "../middleware/companyMiddleware.js";
 
 router.post(
   "/mainAdminLogin",
@@ -19,6 +18,14 @@ router.post(
   superAdminLoginValidator,
   mainAdminToken,
   mainAdminLogin
+);
+
+router.put(
+  "/changePassword",
+  uploadLogoMiddleware("").none(),
+  verifyAdminToken,
+  passwordChangeValidator,
+  changePassword
 );
 
 export default router;
