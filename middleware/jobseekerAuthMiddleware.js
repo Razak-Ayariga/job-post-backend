@@ -106,7 +106,17 @@ const uploadPhotoMiddleware = (destination) => {
     },
   });
 
-  const upload = multer({ storage });
+  const fileFilter = (req, file, cb) => {
+  const { mimetype } = file;
+    if (mimetype.includes("image")) {
+      cb(null, true)
+    } else {
+      cb(new Error("Upload only images!"));
+    }
+    return;
+  };
+
+  const upload = multer({ storage, fileFilter });
   return upload;
 };
 
