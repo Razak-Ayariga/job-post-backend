@@ -17,7 +17,7 @@ const mainAdminLogin = async (req, res) => {
       return res.status(403).json({ message: "Incorrect email or password" });
     }
 
-    const admin = [foundAdmin.fullName, foundAdmin.email]
+    const admin = [foundAdmin.fullName, foundAdmin.email];
 
     res.status(201).json({ message: "admin logged in!", token, admin });
     return;
@@ -26,18 +26,27 @@ const mainAdminLogin = async (req, res) => {
   }
 };
 
-const changePassword = async () => {
+const changePassword = async (req, res) => {
   try {
-    const { email, newPassword } = req.body
+    const { old_password, new_password } = req.body;
+    const email = req.email;
     const findAdmin = await superAdmin.findOne({ where: { email: email } });
     if (!findAdmin) {
       return res.status(403).json({ message: "Invalid credentials" });
     }
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    admin.password = hashedPassword;
-    await admin.save();
+    // Verify the old password
+    const passwordValid = await bcrypt.compare(
+      old_password,
+      findAdmin.password
+    );
+    if (!passwordValid) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+    const hashedPassword = await bcrypt.hash(new_password, 10);
+    findAdmin.password = hashedPassword;
+    const saved = await findAdmin.save();
 
-    console.log(`Admin password updated successfully`);
+    return res.json({ message: "Password updated successfully" });
   } catch (error) {
     console.error("Failed to update admin password:", error);
   }
