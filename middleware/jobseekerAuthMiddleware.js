@@ -31,7 +31,7 @@ const jobseekerSignUpToken = async (req, res, next) => {
   try {
     const findUser = await JobSeekersModel.findOne({ where: { email } });
     if (findUser) {
-      res.status(403).json("user already exist. Please login!");
+      res.status(403).json({message: "user already exist. Please login!"});
       return;
     }
     // generate a token for job seeker registeration

@@ -38,7 +38,6 @@ const registerCompany = async (req, res) => {
       ]
     });
     const company = addCompany.dataValues;
-    // console.log(company);
     res
       .status(201)
       .json({ message: "Company registered successfully!", token, company });
@@ -61,7 +60,7 @@ const companyLogin = async (req, res) => {
       return res.status(403).json({ message: "Company does not exist. Please register first!" });
     }
     bcrypt.compare(password, findUser.password)
-    if (password !== findUser.password) {
+    if (password == findUser.password) {
       return res.status(401).json({ message: "Invalid email or password" })
     }
 
@@ -232,7 +231,7 @@ const deleteCompany = async (req, res) => {
     await postedJobs.destroy({ where: { company_id: id } });
     await locations.destroy({ where: { company_id: id } });
     await findCompany.destroy();
-    res.status(200).json("Record deleted successfully!");
+    res.status(200).json({message: "Record deleted successfully!"});
 
     setTimeout(async () => {
       const permanentDelete = await companyModel.destroy({
@@ -241,9 +240,9 @@ const deleteCompany = async (req, res) => {
         include: [postedJobs, companyRegistration, locations]
       });
       if (permanentDelete) {
-        console.log("Record permanetly deleted!S");
+        console.log({ message:"Record permanetly deleted!"});
       }
-    }, 2 * 60 * 1000);
+    }, 30 *24 * 60 * 60 * 1000);
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Error deleting company!" });
