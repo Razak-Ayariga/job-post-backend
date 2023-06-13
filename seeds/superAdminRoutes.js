@@ -11,8 +11,11 @@ import {
   superAdminLoginValidator, passwordChangeValidator
 } from "./superAdminValidator.js";
 
+import { uploadLogoMiddleware } from "../middleware/companyMiddleware.js"
+
 router.post(
   "/mainAdminLogin",
+  uploadLogoMiddleware("").none(),
   superAdminLoginValidator,
   mainAdminToken,
   mainAdminLogin

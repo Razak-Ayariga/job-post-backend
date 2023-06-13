@@ -7,11 +7,6 @@ const superAdminLoginValidator = (req, res, next) => {
         password: Joi.string().required()
     })
         .with("email", "password");
-    const { email, password } = req.body;
-    const { error } = schema.validate({ email, password });
-    if (error) {
-        return res.status(400).json({ message: "email and password required!" });
-    }
     next();
 };
 

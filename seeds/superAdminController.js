@@ -5,7 +5,6 @@ const mainAdminLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
     const token = req.token;
-    const admin = req.body;
 
     // Check if admin exists
     const foundAdmin = await superAdmin.findOne({ where: { email } });
@@ -17,6 +16,8 @@ const mainAdminLogin = async (req, res) => {
     if (!passwordMatch) {
       return res.status(403).json({ message: "Incorrect email or password" });
     }
+
+    const admin = [foundAdmin.fullName, foundAdmin.email]
 
     res.status(201).json({ message: "admin logged in!", token, admin });
     return;

@@ -6,13 +6,13 @@ const jwtSecret = process.env.JWT_SECRET;
 
 const mainAdminToken = async (req, res, next) => {
   try {
-    const { email } = req.body;
+    const { email } = req.body
 
     const superAdmin = await superAdminModel.findOne({
       where: { email },
     });
     if (!superAdmin) {
-      res.status(403).json({ message: "Main Admin Only!" });
+      res.status(403).json({ message: "Invalid credentials" });
       return;
     }
     const id = superAdmin.id
