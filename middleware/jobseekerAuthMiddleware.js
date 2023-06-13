@@ -31,7 +31,7 @@ const jobseekerSignUpToken = async (req, res, next) => {
   try {
     const findUser = await JobSeekersModel.findOne({ where: { email } });
     if (findUser) {
-      res.status(403).json({message: "user already exist. Please login!"});
+      res.status(403).json({ message: "user already exist. Please login!" });
       return;
     }
     // generate a token for job seeker registeration
@@ -58,15 +58,15 @@ const jobseekerLogInToken = async (req, res, next) => {
   if (!findJobSeeker) {
     return res.status(403).json({ message: "Invalid email or password!" });
   }
-  const tokenVariables = { 
-    id:findJobSeeker.dataValues.id ,
+  const tokenVariables = {
+    id: findJobSeeker.dataValues.id,
     first_name: findJobSeeker.dataValues.first_name,
     middle_name: findJobSeeker.dataValues.middle_name,
     last_name: findJobSeeker.dataValues.last_name,
     email: findJobSeeker.dataValues.email,
-    gender:findJobSeeker.dataValues.gender,
-  }
-    const token = jwt.sign(tokenVariables, jwtSecret);
+    gender: findJobSeeker.dataValues.gender,
+  };
+  const token = jwt.sign(tokenVariables, jwtSecret);
   req.token = token;
   req.user = findJobSeeker.dataValues;
   next();
@@ -84,7 +84,6 @@ const verifyJobseekerToken = async (req, res, next) => {
     if (jobSeekerInfo) {
       req.userId = jobSeekerInfo.id;
       next();
-
     }
   } catch (error) {
     console.error("error verifying token");
@@ -107,9 +106,9 @@ const uploadPhotoMiddleware = (destination) => {
   });
 
   const fileFilter = (req, file, cb) => {
-  const { mimetype } = file;
+    const { mimetype } = file;
     if (mimetype.includes("image")) {
-      cb(null, true)
+      cb(null, true);
     } else {
       cb(new Error("Upload only images!"));
     }
