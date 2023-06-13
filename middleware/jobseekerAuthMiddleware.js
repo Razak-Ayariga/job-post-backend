@@ -31,7 +31,7 @@ const jobseekerSignUpToken = async (req, res, next) => {
   try {
     const findUser = await JobSeekersModel.findOne({ where: { email } });
     if (findUser) {
-      res.status(403).json("user already exist. Please login!");
+      res.status(403).json({message: "user already exist. Please login!"});
       return;
     }
     // generate a token for job seeker registeration
@@ -106,7 +106,17 @@ const uploadPhotoMiddleware = (destination) => {
     },
   });
 
-  const upload = multer({ storage });
+  const fileFilter = (req, file, cb) => {
+  const { mimetype } = file;
+    if (mimetype.includes("image")) {
+      cb(null, true)
+    } else {
+      cb(new Error("Upload only images!"));
+    }
+    return;
+  };
+
+  const upload = multer({ storage, fileFilter });
   return upload;
 };
 

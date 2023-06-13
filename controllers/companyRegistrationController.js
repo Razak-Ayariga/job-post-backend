@@ -26,7 +26,7 @@ const editRegistrationInfo = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ success: false, error: "Server Error" });
+    return res.status(500).json({ message: "Server Error" });
   }
 };
 

@@ -10,19 +10,17 @@ import {
 } from "../controllers/postJobController.js";
 
 import { companyDetails } from "../controllers/companyController.js";
-
 import postJobValidator from "../Validators/postJobValidator.js";
-import {
-  uploadLogoMiddleware,
-  verifyCompanyToken
-} from "../middleware/companyMiddleware.js";
+import { uploadLogoMiddleware, verifyCompanyToken } from "../middleware/companyMiddleware.js";
+import { getCompanyAllInfo } from "../controllers/companyController.js";
 
 router.post(
   "/postJob",
   uploadLogoMiddleware("").none(),
   verifyCompanyToken,
   postJobValidator,
-  postJob
+  postJob,
+  getCompanyAllInfo
 );
 
 router.get("/getOne/:id", getOneJob);
