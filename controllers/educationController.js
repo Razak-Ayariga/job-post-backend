@@ -32,8 +32,11 @@ const updateEducation = async (req, res) => {
     const updateRecord = await education.update(updateEdu, {
       where: { id: id },
     });
+    const updatedEdu = await education.findByPk(id);
     if (updateRecord) {
-      res.status(200).json({ message: "Education updated successfully!" });
+      res
+        .status(200)
+        .json({ message: "Education updated successfully!", updatedEdu });
     }
   } catch (error) {
     console.log(error);
