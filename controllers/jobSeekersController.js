@@ -102,7 +102,7 @@ const updateJobSeekerInfo = async (req, res) => {
       const updateResult = await jobSeeker.update(userInfo, {
         where: { id: userId },
       });
-      res.status(201).json({ message: "Updated successfully!", updateResult });
+      res.status(201).json({ message: "Updated successfully!", userInfo });
     }
   } catch (error) {
     res.status(400).json({ message: "failed to update!" });
@@ -212,6 +212,22 @@ const deleteJobSeeker = async (req, res) => {
   }
 };
 
+//Verify Email
+const verifyEmail = async (req, res) => {
+  try {
+    const email = req.body;
+    const findUser = await jobSeeker.findOne({ where: { email: email } });
+    if (!findUser) {
+      return res.status(400).json({ message: "User does not exist" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Failed verify email!" })
+  }
+};
+
+//Reset password
+
 export {
   registerJobSeeker,
   jobSeekerLogin,
@@ -220,4 +236,5 @@ export {
   getJobSeekerAllInfo,
   deleteJobSeeker,
   getAllJobSeekers,
+  verifyEmail
 };
