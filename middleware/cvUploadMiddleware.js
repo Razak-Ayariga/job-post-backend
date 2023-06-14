@@ -1,6 +1,8 @@
 import multer from "multer";
 import path from "path";
 const absolutePath = path.resolve("./");
+import cloudinary from  "../cloudinary/cloudinary.js";
+
 
 const uploadCvMiddleware = (destination) => {
   const directory = path.join(absolutePath, destination);
@@ -31,7 +33,19 @@ const uploadCvMiddleware = (destination) => {
   };
 
   const upload = multer({ storage, fileFilter });
-  return upload;
+
+  const cloudinaryUpload = (file) => {
+    return new Promise((resolve, reject) => {
+      cloudinary.uploader.upload(file.path, (result, error) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result.secure_url);
+        }
+      });
+    });
+  };
+  return {upload, cloudinaryUpload};
 };
 
 export default uploadCvMiddleware;
