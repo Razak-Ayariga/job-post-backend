@@ -27,7 +27,7 @@ const updateCv = async (req, res) => {
     if (!findCv) {
       return res.status(404).json({ message: "No cv found!" });
     }
-    const updateResults = await uploadCvModel.update(newCv,{ where: { id: id } });
+    const updateResults = await uploadCvModel.update(newCv, { where: { id: id } });
     if (updateResults) {
       res.status(200).json({ message: "Cv updated successfully!" });
     }
@@ -35,5 +35,23 @@ const updateCv = async (req, res) => {
     console.log(error);
     return res.status(400).json({ message: "Failed to update cv" });
   }
+};
+
+// Delete cv
+const deleteCv = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const findCv = await uploadCvModel.findByPk(id);
+    if (!findCv) {
+      return res.status(404).json({ message: "CV not found!" });
+    }
+    const deleteResults = await uploadCvModel.destroy({ where: { id: id } });
+    if (deleteResults) {
+      res.status(200).json({message:"CV deleted successfully!"})
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({message:"Error deleting cv!"})
+  }
 }
-export { uploadCvController, updateCv };
+export { uploadCvController, updateCv, deleteCv };

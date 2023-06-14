@@ -29,15 +29,15 @@ const updateJob = async (req, res) => {
     if (!findJob) {
       return res.status(404).json({ message: "Job recored not found!" });
     }
-    const updateResult = await postJobsModel.update(updateInfo,{where:{id:id}});
-    if (updateResult){
-      res.status(200).json({message:"Job updated successfully!"})
+    const updateResult = await postJobsModel.update(updateInfo, { where: { id: id } });
+    if (updateResult) {
+      res.status(200).json({ message: "Job updated successfully!" })
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json({messaage: "Error updating job"})
+    res.status(400).json({ messaage: "Error updating job" })
   }
-}
+};
 
 // get one job
 const getOneJob = async (req, res) => {
