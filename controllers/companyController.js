@@ -48,7 +48,7 @@ const registerCompany = async (req, res) => {
 };
 
 // Company login
-const companyLogin = async (req, res) => {
+const companyLogin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const token = req.token;
@@ -64,9 +64,10 @@ const companyLogin = async (req, res) => {
       return res.status(403).json({ message: "Invalid credentials" });
     }
 
-    res.status(201).json({ message: "company logged in!", token, company });
-    return;
+    // res.status(201).json({ message: "company logged in!", token });
+    next();
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Failed to log in!" });
   }
 };
@@ -95,7 +96,13 @@ const updateCompanyInfo = async (req, res) => {
 // get all info of a company
 const getCompanyAllInfo = async (req, res) => {
   try {
-    const company_id = req.company_id;
+    const token = req.token;
+    let company_id;
+    if (req.company_id) {
+      company_id = req.company_id;
+    } else {
+      company_id = req.company.id
+    }
     const allCompanyInfo = await companyModel.findAll({
       where: { id: company_id },
       include: [
@@ -118,7 +125,7 @@ const getCompanyAllInfo = async (req, res) => {
     });
     if (!allCompanyInfo)
       return res.status(400).json({ message: "No information found!" });
-    res.status(200).json(allCompanyInfo);
+    res.status(200).json({message:"Login successful!",token, allCompanyInfo });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: "Error getting information!" });

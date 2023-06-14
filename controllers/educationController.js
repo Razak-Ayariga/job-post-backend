@@ -7,7 +7,9 @@ const newEducationController = async (req, res) => {
     newEducation["js_id"] = id;
 
     const addEducation = await education.create(newEducation);
-    if (addEducation) return res.status(200).json({ message: "Education record added successfully!", addEducation });
+    if (addEducation) return res.status(200).json({
+      message: "Education record added successfully!", addEducation,getJobSeekerAllInfo
+    });
 
   } catch (error) {
     console.log(error);

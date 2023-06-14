@@ -2,13 +2,8 @@ import express from "express";
 const router = express.Router();
 
 import { mainAdminLogin, changePassword } from "./superAdminController.js";
-
 import { mainAdminToken, verifyAdminToken } from "./superAdminMiddleware.js";
-
-import {
-  superAdminLoginValidator,
-  passwordChangeValidator,
-} from "./superAdminValidator.js";
+import {superAdminLoginValidator,passwordChangeValidator} from "./superAdminValidator.js";
 
 import { uploadLogoMiddleware } from "../middleware/companyMiddleware.js";
 

@@ -1,6 +1,6 @@
 import companyRegistration from "../models/companyRegistrationModel.js";
 
-const editRegistrationInfo = async (req, res) => {
+const newRegistration = async (req, res) => {
   try {
     const addRegistration = req.body;
     const company_certificate = req.file?.filename;
@@ -30,4 +30,21 @@ const editRegistrationInfo = async (req, res) => {
   }
 };
 
-export default editRegistrationInfo;
+const updateRegistration = async (req, res) => {
+  try {
+    const newRegistration = req.body;
+    const { id } = req.params;
+    const findRegistration = await companyRegistration.findByPk(id);
+    if (!findRegistration) {
+      return res.status(404).json({ message: "No record found!" });
+    }
+    const updateResult = await companyRegistration.update(newRegistration,{ where: { id: id } });
+    if (updateResult) {
+      res.status(200).json({message:"Registration updated successfully!"})
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export { newRegistration, updateRegistration };

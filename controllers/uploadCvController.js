@@ -17,4 +17,23 @@ const uploadCvController = async (req, res) => {
     res.status(403).json({ message: "Failed to upload cv!" });
   }
 };
-export default uploadCvController;
+
+// update cv
+const updateCv = async (req, res) => {
+  try {
+    const newCv = req.body;
+    const { id } = req.params;
+    const findCv = await uploadCvModel.findByPk(id);
+    if (!findCv) {
+      return res.status(404).json({ message: "No cv found!" });
+    }
+    const updateResults = await uploadCvModel.update(newCv,{ where: { id: id } });
+    if (updateResults) {
+      res.status(200).json({ message: "Cv updated successfully!" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: "Failed to update cv" });
+  }
+}
+export { uploadCvController, updateCv };

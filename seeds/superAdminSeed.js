@@ -33,7 +33,7 @@ const seedAdmin = async () => {
 
       const existingAdmin = await superAdmin.findOne({ where: { email } });
       if (existingAdmin) {
-        console.log(`${fullName} is already seeded`);
+        // console.log(`${fullName} is already seeded`);
         continue;
       }
 
@@ -44,7 +44,7 @@ const seedAdmin = async () => {
         password: hashedPassword,
       });
 
-      console.log(`${fullName} seeded successfully`);
+      // console.log(`${fullName} seeded successfully`);
     }
   } catch (error) {
     console.error("Failed to seed admin:", error);

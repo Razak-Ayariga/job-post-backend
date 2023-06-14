@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-import editRegistrationInfo from "../controllers/companyRegistrationController.js";
+import { newRegistration, updateRegistration } from "../controllers/companyRegistrationController.js";
 import uploadRegistrationCertificate from "../middleware/companyRegistrationMiddleware.js";
 import companyRegistrationValidator from "../Validators/companyRegistrationValidator.js";
 import { verifyCompanyToken } from "../middleware/companyMiddleware.js";
@@ -12,8 +12,9 @@ router.post(
   uploadRegistrationCertificate("public/companyCert").single("company_certificate"),
   verifyCompanyToken,
   companyRegistrationValidator,
-  editRegistrationInfo,
+  newRegistration,
   getCompanyAllInfo
 );
+router.put("/update/:id", uploadRegistrationCertificate("").single(),updateRegistration);
 
 export default router;

@@ -44,7 +44,6 @@ const companySignupToken = async (req, res, next) => {
 //log in token
 const companyLoginToken = async (req, res, next) => {
   const companyInfo = req.body;
-  console.log(companyInfo);
   const findCompany = await companyModel.findOne({
     where: { email: companyInfo.email },
     attributes: { exclude: ["password", "description"] },
@@ -53,9 +52,13 @@ const companyLoginToken = async (req, res, next) => {
     res.status(403).json({ message: "Invalid email or password" });
     return;
   }
-
+  const tokenVariables = {
+    id: findCompany.dataValues.id,
+    company_name: findCompany.dataValues.company_name,
+    email: findCompany.dataValues.email,
+}
   // Generate company login token
-  const token = jwt.sign(findCompany.dataValues, jwtSecret);
+  const token = jwt.sign(tokenVariables, jwtSecret);
   req.token = token;
   req.company = findCompany.dataValues;
   next();

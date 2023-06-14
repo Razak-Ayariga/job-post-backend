@@ -38,7 +38,8 @@ router.post(
   uploadLogoMiddleware("").none(),
   companyLoginValidator,
   companyLoginToken,
-  companyLogin
+  companyLogin,
+  getCompanyAllInfo
 );
 
 router.put(

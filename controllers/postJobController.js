@@ -19,6 +19,26 @@ const postJob = async (req, res) => {
   }
 };
 
+//update a posted job
+const updateJob = async (req, res) => {
+  const updateInfo = req.body;
+  try {
+    console.log(updateInfo);
+    const { id } = req.params;
+    const findJob = await postJobsModel.findByPk(id);
+    if (!findJob) {
+      return res.status(404).json({ message: "Job recored not found!" });
+    }
+    const updateResult = await postJobsModel.update(updateInfo,{where:{id:id}});
+    if (updateResult){
+      res.status(200).json({message:"Job updated successfully!"})
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({messaage: "Error updating job"})
+  }
+}
+
 // get one job
 const getOneJob = async (req, res) => {
   try {
@@ -104,4 +124,4 @@ const deleteJob = async (req, res) => {
   }
 };
 
-export { postJob, getOneJob, getAllJobs, deleteJob, getAllAvailableJobs }; //companyDetails };
+export { postJob, getOneJob, getAllJobs, deleteJob, getAllAvailableJobs, updateJob }; //companyDetails };

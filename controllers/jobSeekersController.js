@@ -54,7 +54,6 @@ const registerJobSeeker = async (req, res) => {
 
 // job seeker login
 const jobSeekerLogin = async (req, res, next) => {
-
   const token = req.token;
   const user = req.user;
   next();
@@ -172,7 +171,7 @@ const getJobSeekerAllInfo = async (req, res) => {
     if (!allInfo) {
       return res.status(400).json({ message: "no information found!" });
     }
-    res.status(200).json({ token, allInfo });
+    res.status(200).json({message:"Login successful!", token, allInfo });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Error getting information!" });
