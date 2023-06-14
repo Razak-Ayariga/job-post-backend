@@ -7,13 +7,37 @@ const newEducationController = async (req, res) => {
     newEducation["js_id"] = id;
 
     const addEducation = await education.create(newEducation);
-    if (addEducation) return res.status(200).json({
-      message: "Education record added successfully!", addEducation,getJobSeekerAllInfo
-    });
-
+    if (addEducation)
+      return res.status(200).json({
+        message: "Education record added successfully!",
+        addEducation,
+        //getJobSeekerAllInfo,
+      });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Failed to add education record!" });
+  }
+};
+
+//update education
+const updateEducation = async (req, res) => {
+  const updateEdu = req.body;
+  try {
+    console.log(updateEdu);
+    const { id } = req.params;
+    const findEdu = await education.findByPk(id);
+    if (!findEdu) {
+      return res.status(404).json({ message: "Education recored not found!" });
+    }
+    const updateRecord = await education.update(updateEdu, {
+      where: { id: id },
+    });
+    if (updateRecord) {
+      res.status(200).json({ message: "Education updated successfully!" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ messaage: "Error updating education" });
   }
 };
 
@@ -35,14 +59,18 @@ const getOneEducation = async (req, res) => {
 // get all education records
 const getAllEducation = async (req, res) => {
   try {
-    const findAllEducation = await education.findAll({ attributes:{exclude:["id","js_id","deletedAt"]} });
+    const findAllEducation = await education.findAll({
+      attributes: { exclude: ["id", "js_id", "deletedAt"] },
+    });
     if (!findAllEducation) {
       return res.status(404).json({ message: "No education records found!" });
     }
     res.status(200).json(findAllEducation);
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: "Error getting all education records!" });
+    return res
+      .status(400)
+      .json({ message: "Error getting all education records!" });
   }
 };
 
@@ -56,7 +84,9 @@ const deleteEducation = async (req, res) => {
     } else {
       const deleteResults = await education.destroy({ where: { id: id } });
       if (deleteResults) {
-        return res.status(200).json({ message: "Education record deleted successfully" });
+        return res
+          .status(200)
+          .json({ message: "Education record deleted successfully" });
       }
     }
   } catch (error) {
@@ -65,4 +95,10 @@ const deleteEducation = async (req, res) => {
   }
 };
 
-export {newEducationController, getOneEducation, getAllEducation, deleteEducation};
+export {
+  newEducationController,
+  updateEducation,
+  getOneEducation,
+  getAllEducation,
+  deleteEducation,
+};

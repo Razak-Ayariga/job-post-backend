@@ -3,6 +3,7 @@ const router = express.Router();
 
 import {
   newEducationController,
+  updateEducation,
   getOneEducation,
   getAllEducation,
   deleteEducation,
@@ -22,6 +23,14 @@ router.post(
   verifyJobseekerToken,
   educationValidator,
   newEducationController
+);
+
+router.put(
+  "/updateEducation/:id",
+  uploadPhotoMiddleware("").none(),
+  verifyJobseekerToken,
+  educationValidator,
+  updateEducation
 );
 
 router.get("/oneEducation/:id", getOneEducation);
