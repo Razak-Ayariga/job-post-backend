@@ -28,7 +28,7 @@ router.get("/getOne/:id", getOneJob);
 router.get("/getAll/:id", getAllJobs);
 router.get("/availableJobs", /*getAllAvailableJobs,*/ companyDetails);
 router.delete("/deleteJob/:id", deleteJob);
-router.put("/update/:id", uploadLogoMiddleware("").none(), updateJob);
+router.put("/update/:id", uploadLogoMiddleware("").none(),verifyCompanyToken, updateJob);
 // router.get("/companyDetails/:id", companyDetails);
 
 export default router;

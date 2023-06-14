@@ -65,12 +65,15 @@ const postedJobs = sequelize.define(
     contact: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: "active"
     }
   },
   {
     paranoid: true
   }
 );
-// companies.hasMany(postedJobs, { foreignKey: "company_id" });
 
 export default postedJobs;

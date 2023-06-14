@@ -27,7 +27,7 @@ const updateJob = async (req, res) => {
     const { id } = req.params;
     const findJob = await postJobsModel.findByPk(id);
     if (!findJob) {
-      return res.status(404).json({ message: "Job recored not found!" });
+      return res.status(404).json({ message: "Job record not found!" });
     }
     const updateResult = await postJobsModel.update(updateInfo, { where: { id: id } });
     if (updateResult) {
