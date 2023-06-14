@@ -17,7 +17,7 @@ import {
   companySignupToken,
   companyLoginToken,
   verifyCompanyToken,
-  uploadLogoMiddleware,
+  uploadLogoMiddleware
 } from "../middleware/companyMiddleware.js";
 
 import {

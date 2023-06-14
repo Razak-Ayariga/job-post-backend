@@ -8,10 +8,10 @@ import { uploadLogoMiddleware } from "../middleware/companyMiddleware.js";
 import { getCompanyAllInfo } from "../controllers/companyController.js";
 
 router.put("/location", uploadLogoMiddleware("").none(),
-    verifyCompanyToken,
-    validateLocation,
-    addLocation,
-    getCompanyAllInfo
+  verifyCompanyToken,
+  validateLocation,
+  addLocation,
+  getCompanyAllInfo
 );
 
 export default router;

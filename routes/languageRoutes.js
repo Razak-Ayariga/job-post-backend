@@ -5,7 +5,7 @@ import {
   addLanguage,
   getAllLanguages,
   getOneLanguage,
-  deleteLanguage,
+  deleteLanguage
 } from "../controllers/languageController.js";
 import languageValidator from "../Validators/languageValidator.js";
 import { verifyJobseekerToken } from "../middleware/jobseekerAuthMiddleware.js";

@@ -7,7 +7,7 @@ import { mainAdminToken, verifyAdminToken } from "./superAdminMiddleware.js";
 
 import {
   superAdminLoginValidator,
-  passwordChangeValidator,
+  passwordChangeValidator
 } from "./superAdminValidator.js";
 
 import { uploadLogoMiddleware } from "../middleware/companyMiddleware.js";

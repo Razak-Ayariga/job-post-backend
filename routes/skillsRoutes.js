@@ -4,7 +4,7 @@ import {
   getAllSkills,
   createSkills,
   updateSkills,
-  deleteSkill,
+  deleteSkill
 } from "../controllers/SkillsController.js";
 import skillsValidator from "../Validators/skillsValidator.js";
 import { verifyJobseekerToken, uploadPhotoMiddleware } from "../middleware/jobseekerAuthMiddleware.js";

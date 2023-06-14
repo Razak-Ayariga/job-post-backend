@@ -5,11 +5,11 @@ import {
   addExperienceController,
   getOneExperience,
   getAllExperience,
-  deleteExperience,
+  deleteExperience
 } from "../controllers/experienceController.js";
 
 import addExperienceValidator from "../Validators/experienceValidator.js";
-import { verifyJobseekerToken, uploadPhotoMiddleware, } from "../middleware/jobseekerAuthMiddleware.js";
+import { verifyJobseekerToken, uploadPhotoMiddleware } from "../middleware/jobseekerAuthMiddleware.js";
 import { getJobSeekerAllInfo } from "../controllers/jobSeekersController.js";
 
 

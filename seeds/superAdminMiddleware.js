@@ -9,7 +9,7 @@ const mainAdminToken = async (req, res, next) => {
     const { email } = req.body;
 
     const superAdmin = await superAdminModel.findOne({
-      where: { email },
+      where: { email }
     });
     if (!superAdmin) {
       res.status(403).json({ message: "Invalid credentials" });

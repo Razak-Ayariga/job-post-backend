@@ -8,19 +8,19 @@ import {
   updateJobSeekerInfo,
   getJobSeekerAllInfo,
   deleteJobSeeker,
-  getAllJobSeekers,
+  getAllJobSeekers
 } from "../controllers/jobSeekersController.js";
 
 import {
   jobSeekerRegisterValidator,
-  jobSeekerLogInValidator,
+  jobSeekerLogInValidator
 } from "../validators/jobseekerValidator.js";
 
 import {
   jobseekerSignUpToken,
   jobseekerLogInToken,
   verifyJobseekerToken,
-  uploadPhotoMiddleware,
+  uploadPhotoMiddleware
 } from "../middleware/jobseekerAuthMiddleware.js";
 
 router.post(
@@ -50,5 +50,5 @@ router.put(
   verifyJobseekerToken,
   updateJobSeekerInfo
 );
-router.delete("/deleteJobSeeker/:id", deleteJobSeeker)
+router.delete("/deleteJobSeeker/:id", deleteJobSeeker);
 export default router;

@@ -7,11 +7,11 @@ import educationValidator from "../Validators/educationValidators.js";
 import { getJobSeekerAllInfo } from "../controllers/jobSeekersController.js";
 
 router.post("/addEducation",
-    uploadPhotoMiddleware("").none(),
-    verifyJobseekerToken,
-    educationValidator,
-    newEducationController,
-getJobSeekerAllInfo);
+  uploadPhotoMiddleware("").none(),
+  verifyJobseekerToken,
+  educationValidator,
+  newEducationController,
+  getJobSeekerAllInfo);
 
 router.get("/oneEducation/:id", getOneEducation);
 router.get("/allEducation/:js_id", getAllEducation);
