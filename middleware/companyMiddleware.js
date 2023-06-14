@@ -13,11 +13,11 @@ const companySignupToken = async (req, res, next) => {
     const companyInfo = {
       company_name,
       email,
-      mobile_number,
+      mobile_number
     };
 
     const findCompany = await companyModel.findOne({
-      where: { email: companyInfo.email },
+      where: { email: companyInfo.email }
     });
     if (findCompany) {
       res
@@ -47,7 +47,7 @@ const companyLoginToken = async (req, res, next) => {
   console.log(companyInfo);
   const findCompany = await companyModel.findOne({
     where: { email: companyInfo.email },
-    attributes: { exclude: ["password", "description"] },
+    attributes: { exclude: ["password", "description"] }
   });
   if (!findCompany) {
     res.status(403).json({ message: "Invalid email or password" });
@@ -91,13 +91,13 @@ const uploadLogoMiddleware = (destination) => {
       const filename =
         file.fieldname + "_" + Date.now() + path.extname(file.originalname);
       cb(null, filename);
-    },
+    }
   });
 
   const fileFilter = (req, file, cb) => {
-  const { mimetype } = file;
+    const { mimetype } = file;
     if (mimetype.includes("image")) {
-      cb(null, true)
+      cb(null, true);
     } else {
       cb(new Error("Upload only images!"));
     }
@@ -112,5 +112,5 @@ export {
   companySignupToken,
   verifyCompanyToken,
   companyLoginToken,
-  uploadLogoMiddleware,
+  uploadLogoMiddleware
 };

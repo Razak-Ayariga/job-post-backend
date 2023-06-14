@@ -6,22 +6,22 @@ const skills = sequelize.define("Skills", {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
-    allowNull: false,
+    allowNull: false
   },
 
   js_id: {
     type: DataTypes.UUID,
     references: {
       model: "job_seekers",
-      key: "id",
+      key: "id"
     },
     onDelete:"CASCADE"
   },
 
   skill_name: {
     type: DataTypes.STRING,
-    allowNull: false,
-  },
+    allowNull: false
+  }
 
 });
 

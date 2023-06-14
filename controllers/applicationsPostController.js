@@ -1,8 +1,7 @@
 import postJobsModel from "../models/postJobsModel.js";
 import applicationsModel from "../models/applicationsPostModel.js";
 
-
-//applying for a 
+//applying for a job
 const applyForJob = async (req, res) => {
   try {
     const { js_id, jobs_id, application } = req.body;
@@ -18,7 +17,7 @@ const applyForJob = async (req, res) => {
     const newApplication = await applicationsModel.create({
       js_id: js_id,
       jobs_id: jobs_id,
-      application: application,
+      application: application
     });
 
     if (newApplication) {
@@ -59,7 +58,7 @@ const getAppliedJobs = async (req, res) => {
     const { js_id } = req.params;
     const appliedJobs = await applicationsModel.findAll({
       where: { js_id: js_id },
-      include: [{ model: postJobsModel, as: "job" }],
+      include: [{ model: postJobsModel, as: "job" }]
     });
     res.status(200).json(appliedJobs);
   } catch (error) {
@@ -67,5 +66,4 @@ const getAppliedJobs = async (req, res) => {
     res.status(400).json({ message: "Error getting applied jobs!" });
   }
 };
-
 export { getAllApplicants, getAppliedJobs, applyForJob };

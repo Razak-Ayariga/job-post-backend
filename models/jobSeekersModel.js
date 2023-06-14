@@ -6,7 +6,7 @@ import skills from "./skillsModel.js";
 import languages from "./languageModel.js";
 import jsSocialLinks from "./jsSocialLinksModel.js";
 import uploadCvModel from "./uploadCvModel.js";
-import applications from "../models/applicationsModel.js"
+import applications from "../models/applicationsModel.js";
 
 const jobSeeker = sequelize.define(
   "job_seeker",
@@ -15,48 +15,48 @@ const jobSeeker = sequelize.define(
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
-      allowNull: false,
+      allowNull: false
     },
     first_name: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: true
     },
     middle_name: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: true
     },
     last_name: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     date_of_birth: {
       type: DataTypes.DATE,
-      allowNull: false,
+      allowNull: false
     },
     gender: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isEmail: true,
-      },
+        isEmail: true
+      }
     },
     phone: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     photo: {
       type: DataTypes.STRING,
       defaultValue: "avatar.jpg",
-      allowNull: true,
-    },
+      allowNull: true
+    }
   },
   {
     paranoid: true

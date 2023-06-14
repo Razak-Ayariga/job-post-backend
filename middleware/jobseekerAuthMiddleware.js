@@ -17,7 +17,7 @@ const jobseekerSignUpToken = async (req, res, next) => {
     date_of_birth,
     gender,
     email,
-    phone_number,
+    phone_number
   } = req.body;
   const jobSeekerInfo = {
     first_name,
@@ -26,7 +26,7 @@ const jobseekerSignUpToken = async (req, res, next) => {
     date_of_birth,
     gender,
     email,
-    phone_number,
+    phone_number
   };
   try {
     const findUser = await JobSeekersModel.findOne({ where: { email } });
@@ -53,20 +53,20 @@ const jobseekerSignUpToken = async (req, res, next) => {
 const jobseekerLogInToken = async (req, res, next) => {
   const jobSeekerInfo = req.body;
   const findJobSeeker = await JobSeekersModel.findOne({
-    where: { email: jobSeekerInfo.email },
+    where: { email: jobSeekerInfo.email }
   });
   if (!findJobSeeker) {
     return res.status(403).json({ message: "Invalid email or password!" });
   }
-  const tokenVariables = { 
-    id:findJobSeeker.dataValues.id ,
+  const tokenVariables = {
+    id: findJobSeeker.dataValues.id,
     first_name: findJobSeeker.dataValues.first_name,
     middle_name: findJobSeeker.dataValues.middle_name,
     last_name: findJobSeeker.dataValues.last_name,
     email: findJobSeeker.dataValues.email,
-    gender:findJobSeeker.dataValues.gender,
-  }
-    const token = jwt.sign(tokenVariables, jwtSecret);
+    gender: findJobSeeker.dataValues.gender
+  };
+  const token = jwt.sign(tokenVariables, jwtSecret);
   req.token = token;
   req.user = findJobSeeker.dataValues;
   next();
@@ -103,13 +103,13 @@ const uploadPhotoMiddleware = (destination) => {
       const filename =
         file.fieldname + "_" + Date.now() + path.extname(file.originalname);
       cb(null, filename);
-    },
+    }
   });
 
   const fileFilter = (req, file, cb) => {
-  const { mimetype } = file;
+    const { mimetype } = file;
     if (mimetype.includes("image")) {
-      cb(null, true)
+      cb(null, true);
     } else {
       cb(new Error("Upload only images!"));
     }
@@ -124,5 +124,5 @@ export {
   jobseekerSignUpToken,
   jobseekerLogInToken,
   verifyJobseekerToken,
-  uploadPhotoMiddleware,
+  uploadPhotoMiddleware
 };

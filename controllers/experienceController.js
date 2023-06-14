@@ -34,7 +34,7 @@ const getOneExperience = async (req, res) => {
 // get all experience records
 const getAllExperience = async (req, res) => {
   try {
-  const js_id = req.params.js_id;
+    const js_id = req.params.js_id;
     const findAllExperience = await experience.findAll({where: { js_id: js_id }});
     if (findAllExperience) {
       return res.status(200).json(findAllExperience);
@@ -53,7 +53,7 @@ const deleteExperience = async (req, res) => {
       return res.status(404).json({ mesaage: "Experience not found!" });
     } else {
       const deleteResults = await experience.destroy({
-        where: { id: id },
+        where: { id: id }
       });
       if (deleteResults)
         return res
@@ -70,5 +70,5 @@ export {
   addExperienceController,
   getOneExperience,
   deleteExperience,
-  getAllExperience,
+  getAllExperience
 };

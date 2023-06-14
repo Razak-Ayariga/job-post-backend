@@ -25,7 +25,7 @@ const getAllLanguages = async (req, res) => {
   try {
     const js_id = req.params;
     const languageRecords = await languageModel.findAll({
-      where: { js_id: js_id },
+      where: { js_id: js_id }
     });
     if (!languageRecords) {
       return res.status(404).json({ message: "language not found" });

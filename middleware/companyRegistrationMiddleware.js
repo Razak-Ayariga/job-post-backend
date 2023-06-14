@@ -12,7 +12,7 @@ const uploadRegistrationCertificate = (destination) => {
       const filename =
         file.fieldname + "_" + Date.now() + path.extname(file.originalname);
       cb(null, filename);
-    },
+    }
   });
   const upload = multer({ storage });
   return upload;

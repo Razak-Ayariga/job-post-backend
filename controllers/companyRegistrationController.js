@@ -11,7 +11,7 @@ const editRegistrationInfo = async (req, res) => {
     const { registration_number, vat_number } = req.body;
     const registrationInfo = { registration_number, vat_number };
     const findRegistration = await companyRegistration.findOne({
-      where: { registration_number: registrationInfo.registration_number },
+      where: { registration_number: registrationInfo.registration_number }
     });
     if (findRegistration) {
       return res.status(403).json({ message: "Registration already added!" });

@@ -12,7 +12,7 @@ const companyRegisterValidator = (req, res, next) => {
         "any.required": "Company name is required!",
         "string.min": "Company name cannot be less than three letters!",
         "string.pattern.base":
-          "Company name can only contain letters, numbers and a hyphen(-)!",
+          "Company name can only contain letters, numbers and a hyphen(-)!"
       }),
 
     email: Joi.string().required().email({ minDomainSegments: 2 }).messages({
@@ -29,14 +29,14 @@ const companyRegisterValidator = (req, res, next) => {
         "string.pattern.base":
           "Password must include at least one special character, lowercase, and uppercase letter!",
         "string.min": "Password must be at least 8 characters!",
-        "any.required": "Password is required!",
+        "any.required": "Password is required!"
       }),
 
     confirm_password: Joi.string()
       .required()
       .equal(Joi.ref("password"))
       .messages({
-        "any.only": "Passwords do not match!",
+        "any.only": "Passwords do not match!"
       }),
 
     mobile_number: Joi.string()
@@ -46,12 +46,12 @@ const companyRegisterValidator = (req, res, next) => {
         "string.pattern.base":
           "Phone number can contain only numbers and must start with +",
         "string.length": "Phone number must be exactly 13 digits",
-        "any.required": "Phone number is required!",
+        "any.required": "Phone number is required!"
       }),
     verification_method: Joi.string().required().messages({
       "any.only":
         "Verification method must be either 'Registration Certificate' or 'VAT Number'!",
-      "any.required": "Verification method is required!",
+      "any.required": "Verification method is required!"
     }),
 
     linkedin: Joi.string(),

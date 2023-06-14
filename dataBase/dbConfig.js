@@ -1,20 +1,20 @@
 import { Sequelize } from "sequelize";
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.USER_NAME, process.env.PASSWORD, {
-    host: process.env.HOST,
-    dialect: "mysql",
-    logging: false
+  host: process.env.HOST,
+  dialect: "mysql",
+  logging: false
 });
 
 (async () => {
-    try {
-        await import("../seeds/superAdminSeed.js");
-    } catch (error) {
-        console.error("Failed to seed admin:", error);
-    }
+  try {
+    await import("../seeds/superAdminSeed.js");
+  } catch (error) {
+    console.error("Failed to seed admin:", error);
+  }
 })();
 const dbClose = () => {
-    sequelize.close();
-}
+  sequelize.close();
+};
 
 export default sequelize;

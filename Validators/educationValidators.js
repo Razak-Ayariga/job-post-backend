@@ -4,17 +4,16 @@ const educationValidator = (req, res, next) => {
   console.log(req.body);
   const schema = Joi.object({
     institution: Joi.string().required().messages({
-      "any.required": "Name of Institution is required!",
+      "any.required": "Name of Institution is required!"
     }),
-    
     certification: Joi.string().required().messages({
-      "any.required": "Certication obtained is required!",
+      "any.required": "Certication obtained is required!"
     }),
     field_of_study: Joi.string().required().messages({
-      "any.required": "Field of study is required!",
+      "any.required": "Field of study is required!"
     }),
     start_date: Joi.date().required().messages({
-      "any.required": "Start_date is required!",
+      "any.required": "Start_date is required!"
     }),
     end_date: Joi.date()
   });

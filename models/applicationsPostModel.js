@@ -10,29 +10,29 @@ const applicationsPostModel = sequelize.define(
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
-      allowNull: false,
+      allowNull: false
     },
     js_id: {
       type: DataTypes.UUID,
       references: {
         model: jobSeekersModel,
-        key: "id",
-      },
+        key: "id"
+      }
     },
     jobs_id: {
       type: DataTypes.UUID,
       references: {
         model: postJobsModel,
-        key: "id",
-      },
+        key: "id"
+      }
     },
     applications: {
       type: DataTypes.STRING,
-      allowNull: false,
-    },
+      allowNull: false
+    }
   },
   {
-    paranoid: true,
+    paranoid: true
   }
 );
 

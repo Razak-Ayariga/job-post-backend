@@ -34,7 +34,7 @@ const registerCompany = async (req, res) => {
         "password",
         "email",
         "mobile_number",
-        "verification_method",
+        "verification_method"
       ]
     });
     const company = addCompany.dataValues;
@@ -59,9 +59,9 @@ const companyLogin = async (req, res) => {
     if (!findUser) {
       return res.status(403).json({ message: "Company does not exist. Please register first!" });
     }
-    bcrypt.compare(password, findUser.password)
+    bcrypt.compare(password, findUser.password);
     if (password == findUser.password) {
-      return res.status(401).json({ message: "Invalid email or password" })
+      return res.status(401).json({ message: "Invalid email or password" });
     }
 
     res.status(201).json({ message: "company logged in!", token, company });
@@ -79,10 +79,10 @@ const updateCompanyInfo = async (req, res) => {
     const company_id = req.company_id;
     companyInfo["logo"] = logo;
     const updateResult = await companyModel.update(companyInfo, {
-      where: { id: company_id },
+      where: { id: company_id }
     });
     const findCompany = await companyModel.findAll({
-      where: { id: company_id },
+      where: { id: company_id }
     });
     if (updateResult) {
       res.status(201).json({ message: "Updated successfully!", findCompany });
@@ -102,19 +102,19 @@ const getCompanyAllInfo = async (req, res) => {
         {
           model: companyRegistration,
           required: false,
-          attributes: { exclude: ["id", "company_id", "deletedAt"] },
+          attributes: { exclude: ["id", "company_id", "deletedAt"] }
         },
         {
           model: postedJobs,
           required: false,
-          attributes: { exclude: [ "company_id", "deletedAt"] },
+          attributes: { exclude: [ "company_id", "deletedAt"] }
         },
         {
           model: locations,
           required: false,
           attributes: { exclude: ["id", "company_id", "deletedAt"] }
         }
-      ],
+      ]
     });
     if (!allCompanyInfo)
       return res.status(400).json({ message: "No information found!" });
@@ -129,12 +129,12 @@ const getCompanyAllInfo = async (req, res) => {
 const companyDetails = async (req, res) => {
   try {
     const allDetails = await companyModel.findAll({ include: [
-        {
-          model: postedJobs,
-          required: false,
-          attributes:{exclude:["deletedAt","company_id","createdAt","updatedAt"]}
-        }
-      ], attributes:{exclude:["id","deletedAt","createdAt","updatedAt"]}
+      {
+        model: postedJobs,
+        required: false,
+        attributes:{exclude:["deletedAt","company_id","createdAt","updatedAt"]}
+      }
+    ], attributes:{exclude:["id","deletedAt","createdAt","updatedAt"]}
     });
     if (!allDetails) {
       return res.status(400).json({ message: "No information found!" });
@@ -142,7 +142,7 @@ const companyDetails = async (req, res) => {
     res.status(200).json(allDetails);
   } catch (error) {
     console.log(error);
-    res.status(400).json({ message: "Error getting information" })
+    res.status(400).json({ message: "Error getting information" });
   }
 };
 
@@ -173,41 +173,41 @@ const jobSeekerAllInfo = async (req, res) => {
           model: Education,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
           }
         },
         {
           model: Experience,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
           }
         },
         {
           model: Languages,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
           }
         },
         {
           model: Skills,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
           }
         },
         {
           model: jsSocialLinks,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
           }
         }
       ],
       attributes: {
-        exclude: ["id","js_id","password","deletedAt","createdAt","updatedAt"],
-      },
+        exclude: ["id","js_id","password","deletedAt","createdAt","updatedAt"]
+      }
     });
     if (!allInfo) {
       return res.status(400).json({ message: "no information found!" });

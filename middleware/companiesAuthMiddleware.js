@@ -6,20 +6,20 @@ const jwtSecret = process.env.JWT_SECRET;
 //middleware to generate company jwt
 const companyToken = async (req, res, next) => {
   const { companyEmail } = req.body;
-    console.log(companyEmail);
-    
+  console.log(companyEmail);
+
   // generate token for company
-  jwt.sign( companyEmail, jwtSecret, (error, token) =>{
-    if(error){
-      res.status(400).json({message: "validation error"})
-  
-    }else {
+  jwt.sign(companyEmail, jwtSecret, (error, token) => {
+    if (error) {
+      res.status(400).json({ message: "validation error" })
+
+    } else {
       req.token = token;
       console.log(token);
       next();
     }
   });
-}
+};
 
 //middleware to verify token
 const verifyCompanyToken = (req, res, next) => {

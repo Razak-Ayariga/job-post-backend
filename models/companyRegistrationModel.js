@@ -29,7 +29,7 @@ const companyRegistration = sequelize.define(
     company_certificate: {
       type: DataTypes.STRING,
       allowNull: false
-    },
+    }
   },
   {
     paranoid: true

@@ -38,8 +38,8 @@ const registerJobSeeker = async (req, res) => {
         "password",
         "gender",
         "email",
-        "phone",
-      ],
+        "phone"
+      ]
     }).then((response) => {
       const user = response.dataValues;
 
@@ -65,7 +65,7 @@ const getJobSeeker = async (req, res) => {
   const id = req.userId;
   const findUser = await jobSeeker.findOne({
     id,
-    attributes: { exclude: ["password"] },
+    attributes: { exclude: ["password"] }
   });
   if (findUser) {
     return res.status(200).json({ jobseeker: findUser.dataValues });
@@ -78,7 +78,7 @@ const getJobSeeker = async (req, res) => {
 const getAllJobSeekers = async (req, res) => {
   try {
     const findAllJobSeekers = await jobSeeker.findAll({
-      attributes: { exclude: ["id", "password", "deletedAt"] },
+      attributes: { exclude: ["id", "password", "deletedAt"] }
     });
     if (!findAllJobSeekers) {
       return res.status(400).json({message: "No job seekers available!"});
@@ -97,11 +97,11 @@ const updateJobSeekerInfo = async (req, res) => {
     const photo = req.file?.filename;
     userInfo["photo"] = photo;
     const findJobSeeker = await jobSeeker.findAll({
-      where: { id: userId },
+      where: { id: userId }
     });
     if (findJobSeeker) {
       const updateResult = await jobSeeker.update(userInfo, {
-        where: { id: userId },
+        where: { id: userId }
       });
       res.status(201).json({ message: "Updated successfully!", updateResult });
     }
@@ -127,35 +127,35 @@ const getJobSeekerAllInfo = async (req, res) => {
           model: Education,
           required: false,
           attributes: {
-            exclude: ["js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+            exclude: ["js_id", "deletedAt", "createdAt", "updatedAt"]
+          }
         },
         {
           model: Experience,
           required: false,
           attributes: {
-            exclude: ["js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+            exclude: ["js_id", "deletedAt", "createdAt", "updatedAt"]
+          }
         },
         {
           model: Languages,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
           }
         },
         {
           model: Skills,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
           }
         },
         {
           model: jsSocialLinks,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
           }
         }
       ],
@@ -167,7 +167,7 @@ const getJobSeekerAllInfo = async (req, res) => {
           "createdAt",
           "updatedAt"
         ]
-      },
+      }
     });
     if (!allInfo) {
       return res.status(400).json({ message: "no information found!" });
@@ -201,7 +201,7 @@ const deleteJobSeeker = async (req, res) => {
       const permanentDelete = await jobSeeker.destroy({
         where: { id: userId, deletedAt: { [Op.not]: null } },
         force: true, // Permanently delete the record
-        include: [Education, Experience, Skills, Languages, jsSocialLinks, cv],
+        include: [Education, Experience, Skills, Languages, jsSocialLinks, cv]
       });
       if (permanentDelete) {
         console.log(`Record permanently deleted for ID: ${userId}`);
@@ -220,5 +220,5 @@ export {
   updateJobSeekerInfo,
   getJobSeekerAllInfo,
   deleteJobSeeker,
-  getAllJobSeekers,
+  getAllJobSeekers
 };
