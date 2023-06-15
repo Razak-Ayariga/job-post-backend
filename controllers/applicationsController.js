@@ -35,7 +35,10 @@ const applicantInfo = async (req, res) => {
                     model: jobSeeker,
                     required: true
                 }
-            ]
+            ],
+            // attributes: {
+            //     exclude: ["JobId"]
+            // }
         });
         if (allInfo) {
             res.status(200).json(allInfo);

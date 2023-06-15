@@ -52,7 +52,7 @@ const applications = sequelize.define(
   await sequelize.sync();
 })();
 
-applications.belongsToMany(jobSeeker, { through: "js_id" });
-applications.belongsTo(jobs, { through: "job_id" });
+applications.belongsTo(jobSeeker, { foreignKey: "js_id" });
+applications.belongsTo(jobs, { foreignKey: "job_id" });
 
 export default applications;
