@@ -6,8 +6,8 @@ import {
   getOneJob,
   getAllJobs,
   deleteJob,
-  updateJob
-  // getAllAvailableJobs,
+  updateJob,
+  getAllAvailableJobs
 } from "../controllers/postJobController.js";
 
 import { companyDetails } from "../controllers/companyController.js";
@@ -26,9 +26,9 @@ router.post(
 
 router.get("/getOne/:id", getOneJob);
 router.get("/getAll/:id", getAllJobs);
-router.get("/availableJobs", /*getAllAvailableJobs,*/ companyDetails);
+router.get("/availableJobs", getAllAvailableJobs);
 router.delete("/deleteJob/:id", deleteJob);
-router.put("/update/:id", uploadLogoMiddleware("").none(),verifyCompanyToken, updateJob);
+router.put("/update/:id", uploadLogoMiddleware("").none(), verifyCompanyToken, updateJob);
 // router.get("/companyDetails/:id", companyDetails);
 
 export default router;

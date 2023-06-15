@@ -14,19 +14,18 @@ const newRegistration = async (req, res) => {
       where: { registration_number: registrationInfo.registration_number },
     });
     if (findRegistration) {
+      console.log(findRegistration);
       return res.status(403).json({ message: "Registration already added!" });
     }
     const registrationDetails = await companyRegistration.create(
       addRegistration
     );
     if (registrationDetails) {
-      res
-        .status(201)
-        .json({ message: "Registration added!", registrationDetails });
+      return res.status(201).json({ message: "Registration added!", registrationDetails });
     }
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Server Error" });
+    // sres.status(500).json({ message: "Server Error" });
   }
 };
 
@@ -38,13 +37,15 @@ const updateRegistration = async (req, res) => {
     if (!findRegistration) {
       return res.status(404).json({ message: "No record found!" });
     }
-    const updateResult = await companyRegistration.update(newRegistration,{ where: { id: id } });
+    const updateResult = await companyRegistration.update(newRegistration, {
+      where: { id: id },
+    });
     if (updateResult) {
-      res.status(200).json({message:"Registration updated successfully!"})
+      res.status(200).json({ message: "Registration updated successfully!" });
     }
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export { newRegistration, updateRegistration };

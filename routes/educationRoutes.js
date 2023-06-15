@@ -15,6 +15,7 @@ import {
 } from "../middleware/jobseekerAuthMiddleware.js";
 
 import educationValidator from "../Validators/educationValidators.js";
+import { getAllJobSeekers, getJobSeekerAllInfo } from "../controllers/jobSeekersController.js";
 // import { getJobSeekerAllInfo } from "../controllers/jobSeekersController.js";
 
 router.post(
@@ -30,7 +31,8 @@ router.put(
   uploadPhotoMiddleware("").none(),
   verifyJobseekerToken,
   educationValidator,
-  updateEducation
+  updateEducation,
+  getAllJobSeekers
 );
 
 router.get("/oneEducation/:id", getOneEducation);
