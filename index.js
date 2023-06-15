@@ -7,10 +7,10 @@ import seedAdmin from "./seeds/superAdminSeed.js";
 const app = express();
 app.use(cors());
 const port = process.env.PORT || 4000;
-import { uploader, cloudinary } from "./cloudinary/cloudinary.js";
+import { uploader, cloudinaryConfig } from "./cloudinary/cloudinary.js";
 
-app.use(cloudinary);
-app.use("/cv", uploader.single("cv"), uploadCvRoutes);
+
+cloudinaryConfig()
 const uploads = multer();
 
 //import routes
@@ -43,6 +43,7 @@ app.use("/language", languageRoutes);
 app.use("/skills", skillsRoutes);
 app.use("/application", applicationRoutes);
 
+app.use("/cv", uploader.single("cv"), uploadCvRoutes);
 
 (async () => {
   try {

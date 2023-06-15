@@ -6,7 +6,7 @@ dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
 import multer from "multer";
 import path from "path";
-import { cloudinaryConfig, uploader } from "../cloudinary/cloudinary.js";
+import cloudinaryConfig from "../cloudinary/cloudinary.js";
 
 const absolutePath = path.resolve("./");
 
@@ -75,7 +75,7 @@ const jobseekerLogInToken = async (req, res, next) => {
     middle_name: findJobSeeker.dataValues.middle_name,
     last_name: findJobSeeker.dataValues.last_name,
     email: findJobSeeker.dataValues.email,
-    gender: findJobSeeker.dataValues.gender,
+    gender: findJobSeeker.dataValues.gender
   };
 
   const token = jwt.sign(tokenVariables, jwtSecret);
