@@ -28,7 +28,6 @@ const jobApplication = async (req, res) => {
 const applicantInfo = async (req, res) => {
     try {
         const company_id = req.params.company_id;
-        // console.log(req.company_id);
         const allInfo = await applications.findAll({
             where: {company_id },
             include: [
