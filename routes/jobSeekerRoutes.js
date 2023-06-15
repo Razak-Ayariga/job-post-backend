@@ -36,13 +36,13 @@ router.post(
   uploadPhotoMiddleware("").none(),
   jobSeekerLogInValidator,
   jobseekerLogInToken,
-  jobSeekerLogin,
-  getJobSeekerAllInfo
+  getJobSeekerAllInfo,
+  jobSeekerLogin
 );
 
 router.get("/getInfo", verifyJobseekerToken, getJobSeeker);
 router.get("/getAllInfo", verifyJobseekerToken, getJobSeekerAllInfo);
-router.get("/allJobSeekers", getAllJobSeekers);// SHOULD GO TO THWE ADMIN
+router.get("/allJobSeekers", getAllJobSeekers); // SHOULD GO TO THWE ADMIN
 
 router.put(
   "/updateJobSeeker",
@@ -50,5 +50,5 @@ router.put(
   verifyJobseekerToken,
   updateJobSeekerInfo
 );
-router.delete("/deleteJobSeeker/:id", deleteJobSeeker)
+router.delete("/deleteJobSeeker/:id", deleteJobSeeker);
 export default router;
