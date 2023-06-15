@@ -5,6 +5,7 @@ dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
 import multer from "multer";
 import path from "path";
+import { uploader } from "../cloudinary/cloudinaryConfig.js";
 // import { log } from "util";
 const absolutePath = path.resolve("./");
 
@@ -100,9 +101,34 @@ const uploadPhotoMiddleware = (destination) => {
       cb(null, filename);
     },
   });
+//   const upload = multer({ storage });
+//   return upload;
+   return async (req, res, next) => {
+    try {
+      upload.single("photo")(req, res, async (err) => {
+        if (err) {
+          return res.status(400).json({ message: err.message });
+        }
 
-  const upload = multer({ storage });
-  return upload;
+        if (!req.file) {
+          return res
+            .status(400)
+            .json({ message: "Please upload a photo" });
+        }
+
+        // Upload the file to Cloudinary
+        const result = await uploader.upload(req.file.path);
+
+        // Update the req.file object with the Cloudinary URL
+        req.file.path = result.secure_url;
+
+        next();
+      });
+    } catch (error) {
+      console.error("Error uploading photo:", error);
+      return res.status(500).json({ message: "Failed to upload photo" });
+    }
+  };
 };
 
 export {
