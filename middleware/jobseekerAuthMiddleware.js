@@ -6,6 +6,7 @@ dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
 import multer from "multer";
 import path from "path";
+import { cloudinaryConfig, uploader } from "../config/cloudinary.js";
 // import { log } from "util";
 const absolutePath = path.resolve("./");
 
@@ -127,8 +128,34 @@ const uploadPhotoMiddleware = (destination) => {
   };
 
   const upload = multer({ storage, fileFilter });
-  return upload;
+  return async (req, res, next) => {
+    try {
+      upload.single("logo")(req, res, async (err) => {
+        if (err) {
+          return res.status(400).json({ message: err.message });
+        }
+
+        if (!req.file) {
+          return res
+            .status(400)
+            .json({ message: "Please upload a logo image" });
+        }
+
+        // Upload the file to Cloudinary
+        const result = await uploader.upload(req.file.path);
+
+        // Update the req.file object with the Cloudinary URL
+        req.file.path = result.secure_url;
+
+        next();
+      });
+    } catch (error) {
+      console.error("Error uploading photo:", error);
+      return res.status(500).json({ message: "Failed to upload photo" });
+    }
+  };
 };
+
 
 export {
   jobseekerSignUpToken,
