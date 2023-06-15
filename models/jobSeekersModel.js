@@ -6,7 +6,7 @@ import skills from "./skillsModel.js";
 import languages from "./languageModel.js";
 import jsSocialLinks from "./jsSocialLinksModel.js";
 import uploadCvModel from "./uploadCvModel.js";
-import applications from "../models/applicationsModel.js"
+// import applications from "../models/applicationsModel.js"
 
 const jobSeeker = sequelize.define(
   "job_seeker",
@@ -72,6 +72,6 @@ jobSeeker.hasMany(skills, { foreignKey: "js_id", onDelete:"CASCADE" });
 jobSeeker.hasMany(languages, { foreignKey: "js_id", onDelete:"CASCADE" });
 jobSeeker.hasOne(uploadCvModel, { foreignKey: "js_id", onDelete: "CASCADE" });
 jobSeeker.hasOne(jsSocialLinks, { foreignKey: "js_id", onDelete: "CASCADE" });
-jobSeeker.hasMany(applications, { foreignKey: "js_id", onDelete: "CASCADE" });
+// jobSeeker.hasMany(applications, { foreignKey: "js_id", onDelete: "CASCADE" });
 
-export default jobSeeker;
+export default jobSeeker ;

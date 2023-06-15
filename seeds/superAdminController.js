@@ -37,10 +37,7 @@ const changePassword = async (req, res) => {
       return res.status(403).json({ message: "Invalid credentials" });
     }
     // Verify the old password
-    const passwordValid = await bcrypt.compare(
-      old_password,
-      findAdmin.password
-    );
+    const passwordValid = await bcrypt.compare(old_password,findAdmin.password);
     if (!passwordValid) {
       return res.status(401).json({ error: "Invalid credentials" });
     }

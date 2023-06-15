@@ -10,6 +10,7 @@ import Languages from "../models/languageModel.js";
 import Skills from "../models/skillsModel.js";
 import jsSocialLinks from "../models/jsSocialLinksModel.js";
 import locations from "../models/locationModel.js";
+import applications from "../models/applicationsModel.js";
 import { Op } from "sequelize";
 
 // Company register
@@ -237,6 +238,33 @@ const jobSeekerAllInfo = async (req, res) => {
   }
 };
 
+// get applicant info
+const applicantInfo = async (req, res) => {
+    try {
+        const company_id = req.params.id;
+
+        const allInfo = await applications.findAll({
+            where: { company_id: company_id },
+            include: [
+                {
+                    model: postedJobs,
+                    required: false
+                },
+                {
+                    model: jobSeeker,
+                    required: true
+                }
+            ]
+        });
+        if (allInfo) {
+            res.status(200).json(allInfo);
+        }
+    }catch(error) {
+        console.log(error);
+        res.status(400).json({message:"Error getting information"})
+    }
+}
+
 // delete a company
 const deleteCompany = async (req, res) => {
   try {
@@ -276,4 +304,5 @@ export {
   deleteCompany,
   jobSeekerAllInfo,
   companyDetails,
+  applicantInfo
 };
