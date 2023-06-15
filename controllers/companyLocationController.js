@@ -28,4 +28,23 @@ const addLocation = async (req, res) => {
   }
 };
 
+//Update location
+const updateLocation = async (req, res) => {
+  try {
+    const newLocationInfo = req.body;
+    const { id } = req.params;
+    const findLocation = await locations.findByPk(id);
+    if (!findLocation) {
+      return res.status(404).json({ message: "No location found" });
+    }
+    const updateResults = await locations.update(newLocationInfo, { where: { id: id } });
+    if (updateResults) {
+      res.status(200).json({ message: "Location updated successfully!" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Error updating location" });
+  }
+}
+
 export default addLocation;

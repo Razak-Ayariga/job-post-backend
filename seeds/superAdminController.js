@@ -1,4 +1,6 @@
 import superAdmin from "../models/superAdminModel.js";
+import companies from "../models/companyModel.js";
+import postedJobs from "../models/postJobsModel.js";
 import bcrypt from "bcrypt";
 
 const mainAdminLogin = async (req, res) => {
@@ -35,10 +37,7 @@ const changePassword = async (req, res) => {
       return res.status(403).json({ message: "Invalid credentials" });
     }
     // Verify the old password
-    const passwordValid = await bcrypt.compare(
-      old_password,
-      findAdmin.password
-    );
+    const passwordValid = await bcrypt.compare(old_password,findAdmin.password);
     if (!passwordValid) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
@@ -52,4 +51,50 @@ const changePassword = async (req, res) => {
   }
 };
 
-export { mainAdminLogin, changePassword };
+//Get all companies
+const getAllcompanies = async (req, res) => {
+  try {
+    const findAllCompanies = await companies.findAll({
+      attributes: { exclude: ["id", "password", "deletedAt"] },
+    });
+    if (!findAllCompanies) {
+      return res.status(400).json("No companies available!");
+    }
+    res.status(200).json(findAllCompanies);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Can not get all companies!" });
+  }
+};
+
+// get all job seekers
+const getAllJobSeekers = async (req, res) => {
+  try {
+    const findAllJobSeekers = await jobSeeker.findAll({
+      attributes: { exclude: ["id", "password", "deletedAt"] },
+    });
+    if (!findAllJobSeekers) {
+      return res.status(400).json({message: "No job seekers available!"});
+    }
+    res.status(200).json(findAllJobSeekers);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Can not get all job seekers!" });
+  }
+};
+
+
+// get all available jobs
+const getAllAvailableJobs = async (req, res) => {
+  try {
+    const findAllJobs = await postedJobs.findAll();
+    if (findAllJobs) {
+      res.status(200).json(findAllJobs);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Error geetting all jobs!" });
+  }
+};
+
+export { mainAdminLogin, changePassword, getAllcompanies , getAllJobSeekers, getAllAvailableJobs };

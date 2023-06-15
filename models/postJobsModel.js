@@ -14,16 +14,38 @@ const postedJobs = sequelize.define("Jobs", {id: {  type: DataTypes.UUID,default
 
   location: {type: DataTypes.STRING,allowNull: false},
 
-  requirements: { type: DataTypes.STRING, allowNull: false},
-  application_deadline: {type: DataTypes.DATE,allowNull: false},
-  how_to_apply: {type: DataTypes.STRING,allowNull: false },
-  name_of_poster: {type: DataTypes.STRING,allowNull: false},
-  role: {type: DataTypes.STRING,allowNull: false },
-  contact: {type: DataTypes.STRING,allowNull: false}},
-{paranoid: true}
+    requirements: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    application_deadline: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    how_to_apply: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    name_of_poster: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    contact: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: "active"
+    }
+  },
+  {
+    paranoid: true
+  }
 );
-// companies.hasMany(postedJobs, { foreignKey: "company_id" });
-
-//postedJobs.hasMany(application, { foreignKey: "jobs_id" });
 
 export default postedJobs;

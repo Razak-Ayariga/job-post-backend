@@ -2,6 +2,22 @@ import postJobsModel from "../models/postJobsModel.js";
 import companies from "../models/companyModel.js";
 // import postedJobs from "../models/postJobsModel.js";
 
+//check job status
+const updateJobStatus = async (jobId) => {
+  try {
+    const job = await postJobsModel.findByPk(jobId);
+    const currentDate = new Date();
+    const applicationDeadline = new Date(job.application_deadline);
+
+    if (currentDate > applicationDeadline) {
+      job.status = "inactive";
+      await job.save();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // create a job post
 const postJob = async (req, res) => {
   const addJobInfo = req.body;
@@ -11,11 +27,34 @@ const postJob = async (req, res) => {
     const newJob = await postJobsModel.create(addJobInfo);
     const job = newJob.dataValues;
     if (newJob) {
+      updateJobStatus(job.id);
       return res.status(201).json({ message: "Job posted successfully!", job });
     }
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: " Failed to post job!" });
+  }
+};
+
+//update a posted job
+const updateJob = async (req, res) => {
+  const updateInfo = req.body;
+  try {
+    console.log(updateInfo);
+    const { id } = req.params;
+    const findJob = await postJobsModel.findByPk(id);
+    if (!findJob) {
+      return res.status(404).json({ message: "Job record not found!" });
+    }
+    const updateResult = await postJobsModel.update(updateInfo, {
+      where: { id: id },
+    });
+    if (updateResult) {
+      res.status(200).json({ message: "Job updated successfully!" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ messaage: "Error updating job" });
   }
 };
 
@@ -104,4 +143,11 @@ const deleteJob = async (req, res) => {
   }
 };
 
-export { postJob, getOneJob, getAllJobs, deleteJob, getAllAvailableJobs }; //companyDetails };
+export {
+  postJob,
+  getOneJob,
+  getAllJobs,
+  deleteJob,
+  getAllAvailableJobs,
+  updateJob,
+}; //companyDetails };

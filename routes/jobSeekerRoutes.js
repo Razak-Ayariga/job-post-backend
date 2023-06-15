@@ -8,7 +8,9 @@ import {
   updateJobSeekerInfo,
   getJobSeekerAllInfo,
   deleteJobSeeker,
-  getAllJobSeekers
+  getAllJobSeekers,
+  verifyEmail,
+  resetPassword,
 } from "../controllers/jobSeekersController.js";
 
 import {
@@ -36,13 +38,13 @@ router.post(
   uploadPhotoMiddleware("").none(),
   jobSeekerLogInValidator,
   jobseekerLogInToken,
-  jobSeekerLogin,
-  getJobSeekerAllInfo
+  getJobSeekerAllInfo,
+  jobSeekerLogin
 );
 
 router.get("/getInfo", verifyJobseekerToken, getJobSeeker);
 router.get("/getAllInfo", verifyJobseekerToken, getJobSeekerAllInfo);
-router.get("/allJobSeekers", getAllJobSeekers);// SHOULD GO TO THWE ADMIN
+router.get("/allJobSeekers", getAllJobSeekers); // SHOULD GO TO THWE ADMIN
 
 router.put(
   "/updateJobSeeker",
@@ -51,4 +53,6 @@ router.put(
   updateJobSeekerInfo
 );
 router.delete("/deleteJobSeeker/:id", deleteJobSeeker);
+router.post("/email", uploadPhotoMiddleware("").none(), verifyEmail);
+router.put("/password", uploadPhotoMiddleware("").none(), resetPassword);
 export default router;

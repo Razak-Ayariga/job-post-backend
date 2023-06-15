@@ -1,11 +1,11 @@
 import express from "express";
-const app = express();
 import "./env.js";
 import sequelize from "./dataBase/dbConfig.js";
-import cors from "cors";
-app.use(cors());
 import multer from "multer";
+import cors from "cors";
 import seedAdmin from "./seeds/superAdminSeed.js";
+const app = express();
+app.use(cors());
 const port = process.env.PORT || 4000;
 import { uploader, cloudinary } from "./cloudinary/cloudinary.js";
 

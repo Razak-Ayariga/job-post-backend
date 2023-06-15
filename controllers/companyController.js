@@ -10,6 +10,7 @@ import Languages from "../models/languageModel.js";
 import Skills from "../models/skillsModel.js";
 import jsSocialLinks from "../models/jsSocialLinksModel.js";
 import locations from "../models/locationModel.js";
+import applications from "../models/applicationsModel.js";
 import { Op } from "sequelize";
 
 // Company register
@@ -34,8 +35,8 @@ const registerCompany = async (req, res) => {
         "password",
         "email",
         "mobile_number",
-        "verification_method"
-      ]
+        "verification_method",
+      ],
     });
     const company = addCompany.dataValues;
     res
@@ -48,7 +49,7 @@ const registerCompany = async (req, res) => {
 };
 
 // Company login
-const companyLogin = async (req, res) => {
+const companyLogin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const token = req.token;
@@ -57,16 +58,17 @@ const companyLogin = async (req, res) => {
     // Check if company exists
     const findUser = await companyModel.findOne({ where: { email: email } });
     if (!findUser) {
-      return res.status(403).json({ message: "Company does not exist. Please register first!" });
+      return res.status(403).json({ message: "Company does not exist!" });
     }
-    bcrypt.compare(password, findUser.password);
-    if (password == findUser.password) {
-      return res.status(401).json({ message: "Invalid email or password" });
+    const passwordMatch = await bcrypt.compare(password, findUser.password);
+    if (!passwordMatch) {
+      return res.status(403).json({ message: "Invalid credentials" });
     }
 
-    res.status(201).json({ message: "company logged in!", token, company });
-    return;
+    // res.status(201).json({ message: "company logged in!", token });
+    next();
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Failed to log in!" });
   }
 };
@@ -95,7 +97,13 @@ const updateCompanyInfo = async (req, res) => {
 // get all info of a company
 const getCompanyAllInfo = async (req, res) => {
   try {
-    const company_id = req.company_id;
+    const token = req.token;
+    let company_id;
+    if (req.company_id) {
+      company_id = req.company_id;
+    } else {
+      company_id = req.company.id
+    }
     const allCompanyInfo = await companyModel.findAll({
       where: { id: company_id },
       include: [
@@ -107,18 +115,18 @@ const getCompanyAllInfo = async (req, res) => {
         {
           model: postedJobs,
           required: false,
-          attributes: { exclude: [ "company_id", "deletedAt"] }
+          attributes: { exclude: ["company_id", "deletedAt"] },
         },
         {
           model: locations,
           required: false,
-          attributes: { exclude: ["id", "company_id", "deletedAt"] }
-        }
-      ]
+          attributes: { exclude: ["id", "company_id", "deletedAt"] },
+        },
+      ],
     });
     if (!allCompanyInfo)
       return res.status(400).json({ message: "No information found!" });
-    res.status(200).json(allCompanyInfo);
+    res.status(200).json({message:"Login successful!",token, allCompanyInfo });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: "Error getting information!" });
@@ -128,13 +136,17 @@ const getCompanyAllInfo = async (req, res) => {
 //Get posted job info
 const companyDetails = async (req, res) => {
   try {
-    const allDetails = await companyModel.findAll({ include: [
-      {
-        model: postedJobs,
-        required: false,
-        attributes:{exclude:["deletedAt","company_id","createdAt","updatedAt"]}
-      }
-    ], attributes:{exclude:["id","deletedAt","createdAt","updatedAt"]}
+    const allDetails = await companyModel.findAll({
+      include: [
+        {
+          model: postedJobs,
+          required: false,
+          attributes: {
+            exclude: ["deletedAt", "company_id", "createdAt", "updatedAt"],
+          },
+        },
+      ],
+      attributes: { exclude: ["id", "deletedAt", "createdAt", "updatedAt"] },
     });
     if (!allDetails) {
       return res.status(400).json({ message: "No information found!" });
@@ -150,7 +162,7 @@ const companyDetails = async (req, res) => {
 const getAllcompanies = async (req, res) => {
   try {
     const findAllCompanies = await companyModel.findAll({
-      attributes: { exclude: ["id", "password", "deletedAt"] }
+      attributes: { exclude: ["id", "password", "deletedAt"] },
     });
     if (!findAllCompanies) {
       return res.status(400).json("No companies available!");
@@ -173,41 +185,48 @@ const jobSeekerAllInfo = async (req, res) => {
           model: Education,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
-          }
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+          },
         },
         {
           model: Experience,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
-          }
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+          },
         },
         {
           model: Languages,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
-          }
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+          },
         },
         {
           model: Skills,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
-          }
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+          },
         },
         {
           model: jsSocialLinks,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
-          }
-        }
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+          },
+        },
       ],
       attributes: {
-        exclude: ["id","js_id","password","deletedAt","createdAt","updatedAt"]
-      }
+        exclude: [
+          "id",
+          "js_id",
+          "password",
+          "deletedAt",
+          "createdAt",
+          "updatedAt",
+        ],
+      },
     });
     if (!allInfo) {
       return res.status(400).json({ message: "no information found!" });
@@ -218,6 +237,33 @@ const jobSeekerAllInfo = async (req, res) => {
     res.status(400).json({ message: "Error getting information!" });
   }
 };
+
+// get applicant info
+const applicantInfo = async (req, res) => {
+    try {
+        const company_id = req.params.id;
+
+        const allInfo = await applications.findAll({
+            where: { company_id: company_id },
+            include: [
+                {
+                    model: postedJobs,
+                    required: false
+                },
+                {
+                    model: jobSeeker,
+                    required: true
+                }
+            ]
+        });
+        if (allInfo) {
+            res.status(200).json(allInfo);
+        }
+    }catch(error) {
+        console.log(error);
+        res.status(400).json({message:"Error getting information"})
+    }
+}
 
 // delete a company
 const deleteCompany = async (req, res) => {
@@ -231,18 +277,18 @@ const deleteCompany = async (req, res) => {
     await postedJobs.destroy({ where: { company_id: id } });
     await locations.destroy({ where: { company_id: id } });
     await findCompany.destroy();
-    res.status(200).json({message: "Record deleted successfully!"});
+    res.status(200).json({ message: "Record deleted successfully!" });
 
     setTimeout(async () => {
       const permanentDelete = await companyModel.destroy({
         where: { id: id, deletedAt: { [Op.not]: null } },
         force: true,
-        include: [postedJobs, companyRegistration, locations]
+        include: [postedJobs, companyRegistration, locations],
       });
       if (permanentDelete) {
-        console.log({ message:"Record permanetly deleted!"});
+        console.log({ message: "Record permanetly deleted!" });
       }
-    }, 30 *24 * 60 * 60 * 1000);
+    }, 30 * 24 * 60 * 60 * 1000);
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Error deleting company!" });
@@ -257,5 +303,6 @@ export {
   getAllcompanies,
   deleteCompany,
   jobSeekerAllInfo,
-  companyDetails
+  companyDetails,
+  applicantInfo
 };

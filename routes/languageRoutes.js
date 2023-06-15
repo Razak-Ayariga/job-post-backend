@@ -3,6 +3,7 @@ const router = express.Router();
 
 import {
   addLanguage,
+  updateLanguage,
   getAllLanguages,
   getOneLanguage,
   deleteLanguage
@@ -19,6 +20,14 @@ router.post(
   languageValidator,
   addLanguage,
   getJobSeekerAllInfo
+);
+
+router.put(
+  "/updateLanguage/:id",
+  uploadPhotoMiddleware("").none(),
+  verifyJobseekerToken,
+  languageValidator,
+  updateLanguage
 );
 
 router.get("/getLanguages/:js_id", verifyJobseekerToken, getAllLanguages);

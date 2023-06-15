@@ -4,23 +4,33 @@ const router = express.Router();
 import {
   addExperienceController,
   getOneExperience,
+  updateExperience,
   getAllExperience,
   deleteExperience
 } from "../controllers/experienceController.js";
 
 import addExperienceValidator from "../Validators/experienceValidator.js";
-import { verifyJobseekerToken, uploadPhotoMiddleware } from "../middleware/jobseekerAuthMiddleware.js";
+import {
+  verifyJobseekerToken,
+  uploadPhotoMiddleware,
+} from "../middleware/jobseekerAuthMiddleware.js";
 import { getJobSeekerAllInfo } from "../controllers/jobSeekersController.js";
 
-
+router.post(
+  "/addExperience",
+  uploadPhotoMiddleware("").none(),
+  verifyJobseekerToken,
+  addExperienceValidator,
+  addExperienceController,
+  getJobSeekerAllInfo
+);
 
 router.put(
-  "/addExperience",
+  "/updateExperience/:id",
   uploadPhotoMiddleware("").none(),
   addExperienceValidator,
   verifyJobseekerToken,
-  addExperienceController,
-  getJobSeekerAllInfo
+  updateExperience
 );
 
 router.delete("/deleteExperience/:id", deleteExperience);

@@ -20,6 +20,28 @@ const addLanguage = async (req, res) => {
   }
 };
 
+//update language
+const updateLanguage = async (req, res) => {
+  const updateInfo = req.body;
+  try {
+    console.log(updateInfo);
+    const { id } = req.params;
+    const findLang = await languageModel.findByPk(id);
+    if (!findLang) {
+      return res.status(404).json({ message: "language recored not found!" });
+    }
+    const updateRecord = await languageModel.update(updateInfo, {
+      where: { id: id },
+    });
+    if (updateRecord) {
+      res.status(200).json({ message: "language updated successfully!" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ messaage: "Error updating language" });
+  }
+};
+
 // Get all language records for a jobseeker
 const getAllLanguages = async (req, res) => {
   try {
@@ -67,4 +89,10 @@ const deleteLanguage = async (req, res) => {
   }
 };
 
-export { addLanguage, getAllLanguages, getOneLanguage, deleteLanguage };
+export {
+  addLanguage,
+  updateLanguage,
+  getAllLanguages,
+  getOneLanguage,
+  deleteLanguage,
+};
