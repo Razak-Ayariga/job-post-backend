@@ -4,7 +4,7 @@ const jobSeekerRegisterValidator = (req, res, next) => {
   const schema = Joi.object({
     first_name: Joi.string()
       .min(3)
-      .regex(/^[A-Za-z- ]+$/)
+      .regex(/^[A-Za-z-/ ]+$/)
       .required()
       .messages({
         "any.required": "First name is required!",
