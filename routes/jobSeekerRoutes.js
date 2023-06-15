@@ -10,7 +10,7 @@ import {
   deleteJobSeeker,
   getAllJobSeekers,
   verifyEmail,
-  resetPassword,
+  resetPassword
 } from "../controllers/jobSeekersController.js";
 
 import {

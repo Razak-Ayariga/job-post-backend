@@ -221,7 +221,7 @@ const verifyEmail = async (req, res) => {
     const user = {
       id: findUser.dataValues.id,
       email: findUser.dataValues.email,
-      password: findUser.dataValues.password,
+      password: findUser.dataValues.password
     };
     res.status(200).json({ message: "User found!", user });
   } catch (error) {
@@ -264,5 +264,5 @@ export {
   deleteJobSeeker,
   getAllJobSeekers,
   verifyEmail,
-  resetPassword,
+  resetPassword
 };

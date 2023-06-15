@@ -283,7 +283,7 @@ const deleteCompany = async (req, res) => {
       const permanentDelete = await companyModel.destroy({
         where: { id: id, deletedAt: { [Op.not]: null } },
         force: true,
-        include: [postedJobs, companyRegistration, locations],
+        include: [postedJobs, companyRegistration, locations]
       });
       if (permanentDelete) {
         console.log({ message: "Record permanetly deleted!" });
@@ -292,6 +292,52 @@ const deleteCompany = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Error deleting company!" });
+  }
+};
+
+//Verify Email
+const verifyEmail = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const findUser = await companyModel.findOne({ where: { email: email } });
+    if (!findUser) {
+      return res.status(400).json({ message: "User does not exist" });
+    }
+    const user = {
+      id: findUser.dataValues.id,
+      email: findUser.dataValues.email,
+      password: findUser.dataValues.password
+    };
+    res.status(200).json({ message: "User found!", user });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Failed verify email!" });
+  }
+};
+
+//Reset password
+const resetPassword = async (req, res) => {
+  try {
+    const user = req.body;
+    if (!user.id || !user.newPassword) {
+      return res.status(404).json({ message: "Enter new password" });
+    }
+    const samePassword = bcrypt.compareSync(user.newPassword, user.password);
+    if (samePassword) {
+      return res.status(404).json({ message: "Password can not be the same" });
+    }
+    const password = await bcrypt.hash(user.newPassword, 10);
+    const updatePassword = await companyModel.update(
+      { password: password },
+      { where: { id: user.id } }
+    );
+    if (updatePassword) {
+      res.status(200).json({ message: "Password updated successfully" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Failed to reset password" });
   }
 };
 
@@ -304,5 +350,7 @@ export {
   deleteCompany,
   jobSeekerAllInfo,
   companyDetails,
-  applicantInfo
+  applicantInfo,
+  verifyEmail,
+  resetPassword
 };

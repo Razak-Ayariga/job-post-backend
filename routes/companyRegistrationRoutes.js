@@ -5,7 +5,7 @@ import { newRegistration, updateRegistration } from "../controllers/companyRegis
 import uploadRegistrationCertificate from "../middleware/companyRegistrationMiddleware.js";
 import companyRegistrationValidator from "../Validators/companyRegistrationValidator.js";
 import { verifyCompanyToken } from "../middleware/companyMiddleware.js";
-import { getCompanyAllInfo } from "../controllers/companyController.js";
+import {getCompanyAllInfo, verifyEmail, resetPassword} from "../controllers/companyController.js";
 
 router.post(
   "/registrationInfo",
@@ -18,5 +18,8 @@ router.post(
 router.put("/update/:id", uploadRegistrationCertificate("").single(),
   verifyCompanyToken,
   updateRegistration);
+
+router.post("/email", verifyEmail);
+router.put("/password", resetPassword);
 
 export default router;
