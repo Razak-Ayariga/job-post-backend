@@ -1,10 +1,12 @@
-import  DataTypes  from "sequelize";
+import DataTypes from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
+import jobs from "./postJobsModel.js";
+import jobSeeker from "./jobSeekersModel.js";
 
-const applications = sequelize.define("applications", {
+const applications = sequelize.define("application", {
     id: {
         type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV1,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false
     },
@@ -13,29 +15,40 @@ const applications = sequelize.define("applications", {
         references: {
             model: "job_seekers",
             key: "id"
-        }
+        },
+        allowNull: false
     },
     job_id: {
         type: DataTypes.UUID,
         references: {
             model: "jobs",
             key: "id"
-        }
-    },
-    cv: {
-        type: DataTypes.STRING,
+        },
         allowNull: false
     },
+    company_id: {
+        type: DataTypes.UUID,
+        references: {
+            model: "companies",
+            key: "id"
+        },
+        allowNull: false
+    },
+    cv: {
+        type: DataTypes.STRING
+    },
     cover_letter: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true
     }
 }, {
     paranoid: true
 });
-
-(async () => {
+(async() => {
     await sequelize.sync();
 })();
+
+applications.belongsToMany(jobSeeker, { through: "js_id" });
+applications.belongsTo(jobs, { through: "job_id" });
 
 export default applications;

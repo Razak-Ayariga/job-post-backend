@@ -15,6 +15,8 @@ router.post(
   newRegistration,
   getCompanyAllInfo
 );
-router.put("/update/:id", uploadRegistrationCertificate("").single(),updateRegistration);
+router.put("/update/:id", uploadRegistrationCertificate("").single(),
+  verifyCompanyToken,
+  updateRegistration);
 
 export default router;

@@ -212,11 +212,18 @@ const deleteJobSeeker = async (req, res) => {
 //Verify Email
 const verifyEmail = async (req, res) => {
   try {
-    const email = req.body;
+    const { email } = req.body;
+
     const findUser = await jobSeeker.findOne({ where: { email: email } });
     if (!findUser) {
       return res.status(400).json({ message: "User does not exist" });
     }
+    const user = {
+      id: findUser.dataValues.id,
+      email: findUser.dataValues.email,
+      password: findUser.dataValues.password,
+    };
+    res.status(200).json({ message: "User found!", user });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Failed verify email!" });
@@ -224,6 +231,29 @@ const verifyEmail = async (req, res) => {
 };
 
 //Reset password
+const resetPassword = async (req, res) => {
+  try {
+    const user = req.body;
+    if (!user.id || !user.newPassword) {
+      return res.status(404).json({ message: "Enter new password" });
+    }
+    const samePassword = bcrypt.compareSync(user.newPassword, user.password);
+    if (samePassword) {
+      return res.status(404).json({ message: "Password can not be the same" });
+    }
+    const password = await bcrypt.hash(user.newPassword, 10);
+    const updatePassword = await jobSeeker.update(
+      { password: password },
+      { where: { id: user.id } }
+    );
+    if (updatePassword) {
+      res.status(200).json({ message: "Password updated successfully" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Failed to reset password" });
+  }
+};
 
 export {
   registerJobSeeker,
@@ -234,4 +264,5 @@ export {
   deleteJobSeeker,
   getAllJobSeekers,
   verifyEmail,
+  resetPassword,
 };
