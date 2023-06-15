@@ -2,6 +2,11 @@ import DataTypes from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
 import jobs from "./postJobsModel.js";
 import jobSeeker from "./jobSeekersModel.js";
+// import education from "./educationModel.js";
+// import experience from "./experienceModel.js";
+// import languages from "./languageModel.js";
+// import skills from "./skillsModel.js";
+// import jsSocialLinks from "./jsSocialLinksModel.js";
 
 const applications = sequelize.define(
   "application",

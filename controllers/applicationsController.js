@@ -1,6 +1,11 @@
 import applications from "../models/applicationsModel.js";
 import jobs from "../models/postJobsModel.js";
 import jobSeeker from "../models/jobSeekersModel.js";
+import education from "../models/educationModel.js";
+import experience from "../models/experienceModel.js";;
+import skills from "../models/skillsModel.js";
+import languages from "../models/languageModel.js";
+import jsSocialLinks from "../models/jsSocialLinksModel.js";
 
 const jobApplication = async (req, res) => {
     try {
@@ -22,10 +27,10 @@ const jobApplication = async (req, res) => {
 // get applicant info
 const applicantInfo = async (req, res) => {
     try {
-        const { id } = req.company_id;
-
+        const company_id = req.params.company_id;
+        // console.log(req.company_id);
         const allInfo = await applications.findAll({
-            where: { company_id:id },
+            where: {company_id },
             include: [
                 {
                     model: jobs,
@@ -33,12 +38,10 @@ const applicantInfo = async (req, res) => {
                 },
                 {
                     model: jobSeeker,
-                    required: true
+                    required: true,
+                    include:[education, experience, skills, languages, jsSocialLinks]
                 }
-            ],
-            // attributes: {
-            //     exclude: ["JobId"]
-            // }
+            ]
         });
         if (allInfo) {
             res.status(200).json(allInfo);

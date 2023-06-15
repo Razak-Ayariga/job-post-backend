@@ -44,13 +44,13 @@ const postJobValidator = (req, res, next) => {
             "string.pattern.base": "Enter a valid phone number!"
         })
     })
-    const validation = schema.validate(req.body);
-    const { error } = validation;
-    if (error) {
-        const message = error.details.map(x => x.message);
-        res.status(400).json({ message });
-        return;
-    }
+    // const validation = schema.validate(req.body);
+    // const { error } = validation;
+    // if (error) {
+    //     const message = error.details.map(x => x.message);
+    //     res.status(400).json({ message });
+    //     return;
+    // }
     next();
 };
 
