@@ -6,7 +6,7 @@ const addLinksController = async (req, res) => {
     const id = req.userId;
     addLink["js_id"] = id;
     // Check if the user already has a social link
-    const existingLink = await jsSocialLinksModel.findOne({ js_id: id });
+    const existingLink = await jsSocialLinksModel.findOne({ where: { js_id: id } });
     if (existingLink) {
       return res.status(400).json({ message: "Social link already added!" });
     }
