@@ -11,7 +11,6 @@ import { uploader, cloudinary } from "./cloudinary/cloudinary.js";
 
 app.use(cloudinary);
 app.use("/cv", uploader.single("cv"), uploadCvRoutes);
-
 const uploads = multer();
 
 //import routes
