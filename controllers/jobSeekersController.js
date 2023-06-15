@@ -38,8 +38,8 @@ const registerJobSeeker = async (req, res) => {
           "password",
           "gender",
           "email",
-          "phone",
-        ],
+          "phone"
+        ]
       })
       .then((response) => {
         const user = response.dataValues;
@@ -143,27 +143,27 @@ const getJobSeekerAllInfo = async (req, res) => {
           model: Languages,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
+          }
         },
         {
           model: Skills,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
+          }
         },
         {
           model: jsSocialLinks,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
-        },
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
+          }
+        }
       ],
       attributes: {
-        exclude: ["js_id", "password", "deletedAt", "createdAt", "updatedAt"],
-      },
+        exclude: ["js_id", "password", "deletedAt", "createdAt", "updatedAt"]
+      }
     });
     if (!allInfo) {
       return res.status(400).json({ message: "no information found!" });

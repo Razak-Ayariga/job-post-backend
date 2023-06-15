@@ -10,7 +10,7 @@ const port = process.env.PORT || 4000;
 import { uploader, cloudinaryConfig } from "./cloudinary/cloudinary.js";
 
 
-cloudinaryConfig()
+cloudinaryConfig();
 const uploads = multer();
 
 //import routes

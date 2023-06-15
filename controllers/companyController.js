@@ -35,8 +35,8 @@ const registerCompany = async (req, res) => {
         "password",
         "email",
         "mobile_number",
-        "verification_method",
-      ],
+        "verification_method"
+      ]
     });
     const company = addCompany.dataValues;
     res
@@ -102,7 +102,7 @@ const getCompanyAllInfo = async (req, res) => {
     if (req.company_id) {
       company_id = req.company_id;
     } else {
-      company_id = req.company.id
+      company_id = req.company.id;
     }
     const allCompanyInfo = await companyModel.findAll({
       where: { id: company_id },
@@ -115,14 +115,14 @@ const getCompanyAllInfo = async (req, res) => {
         {
           model: postedJobs,
           required: false,
-          attributes: { exclude: ["company_id", "deletedAt"] },
+          attributes: { exclude: ["company_id", "deletedAt"] }
         },
         {
           model: locations,
           required: false,
-          attributes: { exclude: ["id", "company_id", "deletedAt"] },
-        },
-      ],
+          attributes: { exclude: ["id", "company_id", "deletedAt"] }
+        }
+      ]
     });
     if (!allCompanyInfo)
       return res.status(400).json({ message: "No information found!" });
@@ -142,11 +142,11 @@ const companyDetails = async (req, res) => {
           model: postedJobs,
           required: false,
           attributes: {
-            exclude: ["deletedAt", "company_id", "createdAt", "updatedAt"],
-          },
-        },
+            exclude: ["deletedAt", "company_id", "createdAt", "updatedAt"]
+          }
+        }
       ],
-      attributes: { exclude: ["id", "deletedAt", "createdAt", "updatedAt"] },
+      attributes: { exclude: ["id", "deletedAt", "createdAt", "updatedAt"] }
     });
     if (!allDetails) {
       return res.status(400).json({ message: "No information found!" });
@@ -162,7 +162,7 @@ const companyDetails = async (req, res) => {
 const getAllcompanies = async (req, res) => {
   try {
     const findAllCompanies = await companyModel.findAll({
-      attributes: { exclude: ["id", "password", "deletedAt"] },
+      attributes: { exclude: ["id", "password", "deletedAt"] }
     });
     if (!findAllCompanies) {
       return res.status(400).json("No companies available!");
@@ -185,37 +185,37 @@ const jobSeekerAllInfo = async (req, res) => {
           model: Education,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
+          }
         },
         {
           model: Experience,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
+          }
         },
         {
           model: Languages,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
+          }
         },
         {
           model: Skills,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
+          }
         },
         {
           model: jsSocialLinks,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
-        },
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
+          }
+        }
       ],
       attributes: {
         exclude: [
@@ -224,9 +224,9 @@ const jobSeekerAllInfo = async (req, res) => {
           "password",
           "deletedAt",
           "createdAt",
-          "updatedAt",
-        ],
-      },
+          "updatedAt"
+        ]
+      }
     });
     if (!allInfo) {
       return res.status(400).json({ message: "no information found!" });
@@ -240,30 +240,30 @@ const jobSeekerAllInfo = async (req, res) => {
 
 // get applicant info
 const applicantInfo = async (req, res) => {
-    try {
-        const company_id = req.params.id;
+  try {
+    const company_id = req.params.id;
 
-        const allInfo = await applications.findAll({
-            where: { company_id: company_id },
-            include: [
-                {
-                    model: postedJobs,
-                    required: false
-                },
-                {
-                    model: jobSeeker,
-                    required: true
-                }
-            ]
-        });
-        if (allInfo) {
-            res.status(200).json(allInfo);
+    const allInfo = await applications.findAll({
+      where: { company_id: company_id },
+      include: [
+        {
+          model: postedJobs,
+          required: false
+        },
+        {
+          model: jobSeeker,
+          required: true
         }
-    }catch(error) {
-        console.log(error);
-        res.status(400).json({message:"Error getting information"})
+      ]
+    });
+    if (allInfo) {
+      res.status(200).json(allInfo);
     }
-}
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Error getting information" });
+  }
+};
 
 // delete a company
 const deleteCompany = async (req, res) => {
