@@ -6,8 +6,8 @@ dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
 import multer from "multer";
 import path from "path";
-import { cloudinaryConfig, uploader } from "../config/cloudinary.js";
-// import { log } from "util";
+import { cloudinaryConfig, uploader } from "../cloudinary/cloudinary.js";
+
 const absolutePath = path.resolve("./");
 
 //middleware to check if job seeker exists in the database and generate a JWT
