@@ -1,4 +1,3 @@
-// export { cloudinary, uploader };
 import { cloudinary, uploader } from "cloudinary";
 //\import { CloudinaryStorage } from "multer-storage-cloudinary";
 import dotenv from "dotenv";
@@ -11,10 +10,5 @@ const cloudinaryConfig = () =>
     api_secret: process.env.CLOUDINARY_APISECRET,
   });
 
-// const storage = new CloudinaryStorage({
-//   cloudinary: cloudinary,
-//   params: {
-//     folder: "DEV",
-//   }
-// });
+
 export { cloudinaryConfig, uploader };
