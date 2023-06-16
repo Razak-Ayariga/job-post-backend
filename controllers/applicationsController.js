@@ -67,7 +67,7 @@ const applicantInfo = async (req, res) => {
           required: true,
           include: [education, experience, skills, languages, jsSocialLinks]
         }
-      ]
+      ], group:["job_id"]
     }); 
     if (allInfo) {
       res.status(200).json(allInfo);
