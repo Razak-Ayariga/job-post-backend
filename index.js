@@ -4,8 +4,18 @@ import sequelize from "./dataBase/dbConfig.js";
 import multer from "multer";
 import cors from "cors";
 import seedAdmin from "./seeds/superAdminSeed.js";
+import helmet from "helmet";
+
 const app = express();
 app.use(cors());
+app.use(
+  helmet(
+    helmet({
+      contentSecurityPolicy: false
+    })
+  )
+);
+
 const port = process.env.PORT || 4000;
 import { uploader, cloudinaryConfig } from "./cloudinary/cloudinary.js";
 

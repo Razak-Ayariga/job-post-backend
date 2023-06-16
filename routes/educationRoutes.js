@@ -7,7 +7,7 @@ import {
   getOneEducation,
   getAllEducation,
   deleteEducation,
-} from "../controllers/educationController.js";
+} from "../educationController.js";
 
 import {
   verifyJobseekerToken,
