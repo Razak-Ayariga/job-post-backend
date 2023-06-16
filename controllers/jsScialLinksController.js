@@ -13,13 +13,28 @@ const addLinksController = async (req, res) => {
 
     const newLink = await jsSocialLinksModel.create(addLink);
     if (newLink) {
-      res.status(201).json({ message: "Link added successsfully", newLink });
+      return res.status(201).json({ message: "Link added successsfully", newLink });
     }
 
   } catch (error) {
     console.log(error);
-    res.status(400).json({ message: "Failed to add link!" });
+    return res.status(400).json({ message: "Failed to add link!" });
   }
 };
+
+const deleteSocialLink = async (req, res) => {
+  try {
+    const id = req.userId;
+    const findLink = await jsSocialLinksModel.findOne({ where: { js_id: id } });
+    const deleteLink = await jsSocialLinksModel.destroy(findLink)
+    if (deleteLink) {
+      return res.status(201).json({ message: "Link deleted succesfully!" })
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: "Failed to delete link!" })
+  }
+}
+
 
 export default addLinksController;
