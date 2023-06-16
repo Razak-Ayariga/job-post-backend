@@ -35,7 +35,6 @@ const mainAdminToken = async (req, res, next) => {
 
 const verifyAdminToken = (req, res, next) => {
   const token = req.headers.token;
-
   if (!token) {
     res.status(401).json({ message: "No token provided" });
     return;

@@ -24,8 +24,8 @@ router.put(
   changePassword
 );
 
-router.get("/allCompanies", getAllcompanies);
-router.get("/allJobSeekers", getAllJobSeekers);
-router.get("/allJobs", getAllAvailableJobs);
+router.get("/allCompanies", verifyAdminToken, getAllcompanies);
+router.get("/allJobSeekers",  verifyAdminToken, getAllJobSeekers);
+router.get("/allJobs", verifyAdminToken, getAllAvailableJobs);
 
 export default router;

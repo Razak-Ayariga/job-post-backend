@@ -1,6 +1,4 @@
 import postJobsModel from "../models/postJobsModel.js";
-import companies from "../models/companyModel.js";
-// import postedJobs from "../models/postJobsModel.js";
 
 //check job status
 const updateJobStatus = async (jobId) => {
