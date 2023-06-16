@@ -178,6 +178,28 @@ const getJobSeekerAllInfo = async (req, res) => {
   }
 };
 
+// Get all job applications
+const allJobApplications = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const jobApplications = await jobSeeker.findAll({
+      where: { id: userId },
+      include: [
+        {
+          model: applications,
+          required: false
+        }
+      ]
+    });
+    if (jobApplications) {
+      res.status.json(jobApplications);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Error getting information!" })
+  }
+};
+
 //delete a job seeker's record
 const deleteJobSeeker = async (req, res) => {
   try {
@@ -236,9 +258,9 @@ const resetPassword = async (req, res) => {
     if (!user.id || !user.newPassword) {
       return res.status(404).json({ message: "Enter new password" });
     }
-    const samePassword =  bcrypt.compareSync(user.newPassword, user.password)
+    const samePassword = bcrypt.compareSync(user.newPassword, user.password)
     if (samePassword) {
-      return res.status(404).json({message:"Password can not be the same"})
+      return res.status(404).json({ message: "Password can not be the same" })
     }
     const password = await bcrypt.hash(user.newPassword, 10);
     const updatePassword = await jobSeeker.update({ password: password }, { where: { id: user.id } });
@@ -247,9 +269,9 @@ const resetPassword = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json({message:"Failed to reset password"})
+    res.status(400).json({ message: "Failed to reset password" })
   }
-}
+};
 
 export {
   registerJobSeeker,
@@ -260,5 +282,6 @@ export {
   deleteJobSeeker,
   getAllJobSeekers,
   verifyEmail,
-  resetPassword
+  resetPassword,
+  allJobApplications
 };

@@ -94,6 +94,46 @@ const updateCompanyInfo = async (req, res) => {
   }
 };
 
+//Verify Email
+const verifyEmail = async (req, res) => {
+  try {
+  const {email} = req.body;
+  
+    const findCompany = await companyModel.findOne({ where: { email: email } });
+    if (!findCompany) {
+      return res.status(400).json({ message: "User does not exist" });
+    }
+    const Company = { id: findCompany.dataValues.id, email:findCompany.dataValues.email,password:findCompany.dataValues.password};
+    res.status(200).json({ message: "User found!", Company });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Failed verify email!" });
+  }
+};
+
+//Reset password
+const resetPassword = async (req, res) => {
+  try {
+    const company = req.body;
+    if (!company.id || !company.newPassword) {
+      return res.status(404).json({ message: "Enter new password" });
+    }
+    const samePassword =  bcrypt.compareSync(company.newPassword, company.password)
+    if (samePassword) {
+      return res.status(404).json({message:"Password can not be the same"})
+    }
+    const password = await bcrypt.hash(company.newPassword, 10);
+    const updatePassword = await companyModel.update({ password: password }, { where: { id: company.id } });
+    if (updatePassword) {
+      res.status(200).json({ message: "Password updated successfully" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({message:"Failed to reset password"})
+  }
+}
+
+
 // get all info of a company
 const getCompanyAllInfo = async (req, res) => {
   try {
@@ -304,5 +344,7 @@ export {
   deleteCompany,
   jobSeekerAllInfo,
   companyDetails,
-  applicantInfo
+  applicantInfo,
+  verifyEmail,
+  resetPassword
 };

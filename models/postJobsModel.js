@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
+// import applications from "./applicationsModel.js";
 // import companies from "./companyModel.js";
 
 const postedJobs = sequelize.define(
@@ -75,5 +76,7 @@ const postedJobs = sequelize.define(
     paranoid: true
   }
 );
+
+// postedJobs.hasMany(applications, { foreignKey: "job_id" });
 
 export default postedJobs;
