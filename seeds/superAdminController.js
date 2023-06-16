@@ -30,18 +30,18 @@ const mainAdminLogin = async (req, res) => {
 
 const changePassword = async (req, res) => {
   try {
-    const { old_password, new_password } = req.body;
+    const { oldPassword, newPassword } = req.body;
     const email = req.email;
     const findAdmin = await superAdmin.findOne({ where: { email: email } });
     if (!findAdmin) {
       return res.status(403).json({ message: "Invalid credentials" });
     }
     // Verify the old password
-    const passwordValid = await bcrypt.compare(old_password,findAdmin.password);
+    const passwordValid = await bcrypt.compare(oldPassword, findAdmin.password);
     if (!passwordValid) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
-    const hashedPassword = await bcrypt.hash(new_password, 10);
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
     findAdmin.password = hashedPassword;
     const saved = await findAdmin.save();
 
@@ -74,7 +74,7 @@ const getAllJobSeekers = async (req, res) => {
       attributes: { exclude: ["id", "password", "deletedAt"] },
     });
     if (!findAllJobSeekers) {
-      return res.status(400).json({message: "No job seekers available!"});
+      return res.status(400).json({ message: "No job seekers available!" });
     }
     res.status(200).json(findAllJobSeekers);
   } catch (error) {
@@ -97,4 +97,4 @@ const getAllAvailableJobs = async (req, res) => {
   }
 };
 
-export { mainAdminLogin, changePassword, getAllcompanies , getAllJobSeekers, getAllAvailableJobs };
+export { mainAdminLogin, changePassword, getAllcompanies, getAllJobSeekers, getAllAvailableJobs };
