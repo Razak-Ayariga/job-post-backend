@@ -166,7 +166,7 @@ const getCompanyAllInfo = async (req, res) => {
     });
     if (!allCompanyInfo)
       return res.status(400).json({ message: "No information found!" });
-    res.status(200).json({ message: token, allCompanyInfo });
+    res.status(200).json({ message: "successful!", token, allCompanyInfo });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: "Error getting information!" });
