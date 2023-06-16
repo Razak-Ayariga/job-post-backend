@@ -89,46 +89,6 @@ const getAllJobs = async (req, res) => {
   }
 };
 
-// get all available jobs
-const getAllAvailableJobs = async (req, res) => {
-  try {
-    const findAllJobs = await postJobsModel.findAll({
-      include: [{
-        model: companies,
-        required: false
-    }]});
-    if (findAllJobs) {
-      res.status(200).json(findAllJobs);
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ message: "Error geetting all jobs!" });
-  }
-};
-//get all company details of a job
-// const companyDetails = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const getDetails = await postJobsModel.findAll({
-//       where: { id: id },
-//       include: [{
-//         model: companies,
-//         required: false,
-//         attributes: {
-//           exclude: ["deletedAt", "createdAt", "updatedAt"]
-//         }
-//       }]
-//     });
-//     if (!getDetails) {
-//       return res.status(400).json({ message: "No information found!" });
-//     }
-//     res.status(200).json(getDetails);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(400).json({message:"Failed to get information!"})
-//   }
-// }
-
 //delete a posted job
 const deleteJob = async (req, res) => {
   try {
@@ -152,6 +112,5 @@ export {
   getOneJob,
   getAllJobs,
   deleteJob,
-  getAllAvailableJobs,
   updateJob,
-}; //companyDetails };
+}; 
