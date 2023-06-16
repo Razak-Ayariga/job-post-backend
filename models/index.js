@@ -11,7 +11,7 @@ jobSeeker.hasOne(uploadCvModel, { foreignKey: "js_id" });
 jobSeeker.hasOne(jsSocialLinks, { foreignKey: "js_id"});
 jobSeeker.hasMany(applications, { foreignKey: "js_id" });
 
-applications.belongsTo(jobs, { foreignKey: "job_id" });
+// applications.belongsTo(jobs, { foreignKey: "job_id" });
 // applicationModel.belongsToMany(companies, { through: "company_id" });
 // applicationModel.belongsTo(jobSeeker, { through: "js_id" });
 

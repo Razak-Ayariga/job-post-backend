@@ -11,10 +11,7 @@ import {
   getAllJobSeekers,
   verifyEmail,
   resetPassword,
-<<<<<<< HEAD
   allJobApplications
-=======
->>>>>>> origin/swanzy
 } from "../controllers/jobSeekersController.js";
 
 import {

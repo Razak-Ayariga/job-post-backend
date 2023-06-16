@@ -259,15 +259,9 @@ const resetPassword = async (req, res) => {
     if (!user.id || !user.newPassword) {
       return res.status(404).json({ message: "Enter new password" });
     }
-<<<<<<< HEAD
     const samePassword = bcrypt.compareSync(user.newPassword, user.password)
     if (samePassword) {
       return res.status(404).json({ message: "Password can not be the same" })
-=======
-    const samePassword = bcrypt.compareSync(user.newPassword, user.password);
-    if (samePassword) {
-      return res.status(404).json({ message: "Password can not be the same" });
->>>>>>> origin/swanzy
     }
     const password = await bcrypt.hash(user.newPassword, 10);
     const updatePassword = await jobSeeker.update(
@@ -279,11 +273,7 @@ const resetPassword = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-<<<<<<< HEAD
     res.status(400).json({ message: "Failed to reset password" })
-=======
-    res.status(400).json({ message: "Failed to reset password" });
->>>>>>> origin/swanzy
   }
 };
 
@@ -297,8 +287,5 @@ export {
   getAllJobSeekers,
   verifyEmail,
   resetPassword,
-<<<<<<< HEAD
   allJobApplications
-=======
->>>>>>> origin/swanzy
 };
