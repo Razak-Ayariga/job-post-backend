@@ -9,11 +9,11 @@ import jsSocialLinks from "../models/jsSocialLinksModel.js";
 
 const jobApplication = async (req, res) => {
     try {
-    const addApplication = req.body;
-    const cv = req.file?.filename;
-    const js_id = req.userId;
+        const addApplication = req.body;
+        const cv = req.file?.filename;
+        const js_id = req.userId;
         addApplication["js_id"] = js_id;
-    addApplication["cv"] = cv;
+        addApplication["cv"] = cv;
         const newApplication = await applications.create(addApplication);
         if (newApplication) {
             return res.status(201).json({ message: "Application created sucessfully!" });
@@ -46,6 +46,7 @@ const applicantInfo = async (req, res) => {
         if (allInfo) {
             res.status(200).json(allInfo);
         }
+    } catch (error) {
     } catch (error) {
         console.log(error);
         res.status(400).json({ message: "Error getting information" })

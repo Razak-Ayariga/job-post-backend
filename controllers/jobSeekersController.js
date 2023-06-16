@@ -1,4 +1,3 @@
-
 import jobSeeker from "../models/jobSeekersModel.js";
 import Experience from "../models/experienceModel.js";
 import Education from "../models/educationModel.js";
@@ -28,24 +27,28 @@ const registerJobSeeker = async (req, res) => {
     newJobSeeker["password"] = hashPassword;
     newJobSeeker["photo"] = filename;
 
-    jobSeeker.create(newJobSeeker, {
-      fields: [
-        "id",
-        "first_name",
-        "middle_name",
-        "last_name",
-        "date_of_birth",
-        "password",
-        "gender",
-        "email",
-        "phone",
-      ],
-    }).then((response) => {
-      const user = response.dataValues;
+    jobSeeker
+      .create(newJobSeeker, {
+        fields: [
+          "id",
+          "first_name",
+          "middle_name",
+          "last_name",
+          "date_of_birth",
+          "password",
+          "gender",
+          "email",
+          "phone",
+        ],
+      })
+      .then((response) => {
+        const user = response.dataValues;
 
-      res.status(201).json({ message: "registered successfully", token, user });
-      return;
-    });
+        res
+          .status(201)
+          .json({ message: "registered successfully", token, user });
+        return;
+      });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "failed to register job seeker" });
@@ -69,7 +72,7 @@ const getJobSeeker = async (req, res) => {
   if (findUser) {
     return res.status(200).json({ jobseeker: findUser.dataValues });
   } else {
-    return res.status(400).json({ message:"User not found..."});
+    return res.status(400).json({ message: "User not found..." });
   }
 };
 
@@ -80,7 +83,7 @@ const getAllJobSeekers = async (req, res) => {
       attributes: { exclude: ["id", "password", "deletedAt"] },
     });
     if (!findAllJobSeekers) {
-      return res.status(400).json({message: "No job seekers available!"});
+      return res.status(400).json({ message: "No job seekers available!" });
     }
     res.status(200).json(findAllJobSeekers);
   } catch (error) {
@@ -141,37 +144,31 @@ const getJobSeekerAllInfo = async (req, res) => {
           required: false,
           attributes: {
             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          }
+          },
         },
         {
           model: Skills,
           required: false,
           attributes: {
             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          }
+          },
         },
         {
           model: jsSocialLinks,
           required: false,
           attributes: {
             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          }
-        }
+          },
+        },
       ],
       attributes: {
-        exclude: [
-          "js_id",
-          "password",
-          "deletedAt",
-          "createdAt",
-          "updatedAt"
-        ]
+        exclude: ["js_id", "password", "deletedAt", "createdAt", "updatedAt"],
       },
     });
     if (!allInfo) {
       return res.status(400).json({ message: "no information found!" });
     }
-    res.status(200).json({message:"Login successful!", token, allInfo });
+    res.status(200).json({ token, allInfo });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Error getting information!" });
@@ -237,13 +234,17 @@ const deleteJobSeeker = async (req, res) => {
 //Verify Email
 const verifyEmail = async (req, res) => {
   try {
-  const {email} = req.body;
-  
+    const { email } = req.body;
+
     const findUser = await jobSeeker.findOne({ where: { email: email } });
     if (!findUser) {
       return res.status(400).json({ message: "User does not exist" });
     }
-    const user = { id: findUser.dataValues.id, email:findUser.dataValues.email,password:findUser.dataValues.password};
+    const user = {
+      id: findUser.dataValues.id,
+      email: findUser.dataValues.email,
+      password: findUser.dataValues.password,
+    };
     res.status(200).json({ message: "User found!", user });
   } catch (error) {
     console.log(error);
@@ -258,18 +259,31 @@ const resetPassword = async (req, res) => {
     if (!user.id || !user.newPassword) {
       return res.status(404).json({ message: "Enter new password" });
     }
+<<<<<<< HEAD
     const samePassword = bcrypt.compareSync(user.newPassword, user.password)
     if (samePassword) {
       return res.status(404).json({ message: "Password can not be the same" })
+=======
+    const samePassword = bcrypt.compareSync(user.newPassword, user.password);
+    if (samePassword) {
+      return res.status(404).json({ message: "Password can not be the same" });
+>>>>>>> origin/swanzy
     }
     const password = await bcrypt.hash(user.newPassword, 10);
-    const updatePassword = await jobSeeker.update({ password: password }, { where: { id: user.id } });
+    const updatePassword = await jobSeeker.update(
+      { password: password },
+      { where: { id: user.id } }
+    );
     if (updatePassword) {
       res.status(200).json({ message: "Password updated successfully" });
     }
   } catch (error) {
     console.log(error);
+<<<<<<< HEAD
     res.status(400).json({ message: "Failed to reset password" })
+=======
+    res.status(400).json({ message: "Failed to reset password" });
+>>>>>>> origin/swanzy
   }
 };
 
@@ -283,5 +297,8 @@ export {
   getAllJobSeekers,
   verifyEmail,
   resetPassword,
+<<<<<<< HEAD
   allJobApplications
+=======
+>>>>>>> origin/swanzy
 };

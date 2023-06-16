@@ -11,7 +11,10 @@ import {
   getAllJobSeekers,
   verifyEmail,
   resetPassword,
+<<<<<<< HEAD
   allJobApplications
+=======
+>>>>>>> origin/swanzy
 } from "../controllers/jobSeekersController.js";
 
 import {
@@ -39,13 +42,13 @@ router.post(
   uploadPhotoMiddleware("").none(),
   jobSeekerLogInValidator,
   jobseekerLogInToken,
-  jobSeekerLogin,
-  getJobSeekerAllInfo
+  getJobSeekerAllInfo,
+  jobSeekerLogin
 );
 
 router.get("/getInfo", verifyJobseekerToken, getJobSeeker);
 router.get("/getAllInfo", verifyJobseekerToken, getJobSeekerAllInfo);
-router.get("/allJobSeekers", getAllJobSeekers);// SHOULD GO TO THWE ADMIN
+router.get("/allJobSeekers", getAllJobSeekers); // SHOULD GO TO THWE ADMIN
 
 router.put(
   "/updateJobSeeker",
@@ -54,7 +57,7 @@ router.put(
   updateJobSeekerInfo
 );
 router.delete("/deleteJobSeeker/:id", deleteJobSeeker);
-router.put("/email", uploadPhotoMiddleware("").none(),verifyEmail);
+router.put("/email", uploadPhotoMiddleware("").none(), verifyEmail);
 router.put("/password", uploadPhotoMiddleware("").none(), resetPassword);
 router.get("/allApplications", verifyJobseekerToken, allJobApplications);
 
