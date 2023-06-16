@@ -18,12 +18,12 @@ const postJobValidator = (req, res, next) => {
         location: Joi.string().required().min(3).max(25).messages({
             "any.required": "Enter the location of this job!",
             "string.min": "Location cannot be less than 10 characters",
-            "string.max":"Location cannot be more than 25 characters"
+            "string.max": "Location cannot be more than 25 characters"
         }),
         requirements: Joi.string().min(3).required().messages({
             "any.required": "Enter the requirements for this job!",
             "string.min": "Requirements cannot be less than 20 characters",
-            "string.max":"Requirements cannot be more than 80 characters"
+            "string.max": "Requirements cannot be more than 80 characters"
         }),
         application_deadline: Joi.date().required().messages({
             "any.required": "Enter the apllication deadline!"
@@ -44,13 +44,13 @@ const postJobValidator = (req, res, next) => {
             "string.pattern.base": "Enter a valid phone number!"
         })
     })
-    // const validation = schema.validate(req.body);
-    // const { error } = validation;
-    // if (error) {
-    //     const message = error.details.map(x => x.message);
-    //     res.status(400).json({ message });
-    //     return;
-    // }
+    const validation = schema.validate(req.body);
+    const { error } = validation;
+    if (error) {
+        const message = error.details.map(x => x.message);
+        res.status(400).json({ message });
+        return;
+    }
     next();
 };
 

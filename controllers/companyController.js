@@ -97,8 +97,8 @@ const updateCompanyInfo = async (req, res) => {
 //Verify Email
 const verifyEmail = async (req, res) => {
   try {
-  const {email} = req.body;
-  
+    const { email } = req.body;
+
     const findCompany = await companyModel.findOne({ where: { email: email } });
     if (!findCompany) {
       return res.status(400).json({ message: "User does not exist" });
@@ -122,9 +122,9 @@ const resetPassword = async (req, res) => {
     if (!company.id || !company.newPassword) {
       return res.status(404).json({ message: "Enter new password" });
     }
-    const samePassword =  bcrypt.compareSync(company.newPassword, company.password)
+    const samePassword = bcrypt.compareSync(company.newPassword, company.password)
     if (samePassword) {
-      return res.status(404).json({message:"Password can not be the same"})
+      return res.status(404).json({ message: "Password can not be the same" })
     }
     const password = await bcrypt.hash(company.newPassword, 10);
     const updatePassword = await companyModel.update({ password: password }, { where: { id: company.id } });
@@ -133,7 +133,7 @@ const resetPassword = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json({message:"Failed to reset password"})
+    res.status(400).json({ message: "Failed to reset password" })
   }
 }
 
@@ -170,7 +170,7 @@ const getCompanyAllInfo = async (req, res) => {
     });
     if (!allCompanyInfo)
       return res.status(400).json({ message: "No information found!" });
-    res.status(200).json({message:"Login successful!",token, allCompanyInfo });
+    res.status(200).json({ message: "successful!", token, allCompanyInfo });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: "Error getting information!" });
@@ -284,29 +284,29 @@ const jobSeekerAllInfo = async (req, res) => {
 
 // get applicant info
 const applicantInfo = async (req, res) => {
-    try {
-        const company_id = req.params.id;
+  try {
+    const company_id = req.params.id;
 
-        const allInfo = await applications.findAll({
-            where: { company_id: company_id },
-            include: [
-                {
-                    model: postedJobs,
-                    required: false
-                },
-                {
-                    model: jobSeeker,
-                    required: true
-                }
-            ]
-        });
-        if (allInfo) {
-            res.status(200).json(allInfo);
+    const allInfo = await applications.findAll({
+      where: { company_id: company_id },
+      include: [
+        {
+          model: postedJobs,
+          required: false
+        },
+        {
+          model: jobSeeker,
+          required: true
         }
-    }catch(error) {
-        console.log(error);
-        res.status(400).json({message:"Error getting information"})
+      ]
+    });
+    if (allInfo) {
+      res.status(200).json(allInfo);
     }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Error getting information" })
+  }
 }
 
 // delete a company

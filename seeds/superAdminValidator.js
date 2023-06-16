@@ -11,8 +11,8 @@ const superAdminLoginValidator = (req, res, next) => {
 
 const passwordChangeValidator = (req, res, next) => {
   const schema = Joi.object({
-    old_password: Joi.string().required(),
-    new_password: Joi.string()
+    oldPassword: Joi.string().required(),
+    newPassword: Joi.string()
       .min(8)
       .required()
       .regex(/^(?=.*[!@#$%^&*])(?=.*[A-Z])/)
@@ -23,9 +23,9 @@ const passwordChangeValidator = (req, res, next) => {
         "any.required": "Password is required!",
       }),
 
-    confirm_password: Joi.string()
+    confirmPassword: Joi.string()
       .required()
-      .equal(Joi.ref("new_password"))
+      .equal(Joi.ref("newPassword"))
       .messages({
         "any.only": "Passwords do not match!",
       }),

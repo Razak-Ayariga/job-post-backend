@@ -2,7 +2,7 @@ import superAdminModel from "../models/superAdminModel.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
-const jwtSecret = process.env.JWT_SECRET;
+const jwtSecret = process.env.ADMIN_SECRET;
 
 const mainAdminToken = async (req, res, next) => {
   try {
