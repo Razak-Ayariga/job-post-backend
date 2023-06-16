@@ -10,7 +10,8 @@ import {
   deleteJobSeeker,
   getAllJobSeekers,
   verifyEmail,
-  resetPassword
+  resetPassword,
+  allJobApplications
 } from "../controllers/jobSeekersController.js";
 
 import {
@@ -53,6 +54,8 @@ router.put(
   updateJobSeekerInfo
 );
 router.delete("/deleteJobSeeker/:id", deleteJobSeeker);
-router.post("/email", uploadPhotoMiddleware("").none(), verifyEmail);
+router.put("/email", uploadPhotoMiddleware("").none(), verifyEmail);
 router.put("/password", uploadPhotoMiddleware("").none(), resetPassword);
+router.get("/allApplications", verifyJobseekerToken, allJobApplications);
+
 export default router;

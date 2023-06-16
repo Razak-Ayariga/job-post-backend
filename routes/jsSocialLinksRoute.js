@@ -13,9 +13,9 @@ router.post(
   "/jsLinks",
   uploadPhotoMiddleware("").none(),
   verifyJobseekerToken,
-  jsSocialLinksValidator,
+  // jsSocialLinksValidator,
   addLinksController,
-  getJobSeekerAllInfo
+  // getJobSeekerAllInfo
 );
 
 export default router;

@@ -29,7 +29,7 @@ const companySignupToken = async (req, res, next) => {
     // Generate company signup token
     jwt.sign(companyInfo, jwtSecret, (error, token) => {
       if (error) {
-        res.status(400).json({ message: "Validation error" });
+        return res.status(400).json({ message: "Validation error" });
       } else {
         req.token = token;
         next();
@@ -56,7 +56,7 @@ const companyLoginToken = async (req, res, next) => {
     id: findCompany.dataValues.id,
     company_name: findCompany.dataValues.company_name,
     email: findCompany.dataValues.email,
-}
+  }
   // Generate company login token
   const token = jwt.sign(tokenVariables, jwtSecret);
   req.token = token;
@@ -79,7 +79,7 @@ const verifyCompanyToken = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(403).json({ message: "Failed to authenticate token!" });
+    return res.status(403).json({ message: "Failed to authenticate token!" });
   }
 };
 

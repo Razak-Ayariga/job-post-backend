@@ -11,7 +11,7 @@ router.post(
   "/registrationInfo",
   uploadRegistrationCertificate("public/companyCert").single("company_certificate"),
   verifyCompanyToken,
-  companyRegistrationValidator,
+  // companyRegistrationValidator,
   newRegistration,
   getCompanyAllInfo
 );

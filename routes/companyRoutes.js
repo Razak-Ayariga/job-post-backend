@@ -11,7 +11,9 @@ import {
   deleteCompany,
   jobSeekerAllInfo,
   companyDetails,
-  applicantInfo
+  applicantInfo,
+  verifyEmail,
+  resetPassword
 } from "../controllers/companyController.js";
 
 import {
@@ -55,6 +57,8 @@ router.get("/allCompanies", getAllcompanies);
 router.delete("/deleteCompany/:id", deleteCompany);
 router.get("/allJobSeekerInfo/:id", jobSeekerAllInfo);
 router.get("/companyDetails/", verifyCompanyToken, companyDetails);
-router.get("/jobApplicant/:id", applicantInfo)
+router.get("/jobApplicant/:id", applicantInfo);
+router.put("/email",uploadLogoMiddleware("").none(), verifyEmail);
+router.put("/password", uploadLogoMiddleware("").none(),resetPassword);
 
 export default router;

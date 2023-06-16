@@ -8,31 +8,31 @@ const companyRegistration = sequelize.define(
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
-      allowNull: false
+      allowNull: false,
     },
     company_id: {
       type: DataTypes.UUID,
       references: {
         model: "companies",
-        key: "id"
-      }
+        key: "id",
+      },
     },
 
     registration_number: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     vat_number: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     company_certificate: {
       type: DataTypes.STRING,
-      allowNull: false
-    }
+      allowNull: true,
+    },
   },
   {
-    paranoid: true
+    paranoid: true,
   }
 );
 

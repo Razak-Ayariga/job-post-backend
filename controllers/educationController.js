@@ -1,6 +1,6 @@
 import education from "../models/educationModel.js";
 
-const newEducationController = async (req, res) => {
+const newEducationController = async (req, res, next) => {
   try {
     const newEducation = req.body;
     const id = req.userId;
@@ -13,6 +13,7 @@ const newEducationController = async (req, res) => {
         addEducation
         //getJobSeekerAllInfo,
       });
+    next();
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Failed to add education record!" });
