@@ -4,10 +4,16 @@ const router = express.Router();
 //import the routes
 import {
   registerCompany,
-  companyLoginController,
+  companyLogin,
   updateCompanyInfo,
-    getCompanyAllInfo,
-  getAllcompanies
+  getCompanyAllInfo,
+  getAllcompanies,
+  deleteCompany,
+  jobSeekerAllInfo,
+  companyDetails,
+  applicantInfo,
+  verifyEmail,
+  resetPassword
 } from "../controllers/companyController.js";
 
 import {
@@ -19,9 +25,8 @@ import {
 
 import {
   companyRegisterValidator,
-  companyLoginValidator,
+  companyLoginValidator
 } from "../Validators/companyValidators.js";
-
 
 router.post(
   "/registerCompany",
@@ -36,7 +41,8 @@ router.post(
   uploadLogoMiddleware("").none(),
   companyLoginValidator,
   companyLoginToken,
-  companyLoginController
+  companyLogin,
+  getCompanyAllInfo
 );
 
 router.put(
@@ -48,5 +54,11 @@ router.put(
 
 router.get("/getAll", verifyCompanyToken, getCompanyAllInfo);
 router.get("/allCompanies", getAllcompanies);
+router.delete("/deleteCompany/:id", deleteCompany);
+router.get("/allJobSeekerInfo/:id", jobSeekerAllInfo);
+router.get("/companyDetails/", verifyCompanyToken, companyDetails);
+router.get("/jobApplicant/:id", applicantInfo);
+router.put("/email",uploadLogoMiddleware("").none(), verifyEmail);
+router.put("/password", uploadLogoMiddleware("").none(),resetPassword);
 
 export default router;

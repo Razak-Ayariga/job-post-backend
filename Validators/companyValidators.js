@@ -5,7 +5,7 @@ const companyRegisterValidator = (req, res, next) => {
   const schema = Joi.object({
     company_name: Joi.string()
       .min(3)
-      .regex(/^[-A-Za-z0-9 ]+$/)
+      .regex(/^[-A-Za-z0-9/ ]+$/)
       .required()
       .messages({
         "any.required": "Company name is required!",
@@ -14,14 +14,11 @@ const companyRegisterValidator = (req, res, next) => {
           "Company name can only contain letters, numbers and a hyphen(-)!",
       }),
 
-    email: Joi.string()
-      .required()
-      .email({ minDomainSegments: 2 })
-      .messages({
-        "string.email":
-          "Invalid email format. Please provide a valid email address!",
-        "any.required": "Email is required!",
-      }),
+    email: Joi.string().required().email({ minDomainSegments: 2 }).messages({
+      "string.email":
+        "Invalid email format. Please provide a valid email address!",
+      "any.required": "Email is required!"
+    }),
 
     password: Joi.string()
       .min(8)
@@ -50,13 +47,15 @@ const companyRegisterValidator = (req, res, next) => {
         "string.length": "Phone number must be exactly 13 digits",
         "any.required": "Phone number is required!",
       }),
-    verification_method: Joi.string()
-      .required()
-      .messages({
-        "any.only":
-          "Verification method must be either 'Registration Certificate' or 'VAT Number'!",
-        "any.required": "Verification method is required!",
-      }),
+    verification_method: Joi.string().required().messages({
+      "any.only":
+        "Verification method must be either 'Registration Certificate' or 'VAT Number'!",
+      "any.required": "Verification method is required!",
+    }),
+
+    linkedin: Joi.string(),
+    website: Joi.string(),
+    industry: Joi.string()
   });
 
   const validation = schema.validate(req.body);
@@ -70,15 +69,15 @@ const companyRegisterValidator = (req, res, next) => {
 
 //validate company login
 const companyLoginValidator = (req, res, next) => {
+  // const storedPassword = companies.password;
   const schema = Joi.object({
-    email: Joi.string().required(),
-    password: Joi.string().required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().required()
   }).with("email", "password");
   const { email, password } = req.body;
   const { error } = schema.validate({ email, password });
-  if (error) {
-    return res.status(400).json({ message: "email and password required" });
-  }
+  if (error) return res.status(400).json("email or password required");
+  // if(password !== storedPassword) return res.status(401).json("Invalid password");
   next();
 };
 

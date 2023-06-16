@@ -14,14 +14,13 @@ const languages = Sequelize.define("language", {
         references: {
             model: "job_seekers",
             key: "id"
-        }
+       },
+        onDelete:"CASCADE"
     },
     language: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-}, {
-    paranoid: true
 });
     (async () => {
     await Sequelize.sync()

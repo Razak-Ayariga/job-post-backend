@@ -17,6 +17,28 @@ const addExperienceController = async (req, res) => {
   }
 };
 
+//update experience
+const updateExperience = async (req, res) => {
+  const updateInfo = req.body;
+  try {
+    console.log(updateInfo);
+    const { id } = req.params;
+    const findExperience = await experience.findByPk(id);
+    if (!findExperience) {
+      return res.status(404).json({ message: "expirience recored not found!" });
+    }
+    const updateRecord = await experience.update(updateInfo, {
+      where: { id: id },
+    });
+    if (updateRecord) {
+      res.status(200).json({ message: "expirience updated successfully!" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ messaage: "Error updating expirience" });
+  }
+};
+
 // get one experience record
 const getOneExperience = async (req, res) => {
   try {
@@ -34,8 +56,10 @@ const getOneExperience = async (req, res) => {
 // get all experience records
 const getAllExperience = async (req, res) => {
   try {
-  const js_id = req.params.js_id;
-    const findAllExperience = await experience.findAll({where: { js_id: js_id }});
+    const js_id = req.params.js_id;
+    const findAllExperience = await experience.findAll({
+      where: { js_id: js_id },
+    });
     if (findAllExperience) {
       return res.status(200).json(findAllExperience);
     }
@@ -69,6 +93,7 @@ const deleteExperience = async (req, res) => {
 export {
   addExperienceController,
   getOneExperience,
+  updateExperience,
   deleteExperience,
   getAllExperience,
 };

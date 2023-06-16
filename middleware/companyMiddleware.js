@@ -29,7 +29,7 @@ const companySignupToken = async (req, res, next) => {
     // Generate company signup token
     jwt.sign(companyInfo, jwtSecret, (error, token) => {
       if (error) {
-        res.status(400).json({ message: "Validation error" });
+        return res.status(400).json({ message: "Validation error" });
       } else {
         req.token = token;
         next();
@@ -44,18 +44,21 @@ const companySignupToken = async (req, res, next) => {
 //log in token
 const companyLoginToken = async (req, res, next) => {
   const companyInfo = req.body;
-  console.log(companyInfo);
   const findCompany = await companyModel.findOne({
-    where: { email:companyInfo.email },
-    attributes: { exclude: ["password", "description"] }, t
+    where: { email: companyInfo.email },
+    attributes: { exclude: ["password", "description"] },
   });
   if (!findCompany) {
     res.status(403).json({ message: "Invalid email or password" });
     return;
   }
-
+  const tokenVariables = {
+    id: findCompany.dataValues.id,
+    company_name: findCompany.dataValues.company_name,
+    email: findCompany.dataValues.email,
+  }
   // Generate company login token
-  const token = jwt.sign(findCompany.dataValues, jwtSecret)
+  const token = jwt.sign(tokenVariables, jwtSecret);
   req.token = token;
   req.company = findCompany.dataValues;
   next();
@@ -76,7 +79,7 @@ const verifyCompanyToken = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(403).json({ message: "Failed to authenticate token!" });
+    return res.status(403).json({ message: "Failed to authenticate token!" });
   }
 };
 
@@ -94,7 +97,17 @@ const uploadLogoMiddleware = (destination) => {
     },
   });
 
-  const upload = multer({ storage });
+  const fileFilter = (req, file, cb) => {
+    const { mimetype } = file;
+    if (mimetype.includes("image")) {
+      cb(null, true)
+    } else {
+      cb(new Error("Upload only images!"));
+    }
+    return;
+  };
+
+  const upload = multer({ storage, fileFilter });
   return upload;
 };
 

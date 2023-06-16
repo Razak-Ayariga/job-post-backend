@@ -1,4 +1,3 @@
-import languages from "../models/languageModel.js";
 import languageModel from "../models/languageModel.js";
 
 const addLanguage = async (req, res) => {
@@ -17,7 +16,29 @@ const addLanguage = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ success: false, error: "Server Error" });
+    return res.status(500).json({ message: "Server Error" });
+  }
+};
+
+//update language
+const updateLanguage = async (req, res) => {
+  const updateInfo = req.body;
+  try {
+    console.log(updateInfo);
+    const { id } = req.params;
+    const findLang = await languageModel.findByPk(id);
+    if (!findLang) {
+      return res.status(404).json({ message: "language recored not found!" });
+    }
+    const updateRecord = await languageModel.update(updateInfo, {
+      where: { id: id },
+    });
+    if (updateRecord) {
+      res.status(200).json({ message: "language updated successfully!" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ messaage: "Error updating language" });
   }
 };
 
@@ -28,13 +49,13 @@ const getAllLanguages = async (req, res) => {
     const languageRecords = await languageModel.findAll({
       where: { js_id: js_id },
     });
-    if (!languageRecords || languageRecords.length === 0) {
-      return res.status(404).json({ error: "language not found" });
+    if (!languageRecords) {
+      return res.status(404).json({ message: "language not found" });
     }
     return res.json(languageRecords);
   } catch (error) {
-    console.error("Error fetching language records:", error);
-    return res.status(500).json({ error: "Internal server error" });
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 //get one lang
@@ -57,15 +78,21 @@ const deleteLanguage = async (req, res) => {
     const { id } = req.params;
     const existingLanguage = await languageModel.findByPk(id);
     if (!existingLanguage)
-      return res.status(404).json({ error: "language record not found" });
+      return res.status(404).json({ message: "language record not found" });
     await existingLanguage.destroy();
     const deleteLanguage = await languageModel.destroy({ where: { id: id } });
     if (deleteLanguage)
       return res.status(200).json({ message: "language deleted successfully" });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
-export { addLanguage, getAllLanguages, getOneLanguage, deleteLanguage };
+export {
+  addLanguage,
+  updateLanguage,
+  getAllLanguages,
+  getOneLanguage,
+  deleteLanguage,
+};

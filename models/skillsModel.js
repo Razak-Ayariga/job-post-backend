@@ -15,6 +15,7 @@ const skills = sequelize.define("Skills", {
       model: "job_seekers",
       key: "id",
     },
+    onDelete:"CASCADE"
   },
 
   skill_name: {
@@ -22,8 +23,6 @@ const skills = sequelize.define("Skills", {
     allowNull: false,
   },
 
-}, {
-  paranoid: true
 });
 
 (async () => {

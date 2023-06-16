@@ -14,14 +14,13 @@ const JobSeekerInfo = sequelize.define("cv", {
             model: "jobSeekers",
             key: "id"
         },
-        allowNull: false
+        allowNull: false,
+        onDelete:"CASCADE"
     },
     cv: {
         type: DataTypes.STRING,
         allowNull: false
     }
-}, {
-  paranoid: true
 });
 (async() => {
     await sequelize.sync();

@@ -7,8 +7,8 @@ import {
   deleteSkill,
 } from "../controllers/SkillsController.js";
 import skillsValidator from "../Validators/skillsValidator.js";
-import { verifyJobseekerToken } from "../middleware/jobseekerAuthMiddleware.js";
-import { uploadPhotoMiddleware } from "../middleware/jobseekerAuthMiddleware.js";
+import { verifyJobseekerToken, uploadPhotoMiddleware } from "../middleware/jobseekerAuthMiddleware.js";
+import { getJobSeekerAllInfo } from "../controllers/jobSeekersController.js";
 
 // Route to get all Skills records for a jobseeker
 router.post(
@@ -16,9 +16,10 @@ router.post(
   uploadPhotoMiddleware("").none(),
   skillsValidator,
   verifyJobseekerToken,
-  createSkills
+  createSkills,
+  getJobSeekerAllInfo
 );
-router.get("/getSkills/:id", getAllSkills, verifyJobseekerToken);
+router.get("/getSkills/:id", getAllSkills);
 router.put(
   "/updateSkills/:id",
   skillsValidator,
