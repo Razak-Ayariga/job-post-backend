@@ -11,6 +11,7 @@ import {
   getAllJobSeekers,
   verifyEmail,
   resetPassword,
+  allJobApplications
 } from "../controllers/jobSeekersController.js";
 
 import {
@@ -55,4 +56,6 @@ router.put(
 router.delete("/deleteJobSeeker/:id", deleteJobSeeker);
 router.put("/email", uploadPhotoMiddleware("").none(), verifyEmail);
 router.put("/password", uploadPhotoMiddleware("").none(), resetPassword);
+router.get("/allApplications", verifyJobseekerToken, allJobApplications);
+
 export default router;
