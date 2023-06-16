@@ -42,7 +42,7 @@ const getAllApplicants = async (req, res) => {
     }
     const applicants = await applicationsModel.findAll({
       where: { jobs_id: id },
-      include: [{ model: jobSeekers, as: "jobSeeker" }],
+      include: [{ model: jobSeekers, as: "jobSeeker" }]
     });
     res.status(200).json(applicants);
   } catch (error) {

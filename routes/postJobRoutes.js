@@ -14,7 +14,7 @@ import { companyDetails } from "../controllers/companyController.js";
 import postJobValidator from "../Validators/postJobValidator.js";
 import { uploadLogoMiddleware, verifyCompanyToken } from "../middleware/companyMiddleware.js";
 import { getCompanyAllInfo } from "../controllers/companyController.js";
-
+import uploadPhotoMiddleware from "./uploadPhotoMiddleware.js";
 router.post(
   "/postJob",
   uploadLogoMiddleware("").none(),

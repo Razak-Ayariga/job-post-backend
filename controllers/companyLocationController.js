@@ -45,6 +45,6 @@ const updateLocation = async (req, res) => {
     console.log(error);
     res.status(400).json({ message: "Error updating location" });
   }
-}
+};
 
-export default addLocation;
+export {addLocation, updateLocation};

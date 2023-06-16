@@ -104,7 +104,7 @@ const verifyJobseekerToken = async (req, res, next) => {
 };
 
 //middleware to upload photo
-const uploadPhotoMiddleware = (destination) => {
+const uploadCvMiddleware = (destination) => {
   const directory = path.join(absolutePath, destination);
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -114,7 +114,7 @@ const uploadPhotoMiddleware = (destination) => {
       const filename =
         file.fieldname + "_" + Date.now() + path.extname(file.originalname);
       cb(null, filename);
-    }
+    },
   });
 
   const fileFilter = (req, file, cb) => {
@@ -128,26 +128,53 @@ const uploadPhotoMiddleware = (destination) => {
   };
 
   const upload = multer({ storage, fileFilter });
+  return upload;
+};
+
+
+//middleware to upload photo
+const uploadPhotoMiddleware = (destination) => {
+  const directory = path.join(absolutePath, destination);
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, directory);
+    },
+    filename: function (req, file, cb) {
+      const filename =
+        file.fieldname + "_" + Date.now() + path.extname(file.originalname);
+      cb(null, filename);
+    },
+  });
+
+  const upload = multer({ storage });
+
   return async (req, res, next) => {
     try {
-      upload.single("logo")(req, res, async (err) => {
+      // Configure Cloudinary
+      cloudinaryConfig();
+
+      // Use upload.single() to process the file upload
+      upload.single("photo")(req, res, async (err) => {
         if (err) {
           return res.status(400).json({ message: err.message });
         }
 
         if (!req.file) {
-          return res
-            .status(400)
-            .json({ message: "Please upload a logo image" });
+          return res.status(400).json({ message: "Please upload a photo" });
         }
 
-        // Upload the file to Cloudinary
-        const result = await uploader.upload(req.file.path);
+        try {
+          // Upload the file to Cloudinary
+          const result = await cloudinary.uploader.upload(req.file.path);
 
-        // Update the req.file object with the Cloudinary URL
-        req.file.path = result.secure_url;
+          // Update the req.file object with the Cloudinary URL
+          req.file.path = result.secure_url;
 
-        next();
+          next();
+        } catch (error) {
+          console.error("Error uploading photo:", error);
+          return res.status(500).json({ message: "Failed to upload photo" });
+        }
       });
     } catch (error) {
       console.error("Error uploading photo:", error);
@@ -155,6 +182,8 @@ const uploadPhotoMiddleware = (destination) => {
     }
   };
 };
+
+
 
 
 export {
