@@ -9,7 +9,7 @@ router.post("/jobApply", verifyJobseekerToken,
     applicationCv("applications/cvs").single("cv"),
     jobApplication);
 
-router.get("/jobApplicant/:company_id", applicantInfo);
+router.get("/jobApplicant/:job_id", applicantInfo);
 router.get("/allApplications", verifyJobseekerToken, allJobApplications);
 
 export default router;

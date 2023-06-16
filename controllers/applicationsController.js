@@ -25,33 +25,58 @@ const jobApplication = async (req, res) => {
 };
 
 // get applicant info
-const applicantInfo = async (req, res) => {
-    try {
-        const company_id = req.params.company_id;
-        const allInfo = await jobs.findAll({
-            where: { company_id },
-            include: [
-                {
-                    model: applications,
-                    required: false,  
-                },
-                {
-                    model: jobSeeker,
-                    required: true,
-                    include: [education, experience, skills, languages, jsSocialLinks]
-                }
-            ],
-            group: ["jobs.id"]
-        });
-        if (allInfo) {
-            res.status(200).json(allInfo);
-        }
-    } catch (error) {
+// const applicantInfo = async (req, res) => {
+//     try {
+//         const job_id = req.params.job_id;
+//         const allInfo = await applications.findAll({
+//             where: { job_id },
+//             include: [
+//                 {
+//                     model: jobs,
+//                     required: false,
+//               },
+//                 {
+//                     model: jobSeeker,
+//                     required: false,
+//                     include: [education, experience, skills, languages, jsSocialLinks]
+//                 }
+//             ],
+//             // group: ["jobs.id"]
+//         });
+//         if (allInfo) {
+//             res.status(200).json(allInfo);
+//         }
+//     } catch (error) {
 
-        console.log(error);
-        res.status(400).json({ message: "Error getting information" })
+//         console.log(error);
+//         res.status(400).json({ message: "Error getting information" })
+//     }
+// };
+const applicantInfo = async (req, res) => {
+  try {
+    const job_id = req.params.job_id;
+    const allInfo = await applications.findAll({
+      where: { job_id: job_id },
+      include: [
+        {
+          model: jobs,
+          required: true
+        },
+        {
+          model: jobSeeker,
+          required: true,
+          include: [education, experience, skills, languages, jsSocialLinks]
+        }
+      ]
+    }); 
+    if (allInfo) {
+      res.status(200).json(allInfo);
     }
-};
+  } catch (error) {
+    console.log(error);
+    res.status.json({message:"Error getting information!"})
+  }
+}
 
 // Get all job applications
 const allJobApplications = async (req, res) => {
