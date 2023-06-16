@@ -16,14 +16,14 @@ import {
 
 import {
   jobSeekerRegisterValidator,
-  jobSeekerLogInValidator
+  jobSeekerLogInValidator,
 } from "../validators/jobseekerValidator.js";
 
 import {
   jobseekerSignUpToken,
   jobseekerLogInToken,
   verifyJobseekerToken,
-  uploadPhotoMiddleware
+  uploadPhotoMiddleware,
 } from "../middleware/jobseekerAuthMiddleware.js";
 
 router.post(
