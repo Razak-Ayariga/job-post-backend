@@ -9,7 +9,7 @@ const postJobValidator = (req, res, next) => {
             "any.required": "Choose the type of job!",
         }),
         job_description: Joi.string().required().messages({
-            "any.required": "PDescribe the job you are posting!"
+            "any.required": "Describe the job you are posting!"
         }),
         salary_range: Joi.string().required().messages({
             "any.required": "Enter the salary for this job!",
