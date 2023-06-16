@@ -6,7 +6,7 @@ import { mainAdminToken, verifyAdminToken } from "./superAdminMiddleware.js";
 import {superAdminLoginValidator,passwordChangeValidator} from "./superAdminValidator.js";
 import { getAllJobSeekers } from "../controllers/jobSeekersController.js";
 import { uploadLogoMiddleware } from "../middleware/companyMiddleware.js";
-import { getAllAvailableJobs } from "../controllers/postJobController.js";
+import { getAllAvailableJobs } from "../controllers/companyController.js";
 
 router.post(
   "/mainAdminLogin",
