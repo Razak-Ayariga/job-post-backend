@@ -71,7 +71,7 @@ const getAllcompanies = async (req, res) => {
 const getAllJobSeekers = async (req, res) => {
   try {
     const findAllJobSeekers = await jobSeeker.findAll({
-      attributes: { exclude: ["id", "password", "deletedAt"] },
+      attributes: { exclude: ["id", "password", "deletedAt"] }
     });
     if (!findAllJobSeekers) {
       return res.status(400).json({message: "No job seekers available!"});
