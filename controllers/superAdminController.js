@@ -14,7 +14,7 @@ const mainAdminRegister = async (req, res) => {
     newAdmin["password"] = hashPassword;
 
     const addAdmin = await superAdminModel.create(newAdmin, {
-      fields: ["email", "password"],
+      fields: ["email", "password"]
     });
     const admin = addAdmin.dataValues;
     res

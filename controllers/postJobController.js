@@ -45,7 +45,7 @@ const updateJob = async (req, res) => {
       return res.status(404).json({ message: "Job record not found!" });
     }
     const updateResult = await postJobsModel.update(updateInfo, {
-      where: { id: id },
+      where: { id: id }
     });
     if (updateResult) {
       res.status(200).json({ message: "Job updated successfully!" });
@@ -110,5 +110,5 @@ export {
   getOneJob,
   getAllJobs,
   deleteJob,
-  updateJob,
-}; 
+  updateJob
+};

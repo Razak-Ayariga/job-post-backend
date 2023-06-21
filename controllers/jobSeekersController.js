@@ -157,7 +157,7 @@ const getJobSeekerAllInfo = async (req, res) => {
           model: jsSocialLinks,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
           }
         }
       ],
@@ -219,7 +219,7 @@ const deleteJobSeeker = async (req, res) => {
       const permanentDelete = await jobSeeker.destroy({
         where: { id: userId, deletedAt: { [Op.not]: null } },
         force: true, // Permanently delete the record
-        include: [Education, Experience, Skills, Languages, jsSocialLinks, cv],
+        include: [Education, Experience, Skills, Languages, jsSocialLinks, cv]
       });
       if (permanentDelete) {
         console.log(`Record permanently deleted for ID: ${userId}`);
@@ -243,7 +243,7 @@ const verifyEmail = async (req, res) => {
     const user = {
       id: findUser.dataValues.id,
       email: findUser.dataValues.email,
-      password: findUser.dataValues.password,
+      password: findUser.dataValues.password
     };
     res.status(200).json({ message: "User found!", user });
   } catch (error) {
@@ -259,9 +259,9 @@ const resetPassword = async (req, res) => {
     if (!user.id || !user.newPassword) {
       return res.status(404).json({ message: "Enter new password" });
     }
-    const samePassword = bcrypt.compareSync(user.newPassword, user.password)
+    const samePassword = bcrypt.compareSync(user.newPassword, user.password);
     if (samePassword) {
-      return res.status(404).json({ message: "Password can not be the same" })
+      return res.status(404).json({ message: "Password can not be the same" });
     }
     const password = await bcrypt.hash(user.newPassword, 10);
     const updatePassword = await jobSeeker.update(
@@ -273,7 +273,7 @@ const resetPassword = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json({ message: "Failed to reset password" })
+    res.status(400).json({ message: "Failed to reset password" });
   }
 };
 
