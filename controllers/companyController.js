@@ -1,17 +1,18 @@
-import companyModel from "../models/companyModel.js";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
-import companyRegistration from "../models/companyRegistrationModel.js";
-import postedJobs from "../models/postJobsModel.js";
-import jobSeeker from "../models/jobSeekersModel.js";
-import Experience from "../models/experienceModel.js";
-import Education from "../models/educationModel.js";
-import Languages from "../models/languageModel.js";
-import Skills from "../models/skillsModel.js";
-import jsSocialLinks from "../models/jsSocialLinksModel.js";
-import locations from "../models/locationModel.js";
-import applications from "../models/applicationsModel.js";
+import cron from "node-cron"
 import { Op } from "sequelize";
+// import companyModel from "../models/companyModel.js";
+// import companyRegistration from "../models/companyRegistrationModel.js";
+// import postedJobs from "../models/postJobsModel.js";
+// import jobSeeker from "../models/jobSeekerProfileModel.js";
+// import Experience from "../models/experienceModel.js";
+// import Education from "../models/educationModel.js";
+// import Languages from "../models/languageModel.js";
+// import Skills from "../models/skillsModel.js";
+// import jsSocialLinks from "../models/jsSocialLinksModel.js";
+// import locations from "../models/locationModel.js";
+// import applications from "../models/applicationsModel.js";
 
 // Company register
 const registerCompany = async (req, res) => {
@@ -219,68 +220,68 @@ const getAllcompanies = async (req, res) => {
 };
 
 //company to get all info of a job seeker
-const jobSeekerAllInfo = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const allInfo = await jobSeeker.findAll({
-      where: { id: id },
-      include: [
-        {
-          model: Education,
-          required: false,
-          attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
-        },
-        {
-          model: Experience,
-          required: false,
-          attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
-        },
-        {
-          model: Languages,
-          required: false,
-          attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
-        },
-        {
-          model: Skills,
-          required: false,
-          attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
-        },
-        {
-          model: jsSocialLinks,
-          required: false,
-          attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
-        },
-      ],
-      attributes: {
-        exclude: [
-          "id",
-          "js_id",
-          "password",
-          "deletedAt",
-          "createdAt",
-          "updatedAt",
-        ],
-      },
-    });
-    if (!allInfo) {
-      return res.status(400).json({ message: "no information found!" });
-    }
-    res.status(200).json(allInfo);
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ message: "Error getting information!" });
-  }
-};
+// const jobSeekerAllInfo = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const allInfo = await jobSeeker.findAll({
+//       where: { id: id },
+//       include: [
+//         {
+//           model: Education,
+//           required: false,
+//           attributes: {
+//             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+//           },
+//         },
+//         {
+//           model: Experience,
+//           required: false,
+//           attributes: {
+//             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+//           },
+//         },
+//         {
+//           model: Languages,
+//           required: false,
+//           attributes: {
+//             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+//           },
+//         },
+//         {
+//           model: Skills,
+//           required: false,
+//           attributes: {
+//             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+//           },
+//         },
+//         {
+//           model: jsSocialLinks,
+//           required: false,
+//           attributes: {
+//             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+//           },
+//         },
+//       ],
+//       attributes: {
+//         exclude: [
+//           "id",
+//           "js_id",
+//           "password",
+//           "deletedAt",
+//           "createdAt",
+//           "updatedAt",
+//         ],
+//       },
+//     });
+//     if (!allInfo) {
+//       return res.status(400).json({ message: "no information found!" });
+//     }
+//     res.status(200).json(allInfo);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(400).json({ message: "Error getting information!" });
+//   }
+// };
 
 // get applicant info
 const applicantInfo = async (req, res) => {
@@ -310,7 +311,7 @@ const applicantInfo = async (req, res) => {
 }
 
 // delete a company
-const deleteCompany = async (req, res) => {
+const deleteCompany = async (req, res, next) => {
   try {
     const { id } = req.params;
     const findCompany = await companyModel.findByPk(id);
@@ -323,21 +324,48 @@ const deleteCompany = async (req, res) => {
     await findCompany.destroy();
     res.status(200).json({ message: "Record deleted successfully!" });
 
-    setTimeout(async () => {
-      const permanentDelete = await companyModel.destroy({
-        where: { id: id, deletedAt: { [Op.not]: null } },
-        force: true,
-        include: [postedJobs, companyRegistration, locations],
-      });
-      if (permanentDelete) {
-        console.log({ message: "Record permanetly deleted!" });
-      }
-    }, 30 * 24 * 60 * 60 * 1000);
+//     const performHardDelete = async () => {
+//   const twoMinutesAgo = new Date(Date.now() - 2 * 60 * 1000);
+//   const hardDelete = await companyModel.destroy({
+//     where: {
+//       deletedAt: { [Op.not]: null },
+//       updatedAt: { [Op.lte]: twoMinutesAgo },
+//     },
+//     force: true,
+//     include: [postedJobs, companyRegistration, locations],
+//   });
+//   if (hardDelete) {
+//     console.log('Hard delete completed');
+//   }
+// };
+// cron.schedule('*/2 * * * *', performHardDelete);
+
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Error deleting company!" });
+  };
+  next();
+};
+const permanentDelete = async () => {
+  try {
+    const twoMinutesAgo = new Date(Date.now() - 2 * 60 * 1000);
+    const hardDelete = await companyModel.destroy({
+      where: {
+        deletedAt: { [Op.not]: null },
+        updatedAt: { [Op.Ite]: null },
+      },
+      force: true,
+      include: [postedJobs, companyRegistration, locations, applications]
+    });
+    if (hardDelete) {
+      console.log(`Company with ${id} is now permanently deleted!`);
+    }
+    cron.schedule('*/2 * * * *', twoMinutesAgo);
+  } catch (error) {
+    console.log(error);
   }
 };
+
 // get all available jobs
 const getAllAvailableJobs = async (req, res) => {
   try {
@@ -358,7 +386,8 @@ export {
   getCompanyAllInfo,
   getAllcompanies,
   deleteCompany,
-  jobSeekerAllInfo,
+  // permanentDelete,
+  // jobSeekerAllInfo,
   companyDetails,
   applicantInfo,
   verifyEmail,

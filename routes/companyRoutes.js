@@ -8,8 +8,9 @@ import {
   updateCompanyInfo,
   getCompanyAllInfo,
   getAllcompanies,
-  deleteCompany,
-  jobSeekerAllInfo,
+//   deleteCompany,
+//   permanentDelete,
+  // jobSeekerAllInfo,
   companyDetails,
   applicantInfo,
   verifyEmail,
@@ -55,8 +56,8 @@ router.put(
 
 router.get("/getAll", verifyCompanyToken, getCompanyAllInfo);
 router.get("/allCompanies", getAllcompanies);
-router.delete("/deleteCompany/:id", deleteCompany);
-router.get("/allJobSeekerInfo/:id", jobSeekerAllInfo);
+// router.delete("/deleteCompany/:id", deleteCompany, permanentDelete);
+// router.get("/allJobSeekerInfo/:id", jobSeekerAllInfo);
 router.get("/companyDetails/", verifyCompanyToken, companyDetails);
 router.get("/jobApplicant/:id", applicantInfo);
 router.put("/email",uploadLogoMiddleware("").none(), verifyEmail);

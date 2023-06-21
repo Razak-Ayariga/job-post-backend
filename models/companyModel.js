@@ -1,8 +1,8 @@
 import DataTypes from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
-import companyRegistration from "./companyRegistrationModel.js";
-import postJob from "./postJobsModel.js";
-import locations from "./locationModel.js";
+// import companyRegistration from "./companyRegistrationModel.js";
+// import postJob from "./postJobsModel.js";
+// import locations from "./locationModel.js";
 
 const companies = sequelize.define(
   "Companies",
@@ -65,8 +65,8 @@ const companies = sequelize.define(
   await sequelize.sync();
 })();
 
-companies.hasMany(postJob, { foreignKey: "company_id", onDelete: "CASCADE" });
-companies.hasOne(companyRegistration, { foreignKey: "company_id", onDelete: "CASCADE" });
-companies.hasOne(locations, { foreignKey: "company_id", onDelete: "CASCADE" });
+// companies.hasMany(postJob, { foreignKey: "company_id", onDelete: "CASCADE" });
+// companies.hasOne(companyRegistration, { foreignKey: "company_id", onDelete: "CASCADE" });
+// companies.hasOne(locations, { foreignKey: "company_id", onDelete: "CASCADE" });
 
 export default companies;

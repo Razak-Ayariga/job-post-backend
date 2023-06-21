@@ -3,13 +3,13 @@ const router = express.Router();
 
 import {jobApplication, applicantInfo, allJobApplications} from "../controllers/applicationsController.js";
 import  applicationCv  from "../middleware/applicationsMiddleware.js";
-import { verifyJobseekerToken } from "../middleware/jobseekerAuthMiddleware.js";
+import { verifyToken } from "../middleware/jobseekerAuthMiddleware.js";
 
-router.post("/jobApply", verifyJobseekerToken,
+router.post("/jobApply", verifyToken,
     applicationCv("applications/cvs").single("cv"),
     jobApplication);
 
 router.get("/jobApplicant/:job_id", applicantInfo);
-router.get("/allApplications", verifyJobseekerToken, allJobApplications);
+router.get("/allApplications", verifyToken, allJobApplications);
 
 export default router;

@@ -1,5 +1,7 @@
 import express from "express";
 const router = express.Router();
+import multer from "multer";
+
 import {
   getAllSkills,
   createSkills,
@@ -7,25 +9,27 @@ import {
   deleteSkill,
 } from "../controllers/SkillsController.js";
 import skillsValidator from "../Validators/skillsValidator.js";
-import { verifyJobseekerToken, uploadPhotoMiddleware } from "../middleware/jobseekerAuthMiddleware.js";
-import { getJobSeekerAllInfo } from "../controllers/jobSeekersController.js";
+import { verifyToken } from "../middleware/jobseekerAuthMiddleware.js";
+import photoUpload from "../middleware/ProfileMiddleware.js";
+// import { getJobSeekerAllInfo } from "../controllers/jobSeekersController.js";
 
-// Route to get all Skills records for a jobseeker
+const upload = multer();
 router.post(
   "/addSkills",
-  uploadPhotoMiddleware("").none(),
+  photoUpload("").none(),
   skillsValidator,
-  verifyJobseekerToken,
+  verifyToken,
   createSkills,
-  getJobSeekerAllInfo
+  // getJobSeekerAllInfo
 );
 router.get("/getSkills/:id", getAllSkills);
 router.put(
   "/updateSkills/:id",
+   photoUpload("").none(),
   skillsValidator,
-  verifyJobseekerToken,
+  verifyToken,
   updateSkills
 );
-router.delete("/deleteSkill/:id", deleteSkill, verifyJobseekerToken);
+router.delete("/deleteSkill/:id", deleteSkill, verifyToken);
 
 export default router;

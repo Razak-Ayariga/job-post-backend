@@ -1,65 +1,35 @@
-import JobSeekersModel from "../models/jobSeekersModel.js";
+import JobSeekerModel from "../models/JobSeekerModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
-import multer from "multer";
-import path from "path";
-// import { log } from "util";
-const absolutePath = path.resolve("./");
 
-//middleware to check if job seeker exists in the database and generate a JWT
-const jobseekerSignUpToken = async (req, res, next) => {
-  const {
-    first_name,
-    middle_name,
-    last_name,
-    date_of_birth,
-    gender,
-    email,
-    phone_number,
-  } = req.body;
-  const jobSeekerInfo = {
-    first_name,
-    middle_name,
-    last_name,
-    date_of_birth,
-    gender,
-    email,
-    phone_number,
-  };
-  try {
-    const findUser = await JobSeekersModel.findOne({ where: { email } });
-    if (findUser) {
-      res.status(403).json({ message: "user already exist. Please login!" });
-      return;
+// //middleware to check if job seeker exists in the database
+const findJobSeeker = async (req, res, next) => {
+    try {
+        const { email } = req.body;
+        const findUser = await JobSeekerModel.findOne({ where: { email } });
+        if (findUser) {
+            res.status(403).json({ message: "user already exist. Please login!" });
+            return;
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "failed to register job seeker" });
     }
-    // generate a token for job seeker registeration
-    jwt.sign(jobSeekerInfo, jwtSecret, (error, token) => {
-      if (error) {
-        return res.status(400).json({ message: " validation error" });
-      } else {
-        req.token = token;
-        next();
-      }
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "failed to register job seeker" });
-  }
+    next();
 };
 
-// token for job seeker log in
-const jobseekerLogInToken = async (req, res, next) => {
+// // token for job seeker log in
+const jobseekerToken = async (req, res, next) => {
   const jobSeekerInfo = req.body;
-  const findJobSeeker = await JobSeekersModel.findOne({
+  const findJobSeeker = await JobSeekerModel.findOne({
     where: { email: jobSeekerInfo.email },
   });
   if (!findJobSeeker) {
     return res.status(403).json({ message: "Invalid email or password!" });
   }
-
   const passwordMatch = await bcrypt.compare(
     jobSeekerInfo.password,
     findJobSeeker.password
@@ -67,24 +37,18 @@ const jobseekerLogInToken = async (req, res, next) => {
   if (!passwordMatch) {
     return res.status(403).json({ message: "Invalid credentials" });
   }
-
   const tokenVariables = {
     id: findJobSeeker.dataValues.id,
-    first_name: findJobSeeker.dataValues.first_name,
-    middle_name: findJobSeeker.dataValues.middle_name,
-    last_name: findJobSeeker.dataValues.last_name,
-    email: findJobSeeker.dataValues.email,
-    gender: findJobSeeker.dataValues.gender,
-  };
-
-  const token = jwt.sign(tokenVariables, jwtSecret);
+    email:findJobSeeker.dataValues.email
+ }
+  const token = jwt.sign(tokenVariables, jwtSecret, {expiresIn: "1hr"});
   req.token = token;
   req.user = findJobSeeker.dataValues;
   next();
 };
 
 // middleware to verify token
-const verifyJobseekerToken = async (req, res, next) => {
+const verifyToken = async (req, res, next) => {
   try {
     const token = req.headers.token;
     if (!token) {
@@ -102,37 +66,4 @@ const verifyJobseekerToken = async (req, res, next) => {
   }
 };
 
-//middleware to upload photo
-const uploadPhotoMiddleware = (destination) => {
-  const directory = path.join(absolutePath, destination);
-  const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, directory);
-    },
-    filename: function (req, file, cb) {
-      const filename =
-        file.fieldname + "_" + Date.now() + path.extname(file.originalname);
-      cb(null, filename);
-    },
-  });
-
-  const fileFilter = (req, file, cb) => {
-    const { mimetype } = file;
-    if (mimetype.includes("image")) {
-      cb(null, true);
-    } else {
-      cb(new Error("Upload only images!"));
-    }
-    return;
-  };
-
-  const upload = multer({ storage, fileFilter });
-  return upload;
-};
-
-export {
-  jobseekerSignUpToken,
-  jobseekerLogInToken,
-  verifyJobseekerToken,
-  uploadPhotoMiddleware,
-};
+export {findJobSeeker,jobseekerToken,verifyToken};

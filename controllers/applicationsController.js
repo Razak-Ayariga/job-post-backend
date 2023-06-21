@@ -1,6 +1,6 @@
 import applications from "../models/applicationsModel.js";
 import jobs from "../models/postJobsModel.js";
-import jobSeeker from "../models/jobSeekersModel.js";
+import jobSeeker from "../models/JobSeekerModel.js";
 import education from "../models/educationModel.js";
 import experience from "../models/experienceModel.js";;
 import skills from "../models/skillsModel.js";

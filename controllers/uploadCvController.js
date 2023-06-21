@@ -1,6 +1,6 @@
 import uploadCvModel from "../models/uploadCvModel.js";
 
-const uploadCvController = async (req, res) => {
+const uploadCv = async (req, res) => {
   const addCv = req.body;
   const cv = req.file?.filename;
   const id = req.userId;
@@ -54,4 +54,4 @@ const deleteCv = async (req, res) => {
     res.status(400).json({message:"Error deleting cv!"})
   }
 }
-export { uploadCvController, updateCv, deleteCv };
+export { uploadCv, updateCv, deleteCv };

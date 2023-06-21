@@ -1,6 +1,6 @@
 import experience from "../models/experienceModel.js";
 
-const addExperienceController = async (req, res) => {
+const createExperience = async (req, res) => {
   const addExperience = req.body;
   const id = req.userId;
   addExperience["js_id"] = id;
@@ -91,7 +91,7 @@ const deleteExperience = async (req, res) => {
 };
 
 export {
-  addExperienceController,
+  createExperience,
   getOneExperience,
   updateExperience,
   deleteExperience,

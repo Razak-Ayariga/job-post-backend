@@ -8,7 +8,6 @@ const addLanguage = async (req, res) => {
 
     // Create a new language record
     const newLanguage = await languageModel.create(addLanguage);
-    //   console.log(newLanguage);
     if (newLanguage) {
       return res
         .status(201)

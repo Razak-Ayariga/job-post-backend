@@ -1,8 +1,9 @@
 import express from "express";
 const router = express.Router();
+import multer from "multer";
 
 import {
-  addExperienceController,
+  createExperience,
   getOneExperience,
   updateExperience,
   getAllExperience,
@@ -10,26 +11,25 @@ import {
 } from "../controllers/experienceController.js";
 
 import addExperienceValidator from "../Validators/experienceValidator.js";
-import {
-  verifyJobseekerToken,
-  uploadPhotoMiddleware,
-} from "../middleware/jobseekerAuthMiddleware.js";
-import { getJobSeekerAllInfo } from "../controllers/jobSeekersController.js";
+import { verifyToken } from "../middleware/jobseekerAuthMiddleware.js";
+import photoUpload from "../middleware/ProfileMiddleware.js";
+// import { getJobSeekerAllInfo } from "../controllers/jobSeekersController.js";
 
+const upload = multer();
 router.post(
   "/addExperience",
-  uploadPhotoMiddleware("").none(),
-  verifyJobseekerToken,
+  photoUpload("").none(),
+  verifyToken,
   addExperienceValidator,
-  addExperienceController,
-  getJobSeekerAllInfo
+  createExperience,
+  // getJobSeekerAllInfo
 );
 
 router.put(
   "/updateExperience/:id",
-  uploadPhotoMiddleware("").none(),
+  photoUpload("").none(),
   addExperienceValidator,
-  verifyJobseekerToken,
+  verifyToken,
   updateExperience
 );
 

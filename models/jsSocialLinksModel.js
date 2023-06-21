@@ -12,7 +12,7 @@ const jsSocialLinks = sequelize.define("js_social_links", {
     js_id: {
         type: DataTypes.UUID,
         references: {
-            model: "job_seekers",
+            model: "job_seeker_profiles",
             key: "id"
         },
         onDelete: "CASCADE"

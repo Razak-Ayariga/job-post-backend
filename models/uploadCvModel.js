@@ -11,7 +11,7 @@ const JobSeekerInfo = sequelize.define("cv", {
     js_id: {
         type: DataTypes.UUID,
         referneces: {
-            model: "jobSeekers",
+            model: "job_seekers",
             key: "id"
         },
         allowNull: false,

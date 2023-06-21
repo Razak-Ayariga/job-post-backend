@@ -13,9 +13,22 @@ const applicationCv = (destination) => {
             const filename = file.fieldname + '_' + Date.now() + path.extname(file.originalname)
             cb(null, filename)
         }
-    })
-    const upload = multer({ storage })
-    return upload
+    });
+    const fileFilter = (req, file, cb) => {
+        const extension = path.extname(file.originalname).toLowerCase();
+        if (
+            (extension === ".pdf" && file.mimetype === "application/pdf") ||
+            (extension === ".docx" &&
+                file.mimetype ===
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+        ) {
+            cb(null, true);
+        } else {
+            cb(new Error("Invalid file type. Only PDF files are allowed."));
+        }
+        return;
+    }
+    const upload = multer({ storage, fileFilter })
+    return upload;
 };
-
 export default applicationCv;
