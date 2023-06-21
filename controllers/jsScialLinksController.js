@@ -22,7 +22,28 @@ const addLinksController = async (req, res) => {
   }
 };
 
-const deleteSocialLink = async (req, res) => {
+//update links
+const updateLinks = async (req, res) => {
+  const updateInfo = req.body;
+  try {
+    const { id } = req.params;
+    const findLink = await jsSocialLinksModel.findByPk(id);
+    if (!findLink) {
+      return res.status(404).json({ message: "language recored not found!" });
+    }
+    const updateRecord = await jsSocialLinksModel.update(updateInfo, {
+      where: { id: id },
+    });
+    if (updateRecord) {
+      res.status(200).json({ message: "link updated successfully!" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ messaage: "Error updating link" });
+  }
+};
+
+const deleteLink = async (req, res) => {
   try {
     const id = req.userId;
     const findLink = await jsSocialLinksModel.findOne({ where: { js_id: id } });
@@ -37,4 +58,4 @@ const deleteSocialLink = async (req, res) => {
 }
 
 
-export default addLinksController;
+export { addLinksController, updateLinks, deleteLink };

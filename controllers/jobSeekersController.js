@@ -168,7 +168,7 @@ const getJobSeekerAllInfo = async (req, res) => {
     if (!allInfo) {
       return res.status(400).json({ message: "no information found!" });
     }
-    res.status(200).json({ token, allInfo });
+    res.status(200).json({message: "successfull!", token, allInfo });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Error getting information!" });

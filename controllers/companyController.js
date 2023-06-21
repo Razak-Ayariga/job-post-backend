@@ -103,7 +103,11 @@ const verifyEmail = async (req, res) => {
     if (!findCompany) {
       return res.status(400).json({ message: "User does not exist" });
     }
-    const Company = { id: findCompany.dataValues.id, email: findCompany.dataValues.email, password: findCompany.dataValues.password };
+    const Company = {
+      id: findCompany.dataValues.id,
+      email: findCompany.dataValues.email,
+      password: findCompany.dataValues.password
+    };
     res.status(200).json({ message: "User found!", Company });
   } catch (error) {
     console.log(error);
@@ -166,7 +170,7 @@ const getCompanyAllInfo = async (req, res) => {
     });
     if (!allCompanyInfo)
       return res.status(400).json({ message: "No information found!" });
-    res.status(200).json({ message: token, allCompanyInfo });
+    res.status(200).json({ message: "successful!", token, allCompanyInfo });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: "Error getting information!" });
@@ -334,6 +338,18 @@ const deleteCompany = async (req, res) => {
     res.status(400).json({ message: "Error deleting company!" });
   }
 };
+// get all available jobs
+const getAllAvailableJobs = async (req, res) => {
+  try {
+    const findAllJobs = await postedJobs.findAll();
+    if (findAllJobs) {
+      res.status(200).json(findAllJobs);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Error geetting all jobs!" });
+  }
+}
 
 //Verify Email
 const verifyEmail = async (req, res) => {
@@ -392,5 +408,6 @@ export {
   companyDetails,
   applicantInfo,
   verifyEmail,
-  resetPassword
+  resetPassword,
+  getAllAvailableJobs
 };

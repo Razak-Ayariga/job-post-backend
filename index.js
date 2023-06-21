@@ -5,9 +5,6 @@ import multer from "multer";
 import cors from "cors";
 import seedAdmin from "./seeds/superAdminSeed.js";
 import helmet from "helmet";
-import csrf from "csurf";
-import cookieParser from "cookie-parser";
-
 const app = express();
 const csrfProtection = csrf({ cookie: true });
 app.use(cors());
@@ -18,8 +15,6 @@ app.use(
     })
   )
 );
-app.use(cookieParser());
-app.use(csrfProtection);
 
 const port = process.env.PORT || 4000;
 import { uploader, cloudinaryConfig } from "./cloudinary/cloudinary.js";

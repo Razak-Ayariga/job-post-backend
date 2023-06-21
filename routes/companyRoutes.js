@@ -13,7 +13,8 @@ import {
   companyDetails,
   applicantInfo,
   verifyEmail,
-  resetPassword
+  resetPassword,
+  getAllAvailableJobs
 } from "../controllers/companyController.js";
 
 import {
@@ -59,6 +60,7 @@ router.get("/allJobSeekerInfo/:id", jobSeekerAllInfo);
 router.get("/companyDetails/", verifyCompanyToken, companyDetails);
 router.get("/jobApplicant/:id", applicantInfo);
 router.put("/email",uploadLogoMiddleware("").none(), verifyEmail);
-router.put("/password", uploadLogoMiddleware("").none(),resetPassword);
+router.put("/password", uploadLogoMiddleware("").none(), resetPassword);
+router.get("/allJobs", getAllAvailableJobs);
 
 export default router;
