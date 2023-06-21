@@ -19,10 +19,10 @@ import {
 } from "../controllers/companyController.js";
 
 import {
-  companySignupToken,
-  companyLoginToken,
-  verifyCompanyToken,
-  uploadLogoMiddleware,
+  findCompany,
+  companyToken,
+  verifyToken,
+  logoUpload,
 } from "../middleware/companyMiddleware.js";
 
 import {
@@ -32,36 +32,36 @@ import {
 
 router.post(
   "/registerCompany",
-  uploadLogoMiddleware("").none(),
+  logoUpload("").none(),
+ findCompany,
   companyRegisterValidator,
-  companySignupToken,
   registerCompany
 );
 
 router.post(
-  "/logInCompany",
-  uploadLogoMiddleware("").none(),
+  "/logIn",
+  logoUpload("").none(),
   companyLoginValidator,
-  companyLoginToken,
+  companyToken,
   companyLogin,
-  getCompanyAllInfo
+  // getCompanyAllInfo
 );
 
 router.put(
   "/updateInfo",
-  uploadLogoMiddleware("public/logos").single("logo"),
-  verifyCompanyToken,
+  logoUpload("public/logos").single("logo"),
+  verifyToken,
   updateCompanyInfo
 );
 
-router.get("/getAll", verifyCompanyToken, getCompanyAllInfo);
+router.get("/getAll", verifyToken, getCompanyAllInfo);
 router.get("/allCompanies", getAllcompanies);
 // router.delete("/deleteCompany/:id", deleteCompany, permanentDelete);
 // router.get("/allJobSeekerInfo/:id", jobSeekerAllInfo);
-router.get("/companyDetails/", verifyCompanyToken, companyDetails);
+router.get("/companyDetails/", verifyToken, companyDetails);
 router.get("/jobApplicant/:id", applicantInfo);
-router.put("/email",uploadLogoMiddleware("").none(), verifyEmail);
-router.put("/password", uploadLogoMiddleware("").none(), resetPassword);
+router.put("/email",logoUpload("").none(), verifyEmail);
+router.put("/password", logoUpload("").none(), resetPassword);
 router.get("/allJobs", getAllAvailableJobs);
 
 export default router;

@@ -2,8 +2,8 @@ import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
 import cron from "node-cron"
 import { Op } from "sequelize";
-// import companyModel from "../models/companyModel.js";
-// import companyRegistration from "../models/companyRegistrationModel.js";
+import companyModel from "../models/companyModel.js";
+import companyRegistration from "../models/companyRegistrationModel.js";
 // import postedJobs from "../models/postJobsModel.js";
 // import jobSeeker from "../models/jobSeekerProfileModel.js";
 // import Experience from "../models/experienceModel.js";
@@ -11,18 +11,15 @@ import { Op } from "sequelize";
 // import Languages from "../models/languageModel.js";
 // import Skills from "../models/skillsModel.js";
 // import jsSocialLinks from "../models/jsSocialLinksModel.js";
-// import locations from "../models/locationModel.js";
-// import applications from "../models/applicationsModel.js";
+import locations from "../models/locationModel.js";
+// import applications from "../models/applicationsModel.js";  
 
 // Company register
 const registerCompany = async (req, res) => {
   try {
-    // Get company info
     const newCompany = req.body;
-    const token = req.token;
+    // const token = req.token;
     const password = newCompany.password;
-
-    // Hash password
     const hashPassword = await bcrypt.hash(password, 10);
     const uuid = uuidv4();
     const logo = req.file?.filename;
@@ -40,11 +37,10 @@ const registerCompany = async (req, res) => {
       ],
     });
     const company = addCompany.dataValues;
-    res
-      .status(201)
-      .json({ message: "Company registered successfully!", token, company });
+    res.status(201).json({ message: "Company registered successfully!", company });
     return;
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Failed to register company!" });
   }
 };
@@ -52,21 +48,11 @@ const registerCompany = async (req, res) => {
 // Company login
 const companyLogin = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
     const token = req.token;
     const company = req.body;
-
-    // Check if company exists
-    const findUser = await companyModel.findOne({ where: { email: email } });
-    if (!findUser) {
-      return res.status(403).json({ message: "Company does not exist!" });
+    if (company) {
+      res.status(200).json({message:"Login successful!", token})
     }
-    const passwordMatch = await bcrypt.compare(password, findUser.password);
-    if (!passwordMatch) {
-      return res.status(403).json({ message: "Invalid credentials" });
-    }
-
-    // res.status(201).json({ message: "company logged in!", token });
     next();
   } catch (error) {
     console.log(error);
@@ -87,9 +73,10 @@ const updateCompanyInfo = async (req, res) => {
     const findCompany = await companyModel.findAll({
       where: { id: company_id },
     });
-    if (updateResult) {
-      res.status(201).json({ message: "Updated successfully!", findCompany });
+    if (!findCompany) {
+      return res.status(404).json({ message: "No company found!" });
     }
+    res.status(201).json({ message: "Updated successfully!", updateResult });
   } catch (error) {
     res.status(400).json({ message: "failed to update!" });
   }

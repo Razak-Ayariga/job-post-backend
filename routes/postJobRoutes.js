@@ -11,15 +11,15 @@ import {
 
 import postJobValidator from "../Validators/postJobValidator.js";
 import {
-  uploadLogoMiddleware,
-  verifyCompanyToken,
+  logoUpload,
+  verifyToken,
 } from "../middleware/companyMiddleware.js";
 import { getCompanyAllInfo } from "../controllers/companyController.js";
 
 router.post(
   "/postJob",
-  uploadLogoMiddleware("").none(),
-  verifyCompanyToken,
+  logoUpload("").none(),
+  verifyToken,
   postJobValidator,
   postJob,
   getCompanyAllInfo
@@ -30,8 +30,8 @@ router.get("/getAll/:id", getAllJobs);
 router.delete("/deleteJob/:id", deleteJob);
 router.put(
   "/update/:id",
-  uploadLogoMiddleware("").none(),
-  verifyCompanyToken,
+  logoUpload("").none(),
+  verifyToken,
   updateJob
 );
 

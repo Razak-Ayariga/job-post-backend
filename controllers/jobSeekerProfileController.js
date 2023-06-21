@@ -77,69 +77,6 @@ const updateProfile = async (req, res) => {
   }
 };
 
-// //get all the information of a job seeker
-// const getJobSeekerAllInfo = async (req, res) => {
-//   try {
-//     let userId;
-//     if (req.userId) {
-//       userId = req.userId;
-//     } else {
-//       userId = req.user.id;
-//     }
-//     const token = req.token;
-//     const allInfo = await jobSeeker.findAll({
-//       where: { id: userId },
-//       include: [
-//         {
-//           model: Education,
-//           required: false,
-//           attributes: {
-//             exclude: ["js_id", "deletedAt", "createdAt", "updatedAt"],
-//           },
-//         },
-//         {
-//           model: Experience,
-//           required: false,
-//           attributes: {
-//             exclude: ["js_id", "deletedAt", "createdAt", "updatedAt"],
-//           },
-//         },
-//         {
-//           model: Languages,
-//           required: false,
-//           attributes: {
-//             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-//           },
-//         },
-//         {
-//           model: Skills,
-//           required: false,
-//           attributes: {
-//             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-//           },
-//         },
-//         {
-//           model: jsSocialLinks,
-//           required: false,
-//           attributes: {
-//             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-//           },
-//         },
-//       ],
-//       attributes: {
-//         exclude: ["js_id", "password", "deletedAt", "createdAt", "updatedAt"],
-//       },
-//     });
-//     if (!allInfo) {
-//       return res.status(400).json({ message: "no information found!" });
-//     }
-//     res.status(200).json({message: "successfull!", token, allInfo });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(400).json({ message: "Error getting information!" });
-//   }
-// };
-
 // // Get all job applications
 // const allJobApplications = async (req, res) => {
 //   try {

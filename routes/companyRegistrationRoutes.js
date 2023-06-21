@@ -4,19 +4,20 @@ const router = express.Router();
 import { newRegistration, updateRegistration } from "../controllers/companyRegistrationController.js";
 import uploadRegistrationCertificate from "../middleware/companyRegistrationMiddleware.js";
 import companyRegistrationValidator from "../Validators/companyRegistrationValidator.js";
-import { verifyCompanyToken } from "../middleware/companyMiddleware.js";
+import { verifyToken } from "../middleware/companyMiddleware.js";
 import { getCompanyAllInfo } from "../controllers/companyController.js";
 
 router.post(
   "/registrationInfo",
   uploadRegistrationCertificate("public/companyCert").single("company_certificate"),
-  verifyCompanyToken,
-  // companyRegistrationValidator,
+  verifyToken,
+  companyRegistrationValidator,
   newRegistration,
   getCompanyAllInfo
 );
-router.put("/update/:id", uploadRegistrationCertificate("").single(),
-  verifyCompanyToken,
+router.put("/updateRegistration/:id",
+  uploadRegistrationCertificate("").single(),
+  verifyToken,
   updateRegistration);
 
 export default router;
