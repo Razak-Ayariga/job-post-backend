@@ -5,7 +5,7 @@ import {jobApplication, applicantInfo, allJobApplications} from "../controllers/
 import  applicationCv  from "../middleware/applicationsMiddleware.js";
 import { verifyToken } from "../middleware/jobseekerAuthMiddleware.js";
 
-router.post("/jobApply", verifyToken,
+router.post("/apply", verifyToken,
     applicationCv("applications/cvs").single("cv"),
     jobApplication);
 

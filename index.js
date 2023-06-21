@@ -47,11 +47,11 @@ app.use("/jobSeeker", uploadCvRoutes);
 app.use("/jobSeeker", jsLinksRoutes);
 app.use("/jobSeeker", languageRoutes);
 app.use("/jobSeeker", skillsRoutes);
+app.use("/jobSeeker", applicationRoutes);
 app.use("/company", companyRoutes);
 app.use("/company", locationRoutes);
 app.use("/company", companyRegistrationRoutes);
 app.use("/company", postJobRoutes);
-app.use("/application", applicationRoutes);
 
 (async () => {
   try {

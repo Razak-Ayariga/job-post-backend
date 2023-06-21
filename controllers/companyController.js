@@ -4,7 +4,7 @@ import cron from "node-cron"
 import { Op } from "sequelize";
 import companyModel from "../models/companyModel.js";
 import companyRegistration from "../models/companyRegistrationModel.js";
-// import postedJobs from "../models/postJobsModel.js";
+import postedJobs from "../models/postJobsModel.js";
 // import jobSeeker from "../models/jobSeekerProfileModel.js";
 // import Experience from "../models/experienceModel.js";
 // import Education from "../models/educationModel.js";

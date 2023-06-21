@@ -25,11 +25,11 @@ router.post(
   getCompanyAllInfo
 );
 
-router.get("/getOne/:id", getOneJob);
-router.get("/getAll/:id", getAllJobs);
+router.get("/getOneJob/:id", getOneJob);
+router.get("/getAllJobs/:id", getAllJobs);
 router.delete("/deleteJob/:id", deleteJob);
 router.put(
-  "/update/:id",
+  "/updateJob/:id",
   logoUpload("").none(),
   verifyToken,
   updateJob
