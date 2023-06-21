@@ -38,7 +38,7 @@ const updateRegistration = async (req, res) => {
       return res.status(404).json({ message: "No record found!" });
     }
     const updateResult = await companyRegistration.update(newRegistration, {
-      where: { id: id },
+      where: { id: id }
     });
     if (updateResult) {
       res.status(200).json({ message: "Registration updated successfully!" });
