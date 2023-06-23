@@ -42,6 +42,6 @@ jobSeekerRigistration.hasMany(skills, { foreignKey: "js_id", onDelete:"CASCADE" 
 jobSeekerRigistration.hasMany(languages, { foreignKey: "js_id", onDelete:"CASCADE" });
 jobSeekerRigistration.hasOne(uploadCvModel, { foreignKey: "js_id", onDelete: "CASCADE" });
 jobSeekerRigistration.hasOne(jsSocialLinks, { foreignKey: "js_id", onDelete: "CASCADE" });
-// jobSeeker.hasMany(applications, { foreignKey: "js_id", onDelete: "CASCADE" });
+// jobSeekerRigistration.hasMany(applications, { foreignKey: "js_id", onDelete: "CASCADE" });
 
 export default jobSeekerRigistration;

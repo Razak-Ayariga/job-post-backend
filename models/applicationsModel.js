@@ -1,7 +1,7 @@
 import DataTypes from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
 // import postedJobs from "./postJobsModel.js";
-// import jobSeeker from "./jobSeekersModel.js";
+import jobSeeker from "./jobSeekerModel.js";
 
 const applications = sequelize.define(
   "application",
@@ -56,7 +56,7 @@ const applications = sequelize.define(
   await sequelize.sync();
 })();
 
-// applications.belongsTo(jobSeeker, { foreignKey: "js_id" });
+applications.belongsTo(jobSeeker, { foreignKey: "js_id" });
 // applications.belongsTo(postedJobs, { foreignKey: "job_id" });
 
 export default applications;

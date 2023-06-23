@@ -4,7 +4,7 @@ import sequelize from "./dataBase/dbConfig.js";
 import multer from "multer";
 import cors from "cors";
 
-// import seedAdmin from "./seeds/superAdminSeed.js";
+import seedAdmin from "./seeds/superAdminSeed.js";
 import helmet from "helmet";
 const app = express();
 app.use(express.json());
@@ -22,7 +22,7 @@ const port = process.env.PORT || 4000;
 const uploads = multer();
 
 //import routes
-// import superAdminRoutes from "./seeds/superAdminRoutes.js";
+import superAdminRoutes from "./seeds/superAdminRoutes.js";
 import jobSeekerRoutes from "./routes/jobSeekerRoutes.js";
 import profileRoutes from "./routes/jobSeekerProfileRoutes.js"
 import companyRoutes from "./routes/companyRoutes.js";
@@ -38,7 +38,7 @@ import skillsRoutes from "./routes/skillsRoutes.js";
 import applicationRoutes from "./routes/applicationsRoutes.js";
 
 //use routes
-// app.use("/superAdmin", superAdminRoutes);
+app.use("/superAdmin", superAdminRoutes);
 app.use("/jobSeeker", jobSeekerRoutes);
 app.use("/jobSeeker", profileRoutes);
 app.use("/jobSeeker", addExperienceRoutes);
@@ -55,7 +55,7 @@ app.use("/company", postJobRoutes);
 
 (async () => {
   try {
-    // await sequelize.authenticate().then(() => seedAdmin());
+    await sequelize.authenticate().then(() => seedAdmin());
     console.log("Connection established successfully");
     app.listen(port, () => {
       console.log(`Server listening on port ${port}`);

@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt"
 import { v4 as uuidv4 } from "uuid";
-import jobSeekerRigistration from "../models/JobSeekerModel.js";
+import jobSeekerRigistration from "../models/jobSeekerModel.js";
 import jobSeekerProfileModel from "../models/jobSeekerProfileModel.js";
 import Education from "../models/educationModel.js";
 import Experience from "../models/experienceModel.js";
@@ -49,7 +49,7 @@ const getAllInfo = async (req, res) => {
     } else {
       userId = req.user.id;
     }
-    const token = req.token;
+    // const token = req.token;
     const allInfo = await jobSeekerRigistration.findAll({
       where: { id: userId },
         include: [
@@ -103,13 +103,55 @@ const getAllInfo = async (req, res) => {
     if (!allInfo) {
       return res.status(400).json({ message: "no information found!" });
     }
-    res.status(200).json({message: "successfull!", token, allInfo });
+    res.status(200).json({message: "successfull!", allInfo });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Error getting information!" });
   }
 };
+//all job seekers
+const allJobSeekers = async (req, res) => {
+  try {
+    const findUsers = await jobSeekerRigistration.findAll({
+      include: [
+        {
+          model: jobSeekerProfileModel,
+          required: false
+        }
+      ]
+    });
+    if (!findUsers) {
+      res.status(400).json({ message: "No information found!" });
+      return;
+    }
+    res.status(200).json({ message: "Success!", findUsers });
+  } catch (error) {
+    res.status(500).json({ message: "Error getting information!" });
+    console.log(error);
+  }
+};
 
+// // // Get all job applications
+// const allApplications = async (req, res) => {
+//   try {
+//     const userId = req.params.id;
+//     const jobApplications = await jobSeeker.findAll({
+//       where: { id: userId },
+//       include: [
+//         {
+//           model: applications,
+//           required: false
+//         }
+//       ]
+//     });
+//     if (jobApplications) {
+//       res.status.json(jobApplications);
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     res.status(400).json({ message: "Error getting information!" })
+//   };
+// }
 // //Verify Email
 // const verifyEmail = async (req, res) => {
 //   try {
@@ -157,4 +199,4 @@ const getAllInfo = async (req, res) => {
 // };
 
 
-export { registerJobSeeker, loginJobSeeker, getAllInfo };
+export { registerJobSeeker, loginJobSeeker, getAllInfo, allJobSeekers };

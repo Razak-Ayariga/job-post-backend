@@ -2,8 +2,7 @@ import Joi from "joi";
 
 const ProfileValidator = (req, res, next) => {
   const schema = Joi.object({
-    first_name: Joi.string()
-      .min(3)
+    first_name: Joi.string().min(3)
       .regex(/^[A-Za-z-/ ]+$/)
       .required()
       .messages({

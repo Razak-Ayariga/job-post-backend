@@ -1,12 +1,11 @@
 import { Op } from "sequelize";
 import { v4 as uuidv4 } from "uuid";
-import bcrypt from "bcrypt";
 import jobSeekerProfile from "../models/jobSeekerProfileModel.js";
 
 //Job seeker registration
 const createProfile = async (req, res) => {
   try {
-    const newProfile = req.body;e
+    const newProfile = req.body;
     const uuid = uuidv4();
       const photo = req.file?.filename;
       const id = req.userId
@@ -35,22 +34,6 @@ const createProfile = async (req, res) => {
 //     return res.status(200).json({ jobseeker: findUser.dataValues });
 //   } else {
 //     return res.status(400).json({ message: "User not found..." });
-//   }
-// };
-
-// // get all job seekers
-// const getAllJobSeekers = async (req, res) => {
-//   try {
-//     const findAllJobSeekers = await jobSeeker.findAll({
-//       attributes: { exclude: ["id", "password", "deletedAt"] },
-//     });
-//     if (!findAllJobSeekers) {
-//       return res.status(400).json({ message: "No job seekers available!" });
-//     }
-//     res.status(200).json(findAllJobSeekers);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(400).json({ message: "Can not get all job seekers!" });
 //   }
 // };
 // update job seeker info

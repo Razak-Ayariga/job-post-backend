@@ -1,18 +1,18 @@
 import applications from "../models/applicationsModel.js";
 import jobs from "../models/postJobsModel.js";
-import jobSeeker from "../models/JobSeekerModel.js";
 import education from "../models/educationModel.js";
 import experience from "../models/experienceModel.js";;
 import skills from "../models/skillsModel.js";
 import languages from "../models/languageModel.js";
 import jsSocialLinks from "../models/jsSocialLinksModel.js";
+import jobSeeker from "../models/jobSeekerModel.js";
 
 const jobApplication = async (req, res) => {
     try {
         const addApplication = req.body;
         const cv = req.file?.filename;
-        const js_id = req.userId;
-        addApplication["js_id"] = js_id;
+        const id = req.userId;
+        addApplication["js_id"] = id;
         addApplication["cv"] = cv;
         const newApplication = await applications.create(addApplication);
         if (newApplication) {
@@ -79,10 +79,9 @@ const applicantInfo = async (req, res) => {
 }
 
 // Get all job applications
-const allJobApplications = async (req, res) => {
+const allApplications = async (req, res) => {
   try {
       const userId  = req.userId;
-      console.log(userId);
       if (!userId) {
           return res.status(404).json({ message: "No user found!" });
       }
@@ -103,4 +102,4 @@ const allJobApplications = async (req, res) => {
     res.status(400).json({ message: "Error getting information!" })
   }
 };
-export { jobApplication, applicantInfo, allJobApplications };
+export { jobApplication, applicantInfo, allApplications };

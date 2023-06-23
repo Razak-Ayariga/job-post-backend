@@ -5,15 +5,15 @@ import { newRegistration, updateRegistration } from "../controllers/companyRegis
 import uploadRegistrationCertificate from "../middleware/companyRegistrationMiddleware.js";
 import companyRegistrationValidator from "../Validators/companyRegistrationValidator.js";
 import { verifyToken } from "../middleware/companyMiddleware.js";
-import { getCompanyAllInfo } from "../controllers/companyController.js";
+// import { getCompanyAllInfo } from "../controllers/companyController.js";
 
 router.post(
-  "/registrationInfo",
+  "/registration",
   uploadRegistrationCertificate("public/companyCert").single("company_certificate"),
   verifyToken,
   companyRegistrationValidator,
   newRegistration,
-  getCompanyAllInfo
+  // getCompanyAllInfo
 );
 router.put("/updateRegistration/:id",
   uploadRegistrationCertificate("").single(),

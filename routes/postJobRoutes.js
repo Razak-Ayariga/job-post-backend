@@ -3,17 +3,15 @@ const router = express.Router();
 
 import {
   postJob,
-  getOneJob,
-  getAllJobs,
-  deleteJob,
   updateJob,
+  getOneJob,
+  getCompanyAllJobs,
+  allJobApplicants,
+  deleteJob,
 } from "../controllers/postJobController.js";
 
 import postJobValidator from "../Validators/postJobValidator.js";
-import {
-  logoUpload,
-  verifyToken,
-} from "../middleware/companyMiddleware.js";
+import {logoUpload, verifyToken} from "../middleware/companyMiddleware.js";
 import { getCompanyAllInfo } from "../controllers/companyController.js";
 
 router.post(
@@ -26,13 +24,9 @@ router.post(
 );
 
 router.get("/getOneJob/:id", getOneJob);
-router.get("/getAllJobs/:id", getAllJobs);
+router.get("/getAllJobs/:id", getCompanyAllJobs);
+router.get("/allApplicants/:id", allJobApplicants);
 router.delete("/deleteJob/:id", deleteJob);
-router.put(
-  "/updateJob/:id",
-  logoUpload("").none(),
-  verifyToken,
-  updateJob
-);
+router.put("/updateJob/:id", logoUpload("").none(),verifyToken,updateJob);
 
 export default router;

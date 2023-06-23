@@ -1,4 +1,7 @@
+import applicationsModel from "../models/applicationsModel.js";
 import postJobsModel from "../models/postJobsModel.js";
+import jobSeekerRigistration from "../models/jobSeekerModel.js";
+import jobSeekerProfileModel from "../models/jobSeekerProfileModel.js";
 
 //check job status
 const updateJobStatus = async (jobId) => {
@@ -72,7 +75,7 @@ const getOneJob = async (req, res) => {
 };
 
 //get all jobs posted by a company
-const getAllJobs = async (req, res) => {
+const getCompanyAllJobs = async (req, res) => {
   try {
     const company_id = req.params.id;
     const findAllJobs = await postJobsModel.findAll({
@@ -84,6 +87,36 @@ const getAllJobs = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Error geetting all jobs!" });
+  }
+};
+
+
+
+// get all applicants of a job
+const allJobApplicants = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const findAllApplicants = await postJobsModel.findAll({
+      where: { id: id },
+      include: [
+        {
+          model: applicationsModel,
+          include: [
+            {
+              model: jobSeekerRigistration,
+              include: [jobSeekerProfileModel]
+            }
+          ]
+        }
+      ]
+    });
+    if (!findAllApplicants) {
+      return res.status(404).json({ message: "No information found!" });
+    }
+    res.status(200).json({ message: "Success", findAllApplicants });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Error getting information!" });
   }
 };
 
@@ -107,8 +140,9 @@ const deleteJob = async (req, res) => {
 
 export {
   postJob,
-  getOneJob,
-  getAllJobs,
-  deleteJob,
   updateJob,
+  getOneJob,
+  getCompanyAllJobs,
+  allJobApplicants,
+  deleteJob,
 }; 
