@@ -13,7 +13,7 @@ const createExperience = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json({ message: "Failed to add experience" });
+    res.status(500).json({ message: "Failed to add experience" });
   }
 };
 
@@ -35,7 +35,7 @@ const updateExperience = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json({ messaage: "Error updating expirience" });
+    res.status(500).json({ messaage: "Error updating expirience" });
   }
 };
 

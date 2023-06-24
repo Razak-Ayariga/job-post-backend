@@ -47,4 +47,4 @@ const updateLocation = async (req, res) => {
   }
 }
 
-export default addLocation;
+export { addLocation, updateLocation};

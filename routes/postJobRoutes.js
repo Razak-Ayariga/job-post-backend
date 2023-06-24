@@ -5,6 +5,7 @@ import {
   postJob,
   updateJob,
   getOneJob,
+  getAllJobs,
   getCompanyAllJobs,
   allJobApplicants,
   deleteJob,
@@ -26,6 +27,7 @@ router.post(
 router.get("/getOneJob/:id", getOneJob);
 router.get("/getAllJobs/:id", getCompanyAllJobs);
 router.get("/allApplicants/:id", allJobApplicants);
+router.get("/allJobs", getAllJobs);
 router.delete("/deleteJob/:id", deleteJob);
 router.put("/updateJob/:id", logoUpload("").none(),verifyToken,updateJob);
 

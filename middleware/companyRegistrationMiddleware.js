@@ -14,7 +14,23 @@ const uploadRegistrationCertificate = (destination) => {
       cb(null, filename);
     },
   });
-  const upload = multer({ storage });
+
+  const fileFilter = (req, file, cb) => {
+    const extension = path.extname(file.originalname).toLowerCase();
+    if (
+      (extension === ".pdf" && file.mimetype === "application/pdf") ||
+      (extension === ".docx" &&
+        file.mimetype ===
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+    ) {
+      cb(null, true);
+    } else {
+      cb(new Error("Invalid file type. Only PDF files are allowed."));
+    }
+    return;
+  };
+
+  const upload = multer({ storage, fileFilter });
   return upload;
 };
 

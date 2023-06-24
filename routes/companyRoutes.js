@@ -14,8 +14,7 @@ import {
   companyDetails,
   applicantInfo,
   verifyEmail,
-  resetPassword,
-  getAllAvailableJobs
+  resetPassword
 } from "../controllers/companyController.js";
 
 import {
@@ -62,6 +61,5 @@ router.get("/companyDetails/", verifyToken, companyDetails);
 router.get("/jobApplicant/:id", applicantInfo);
 router.put("/email",logoUpload("").none(), verifyEmail);
 router.put("/password", logoUpload("").none(), resetPassword);
-router.get("/allJobs", getAllAvailableJobs);
 
 export default router;

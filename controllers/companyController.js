@@ -12,6 +12,7 @@ import postedJobs from "../models/postJobsModel.js";
 // import Skills from "../models/skillsModel.js";
 // import jsSocialLinks from "../models/jsSocialLinksModel.js";
 import locations from "../models/locationModel.js";
+import companies from "../models/companyModel.js";
 // import applications from "../models/applicationsModel.js";  
 
 // Company register
@@ -205,6 +206,27 @@ const getAllcompanies = async (req, res) => {
     res.status(400).json({ message: "Can not get all companies!" });
   }
 };
+//Get all companies
+// const allCompaniesJobs = async (req, res) => {
+//   try {
+//     const findAllCompanies = await companies.findAll({
+//       include: [
+//         {
+//           model: postedJobs,
+//           required: false
+//         }
+//       ],
+//       attributes: { exclude: ["id", "password", "deletedAt"] },
+//     });
+//     if (!findAllCompanies) {
+//       return res.status(400).json("No companies available!");
+//     }
+//     res.status(200).json(findAllCompanies);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(400).json({ message: "Can not get all companies!" });
+//   }
+// };
 
 //company to get all info of a job seeker
 // const jobSeekerAllInfo = async (req, res) => {
@@ -356,7 +378,14 @@ const permanentDelete = async () => {
 // get all available jobs
 const getAllAvailableJobs = async (req, res) => {
   try {
-    const findAllJobs = await postedJobs.findAll();
+    const findAllJobs = await postedJobs.findAll({
+      include: [
+        {
+          model: companies,
+          required: false
+        }
+      ]
+    });
     if (findAllJobs) {
       res.status(200).json(findAllJobs);
     }

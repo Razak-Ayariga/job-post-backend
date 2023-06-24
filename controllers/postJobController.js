@@ -89,8 +89,19 @@ const getCompanyAllJobs = async (req, res) => {
     res.status(400).json({ message: "Error geetting all jobs!" });
   }
 };
-
-
+//available jobs
+const getAllJobs = async (req, res) => {
+  try {
+    const findAllJobs = await postJobsModel.findAll();
+    if (!findAllJobs) {
+      return res.status(404).json({message:"No jobs found!"})
+    }
+    res.status(200).json(findAllJobs);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Error geetting all jobs!" });
+  }
+};
 
 // get all applicants of a job
 const allJobApplicants = async (req, res) => {
@@ -142,6 +153,7 @@ export {
   postJob,
   updateJob,
   getOneJob,
+  getAllJobs,
   getCompanyAllJobs,
   allJobApplicants,
   deleteJob,
