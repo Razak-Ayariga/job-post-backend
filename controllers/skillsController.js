@@ -1,4 +1,4 @@
-import skillsModel from "../models/skillsModel.js";
+import skillsModel from "../models/skillsModel.js"; 
 
 // Create a new skills record for a jobseeker
 const createSkills = async (req, res) => {
@@ -27,7 +27,7 @@ const updateSkills = async (req, res) => {
     await existingSkills.update(req.body);
     return res.json({
       status: "Skills record updated successfully",
-      skills: existingSkills
+      skills: existingSkills,
     });
   } catch (error) {
     console.error( error);
@@ -47,7 +47,7 @@ const getAllSkills = async (req, res) => {
   } catch (error) {
     console.error( error);
     return res.status(500).json({ message: "Internal server error" });
-  }
+  };
 };
 
 // Delete an existing Skills record for a jobseeker
@@ -64,4 +64,4 @@ const deleteSkill = async(req, res) =>{
   }
 };
 
-export  { getAllSkills, createSkills, updateSkills, deleteSkill};
+export  { getAllSkills, createSkills, updateSkills, deleteSkill,};
