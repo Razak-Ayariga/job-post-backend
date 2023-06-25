@@ -8,11 +8,7 @@ const creatEducation = async (req, res, next) => {
 
     const addEducation = await education.create(newEducation);
     if (addEducation)
-      return res.status(200).json({
-        message: "Education record added successfully!",
-        addEducation,
-        //getJobSeekerAllInfo,
-      });
+      return res.status(200).json({ message: "Education record added successfully!",addEducation});
     next();
   } catch (error) {
     console.log(error);

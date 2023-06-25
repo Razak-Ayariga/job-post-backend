@@ -1,12 +1,14 @@
 import express from "express";
-import "./env.js";
+// import "./env.js";
 import sequelize from "./dataBase/dbConfig.js";
 import multer from "multer";
 import cors from "cors";
+import dotenv from "dotenv"
 
 import seedAdmin from "./seeds/superAdminSeed.js";
 import helmet from "helmet";
 const app = express();
+dotenv.config();
 app.use(express.json());
 app.use(cors());
 app.use(

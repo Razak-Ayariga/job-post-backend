@@ -2,22 +2,12 @@ import applicationsModel from "../models/applicationsModel.js";
 import postJobsModel from "../models/postJobsModel.js";
 import jobSeekerRigistration from "../models/jobSeekerModel.js";
 import jobSeekerProfileModel from "../models/jobSeekerProfileModel.js";
+import education from "../models/educationModel.js";
+import skills from "../models/skillsModel.js";
+import experience from "../models/experienceModel.js";
+import languages from "../models/languageModel.js";
+import jsSocialLinks from "../models/jsSocialLinksModel.js";
 
-//check job status
-const updateJobStatus = async (jobId) => {
-  try {
-    const job = await postJobsModel.findByPk(jobId);
-    const currentDate = new Date();
-    const applicationDeadline = new Date(job.application_deadline);
-
-    if (currentDate > applicationDeadline) {
-      job.status = "inactive";
-      await job.save();
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 // create a job post
 const postJob = async (req, res) => {
@@ -34,6 +24,23 @@ const postJob = async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: " Failed to post job!" });
+  }
+};
+
+
+//check job status
+const updateJobStatus = async (jobId) => {
+  try {
+    const job = await postJobsModel.findByPk(jobId);
+    const currentDate = new Date();
+    const applicationDeadline = job.application_deadline;
+
+    if (currentDate > applicationDeadline) {
+      job.status = "inactive";
+      await job.save();
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -115,7 +122,14 @@ const allJobApplicants = async (req, res) => {
           include: [
             {
               model: jobSeekerRigistration,
-              include: [jobSeekerProfileModel]
+              include: [
+                jobSeekerProfileModel,
+                education,
+                skills,
+                experience,
+                languages,
+                jsSocialLinks
+              ]
             }
           ]
         }
