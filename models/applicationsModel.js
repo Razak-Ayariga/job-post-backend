@@ -1,6 +1,5 @@
 import DataTypes from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
-// import postedJobs from "./postJobsModel.js";
 import jobSeeker from "./jobSeekerModel.js";
 
 const applications = sequelize.define(
@@ -47,16 +46,11 @@ const applications = sequelize.define(
       type: DataTypes.STRING,
       defaultValue: "Pending"
     }
-  },
-  {
-    paranoid: true,
-  }
-);
+  });
 (async () => {
   await sequelize.sync();
 })();
 
 applications.belongsTo(jobSeeker, { foreignKey: "js_id" });
-// applications.belongsTo(postedJobs, { foreignKey: "job_id" });
 
 export default applications;

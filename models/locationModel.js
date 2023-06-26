@@ -28,11 +28,7 @@ const locations = sequelize.define(
     address: {
       type: DataTypes.STRING
     },
-  },
-  {
-    paranoid: true,
-  }
-);
+  });
 
 (async () => {
   await sequelize.sync();

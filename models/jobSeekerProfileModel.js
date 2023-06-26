@@ -46,11 +46,7 @@ const jobSeekerProfileModel = sequelize.define(
       defaultValue: "avatar.jpg",
       allowNull: true,
     },
-  },
-  {
-    paranoid: true
-  }
-);
+  });
 (async () => {
   await sequelize.sync();
 })();

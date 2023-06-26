@@ -19,7 +19,6 @@ import companies from "../models/companyModel.js";
 const registerCompany = async (req, res) => {
   try {
     const newCompany = req.body;
-    // const token = req.token;
     const password = newCompany.password;
     const hashPassword = await bcrypt.hash(password, 10);
     const uuid = uuidv4();
@@ -333,21 +332,21 @@ const deleteCompany = async (req, res, next) => {
     await findCompany.destroy();
     res.status(200).json({ message: "Record deleted successfully!" });
 
-//     const performHardDelete = async () => {
-//   const twoMinutesAgo = new Date(Date.now() - 2 * 60 * 1000);
-//   const hardDelete = await companyModel.destroy({
-//     where: {
-//       deletedAt: { [Op.not]: null },
-//       updatedAt: { [Op.lte]: twoMinutesAgo },
-//     },
-//     force: true,
-//     include: [postedJobs, companyRegistration, locations],
-//   });
-//   if (hardDelete) {
-//     console.log('Hard delete completed');
-//   }
-// };
-// cron.schedule('*/2 * * * *', performHardDelete);
+    const performHardDelete = async () => {
+  const twoMinutesAgo = new Date(Date.now() - 2 * 60 * 1000);
+  const hardDelete = await companyModel.destroy({
+    where: {
+      deletedAt: { [Op.not]: null },
+      updatedAt: { [Op.lte]: twoMinutesAgo },
+    },
+    force: true,
+    include: [postedJobs, companyRegistration, locations],
+  });
+  if (hardDelete) {
+    console.log('Hard delete completed');
+  }
+};
+cron.schedule('*/2 * * * *', performHardDelete);
 
   } catch (error) {
     console.log(error);

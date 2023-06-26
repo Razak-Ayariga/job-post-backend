@@ -30,11 +30,7 @@ const companyRegistration = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
-  },
-  {
-    paranoid: true,
-  }
-);
+  });
 
 (async () => {
   await sequelize.sync();
