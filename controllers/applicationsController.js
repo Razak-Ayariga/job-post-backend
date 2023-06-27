@@ -102,4 +102,13 @@ const allApplications = async (req, res) => {
     res.status(400).json({ message: "Error getting information!" })
   }
 };
+
+// delete and application record
+const deleteAppliocation = async (req, res) => {
+  try {
+    
+  } catch (error) {
+    
+  }
+}
 export { jobApplication, applicantInfo, allApplications };

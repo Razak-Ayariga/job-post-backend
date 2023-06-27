@@ -1,4 +1,4 @@
-import { Op } from "sequelize";
+// import { Op } from "sequelize";
 import { v4 as uuidv4 } from "uuid";
 import jobSeekerProfile from "../models/jobSeekerProfileModel.js";
 
