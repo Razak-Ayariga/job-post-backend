@@ -57,7 +57,6 @@ const companyRegisterValidator = (req, res, next) => {
     website: Joi.string(),
     industry: Joi.string()
   });
-
   const validation = schema.validate(req.body);
   const { error } = validation;
   if (error) {

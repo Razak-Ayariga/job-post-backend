@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
-// import applications from "./applicationsModel.js";
+import applications from "./applicationsModel.js";
 // import companies from "./companyModel.js";
 
 const postedJobs = sequelize.define("Jobs", {id: {  type: DataTypes.UUID,defaultValue: DataTypes.UUIDV4,primaryKey: true,allowNull: false},
@@ -49,6 +49,6 @@ const postedJobs = sequelize.define("Jobs", {id: {  type: DataTypes.UUID,default
   }
 );
 
-// postedJobs.hasMany(applications, { foreignKey: "job_id" });
+postedJobs.hasMany(applications, { foreignKey: "job_id" });
 
 export default postedJobs;

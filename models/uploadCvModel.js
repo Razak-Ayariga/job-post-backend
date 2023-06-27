@@ -14,6 +14,7 @@ const JobSeekerInfo = sequelize.define("cv", {
       model: "jobSeekers",
       key: "id"
     },
+<<<<<<< HEAD
     allowNull: false,
     onDelete:"CASCADE"
   },
@@ -21,6 +22,21 @@ const JobSeekerInfo = sequelize.define("cv", {
     type: DataTypes.STRING,
     allowNull: false
   }
+=======
+    js_id: {
+        type: DataTypes.UUID,
+        referneces: {
+            model: "job_seekers",
+            key: "id"
+        },
+        allowNull: false,
+        onDelete:"CASCADE"
+    },
+    cv: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+>>>>>>> origin/Razak
 });
 (async() => {
   await sequelize.sync();

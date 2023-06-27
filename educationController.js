@@ -1,6 +1,6 @@
 import education from "./models/educationModel.js";
 
-const newEducationController = async (req, res, next) => {
+const creatEducation = async (req, res, next) => {
   try {
     const newEducation = req.body;
     const id = req.userId;
@@ -24,7 +24,6 @@ const newEducationController = async (req, res, next) => {
 const updateEducation = async (req, res) => {
   const updateEdu = req.body;
   try {
-    console.log(updateEdu);
     const { id } = req.params;
     const findEdu = await education.findByPk(id);
     if (!findEdu) {
@@ -100,7 +99,7 @@ const deleteEducation = async (req, res) => {
 };
 
 export {
-  newEducationController,
+  creatEducation,
   updateEducation,
   getOneEducation,
   getAllEducation,

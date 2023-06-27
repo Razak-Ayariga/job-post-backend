@@ -6,9 +6,11 @@ const jwtSecret = process.env.JWT_SECRET;
 import multer from "multer";
 import path from "path";
 const absolutePath = path.resolve("./");
+import bcrypt from "bcrypt";
 
-const companySignupToken = async (req, res, next) => {
+const findCompany = async (req, res, next) => {
   try {
+<<<<<<< HEAD
     const { company_name, email, mobile_number } = req.body;
     const companyInfo = {
       company_name,
@@ -18,54 +20,57 @@ const companySignupToken = async (req, res, next) => {
 
     const findCompany = await companyModel.findOne({
       where: { email: companyInfo.email }
+=======
+    const { email } = req.body;
+    const existingCompany = await companyModel.findOne({
+      where: { email: email },
+>>>>>>> origin/Razak
     });
-    if (findCompany) {
-      res
-        .status(400)
-        .json({ message: "Company already exists. Please login!" });
+    if (existingCompany) {
+      res.status(400).json({ message: "Company already exists. Please login!" });
       return;
     }
-
-    // Generate company signup token
-    jwt.sign(companyInfo, jwtSecret, (error, token) => {
-      if (error) {
-        return res.status(400).json({ message: "Validation error" });
-      } else {
-        req.token = token;
-        next();
-      }
-    });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
     console.log(error);
   }
+  next();
 };
 
 //log in token
-const companyLoginToken = async (req, res, next) => {
+const companyToken = async (req, res, next) => {
   const companyInfo = req.body;
   const findCompany = await companyModel.findOne({
+<<<<<<< HEAD
     where: { email: companyInfo.email },
     attributes: { exclude: ["password", "description"] }
   });
+=======
+    where: { email: companyInfo.email }});
+>>>>>>> origin/Razak
   if (!findCompany) {
     res.status(403).json({ message: "Invalid email or password" });
     return;
-  }
+  };
+  const password = companyInfo.password;
+  const hashedpassword = findCompany.dataValues.password;
+ const passwordMatch = await bcrypt.compare(password, hashedpassword);
+  if (!passwordMatch) return res.status(403).json({ message: "Invalid Email or password!" });
+
   const tokenVariables = {
     id: findCompany.dataValues.id,
     company_name: findCompany.dataValues.company_name,
     email: findCompany.dataValues.email,
   }
   // Generate company login token
-  const token = jwt.sign(tokenVariables, jwtSecret);
+  const token = jwt.sign(tokenVariables, jwtSecret, {expiresIn:"1hr"});
   req.token = token;
   req.company = findCompany.dataValues;
   next();
 };
 
 // Token verification
-const verifyCompanyToken = async (req, res, next) => {
+const verifyToken = async (req, res, next) => {
   const token = req.headers.token;
   if (!token) {
     return res.status(401).json({ message: "No token provided" });
@@ -84,7 +89,7 @@ const verifyCompanyToken = async (req, res, next) => {
 };
 
 //middleware to upload logo
-const uploadLogoMiddleware = (destination) => {
+const logoUpload = (destination) => {
   const directory = path.join(absolutePath, destination);
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -112,8 +117,15 @@ const uploadLogoMiddleware = (destination) => {
 };
 
 export {
+<<<<<<< HEAD
   companySignupToken,
   verifyCompanyToken,
   companyLoginToken,
   uploadLogoMiddleware
+=======
+ findCompany,
+  verifyToken,
+  companyToken,
+  logoUpload,
+>>>>>>> origin/Razak
 };

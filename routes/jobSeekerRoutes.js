@@ -1,61 +1,27 @@
 import express from "express";
+import multer from "multer";
 const router = express.Router();
 
-import {
-  registerJobSeeker,
-  jobSeekerLogin,
-  getJobSeeker,
-  updateJobSeekerInfo,
-  getJobSeekerAllInfo,
-  deleteJobSeeker,
-  getAllJobSeekers,
-  verifyEmail,
-  resetPassword,
-  allJobApplications
-} from "../controllers/jobSeekersController.js";
+import {registerJobSeeker, loginJobSeeker, getAllInfo, allJobSeekers } from "../controllers/jobSeekerController.js";
+import { validatorRegistration, ValidateLogin } from "../Validators/jobseekerValidator.js";
+import { findJobSeeker, jobseekerToken, verifyToken } from "../middleware/jobseekerAuthMiddleware.js";
+import photoUpload from "../middleware/ProfileMiddleware.js";
 
-import {
-  jobSeekerRegisterValidator,
-  jobSeekerLogInValidator,
-} from "../validators/jobseekerValidator.js";
+const upload = multer();
 
-import {
-  jobseekerSignUpToken,
-  jobseekerLogInToken,
-  verifyJobseekerToken,
-  uploadPhotoMiddleware,
-} from "../middleware/jobseekerAuthMiddleware.js";
+router.post("/signUp",
+    photoUpload("").none(),
+    validatorRegistration,
+    findJobSeeker,
+    registerJobSeeker);
 
-router.post(
-  "/registerJobSeeker",
-  uploadPhotoMiddleware("").none(),
-  jobSeekerRegisterValidator,
-  jobseekerSignUpToken,
-  registerJobSeeker
-);
+router.post("/signIn",
+    photoUpload("").none(),
+    ValidateLogin,
+    jobseekerToken,
+    loginJobSeeker);
 
-router.post(
-  "/logInJobSeeker",
-  uploadPhotoMiddleware("").none(),
-  jobSeekerLogInValidator,
-  jobseekerLogInToken,
-  getJobSeekerAllInfo,
-  jobSeekerLogin
-);
-
-router.get("/getInfo", verifyJobseekerToken, getJobSeeker);
-router.get("/getAllInfo", verifyJobseekerToken, getJobSeekerAllInfo);
-router.get("/allJobSeekers", getAllJobSeekers); // SHOULD GO TO THWE ADMIN
-
-router.put(
-  "/updateJobSeeker",
-  uploadPhotoMiddleware("public/uploads").single("photo"),
-  verifyJobseekerToken,
-  updateJobSeekerInfo
-);
-router.delete("/deleteJobSeeker/:id", deleteJobSeeker);
-router.put("/email", uploadPhotoMiddleware("").none(), verifyEmail);
-router.put("/password", uploadPhotoMiddleware("").none(), resetPassword);
-router.get("/allApplications", verifyJobseekerToken, allJobApplications);
+router.get("/allInfo", verifyToken, getAllInfo);
+router.get("/allJobSeekers", allJobSeekers);
 
 export default router;

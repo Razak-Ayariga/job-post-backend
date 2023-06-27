@@ -64,4 +64,4 @@ const deleteSkill = async(req, res) =>{
   }
 };
 
-export  { getAllSkills, createSkills, updateSkills, deleteSkill,};
+export  {createSkills, getAllSkills, updateSkills, deleteSkill,};

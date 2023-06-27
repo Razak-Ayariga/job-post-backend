@@ -1,27 +1,25 @@
-import companyModel from "../models/companyModel.js";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
+import cron from "node-cron"
+import { Op } from "sequelize";
+import companyModel from "../models/companyModel.js";
 import companyRegistration from "../models/companyRegistrationModel.js";
 import postedJobs from "../models/postJobsModel.js";
-import jobSeeker from "../models/jobSeekersModel.js";
-import Experience from "../models/experienceModel.js";
-import Education from "../models/educationModel.js";
-import Languages from "../models/languageModel.js";
-import Skills from "../models/skillsModel.js";
-import jsSocialLinks from "../models/jsSocialLinksModel.js";
+// import jobSeeker from "../models/jobSeekerProfileModel.js";
+// import Experience from "../models/experienceModel.js";
+// import Education from "../models/educationModel.js";
+// import Languages from "../models/languageModel.js";
+// import Skills from "../models/skillsModel.js";
+// import jsSocialLinks from "../models/jsSocialLinksModel.js";
 import locations from "../models/locationModel.js";
-import applications from "../models/applicationsModel.js";
-import { Op } from "sequelize";
+// import applications from "../models/applicationsModel.js";  
 
 // Company register
 const registerCompany = async (req, res) => {
   try {
-    // Get company info
     const newCompany = req.body;
-    const token = req.token;
+    // const token = req.token;
     const password = newCompany.password;
-
-    // Hash password
     const hashPassword = await bcrypt.hash(password, 10);
     const uuid = uuidv4();
     const logo = req.file?.filename;
@@ -39,11 +37,10 @@ const registerCompany = async (req, res) => {
       ]
     });
     const company = addCompany.dataValues;
-    res
-      .status(201)
-      .json({ message: "Company registered successfully!", token, company });
+    res.status(201).json({ message: "Company registered successfully!", company });
     return;
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Failed to register company!" });
   }
 };
@@ -51,21 +48,11 @@ const registerCompany = async (req, res) => {
 // Company login
 const companyLogin = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
     const token = req.token;
     const company = req.body;
-
-    // Check if company exists
-    const findUser = await companyModel.findOne({ where: { email: email } });
-    if (!findUser) {
-      return res.status(403).json({ message: "Company does not exist!" });
+    if (company) {
+      res.status(200).json({message:"Login successful!", token})
     }
-    const passwordMatch = await bcrypt.compare(password, findUser.password);
-    if (!passwordMatch) {
-      return res.status(403).json({ message: "Invalid credentials" });
-    }
-
-    // res.status(201).json({ message: "company logged in!", token });
     next();
   } catch (error) {
     console.log(error);
@@ -86,9 +73,10 @@ const updateCompanyInfo = async (req, res) => {
     const findCompany = await companyModel.findAll({
       where: { id: company_id }
     });
-    if (updateResult) {
-      res.status(201).json({ message: "Updated successfully!", findCompany });
+    if (!findCompany) {
+      return res.status(404).json({ message: "No company found!" });
     }
+    res.status(201).json({ message: "Updated successfully!", updateResult });
   } catch (error) {
     res.status(400).json({ message: "failed to update!" });
   }
@@ -219,6 +207,7 @@ const getAllcompanies = async (req, res) => {
 };
 
 //company to get all info of a job seeker
+<<<<<<< HEAD
 const jobSeekerAllInfo = async (req, res) => {
   try {
     const { id } = req.params;
@@ -281,6 +270,70 @@ const jobSeekerAllInfo = async (req, res) => {
     res.status(400).json({ message: "Error getting information!" });
   }
 };
+=======
+// const jobSeekerAllInfo = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const allInfo = await jobSeeker.findAll({
+//       where: { id: id },
+//       include: [
+//         {
+//           model: Education,
+//           required: false,
+//           attributes: {
+//             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+//           },
+//         },
+//         {
+//           model: Experience,
+//           required: false,
+//           attributes: {
+//             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+//           },
+//         },
+//         {
+//           model: Languages,
+//           required: false,
+//           attributes: {
+//             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+//           },
+//         },
+//         {
+//           model: Skills,
+//           required: false,
+//           attributes: {
+//             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+//           },
+//         },
+//         {
+//           model: jsSocialLinks,
+//           required: false,
+//           attributes: {
+//             exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
+//           },
+//         },
+//       ],
+//       attributes: {
+//         exclude: [
+//           "id",
+//           "js_id",
+//           "password",
+//           "deletedAt",
+//           "createdAt",
+//           "updatedAt",
+//         ],
+//       },
+//     });
+//     if (!allInfo) {
+//       return res.status(400).json({ message: "no information found!" });
+//     }
+//     res.status(200).json(allInfo);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(400).json({ message: "Error getting information!" });
+//   }
+// };
+>>>>>>> origin/Razak
 
 // get applicant info
 const applicantInfo = async (req, res) => {
@@ -310,7 +363,7 @@ const applicantInfo = async (req, res) => {
 }
 
 // delete a company
-const deleteCompany = async (req, res) => {
+const deleteCompany = async (req, res, next) => {
   try {
     const { id } = req.params;
     const findCompany = await companyModel.findByPk(id);
@@ -323,6 +376,7 @@ const deleteCompany = async (req, res) => {
     await findCompany.destroy();
     res.status(200).json({ message: "Record deleted successfully!" });
 
+<<<<<<< HEAD
     setTimeout(async () => {
       const permanentDelete = await companyModel.destroy({
         where: { id: id, deletedAt: { [Op.not]: null } },
@@ -333,11 +387,50 @@ const deleteCompany = async (req, res) => {
         console.log({ message: "Record permanetly deleted!" });
       }
     }, 30 * 24 * 60 * 60 * 1000);
+=======
+//     const performHardDelete = async () => {
+//   const twoMinutesAgo = new Date(Date.now() - 2 * 60 * 1000);
+//   const hardDelete = await companyModel.destroy({
+//     where: {
+//       deletedAt: { [Op.not]: null },
+//       updatedAt: { [Op.lte]: twoMinutesAgo },
+//     },
+//     force: true,
+//     include: [postedJobs, companyRegistration, locations],
+//   });
+//   if (hardDelete) {
+//     console.log('Hard delete completed');
+//   }
+// };
+// cron.schedule('*/2 * * * *', performHardDelete);
+
+>>>>>>> origin/Razak
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Error deleting company!" });
+  };
+  next();
+};
+const permanentDelete = async () => {
+  try {
+    const twoMinutesAgo = new Date(Date.now() - 2 * 60 * 1000);
+    const hardDelete = await companyModel.destroy({
+      where: {
+        deletedAt: { [Op.not]: null },
+        updatedAt: { [Op.Ite]: null },
+      },
+      force: true,
+      include: [postedJobs, companyRegistration, locations, applications]
+    });
+    if (hardDelete) {
+      console.log(`Company with ${id} is now permanently deleted!`);
+    }
+    cron.schedule('*/2 * * * *', twoMinutesAgo);
+  } catch (error) {
+    console.log(error);
   }
 };
+
 // get all available jobs
 const getAllAvailableJobs = async (req, res) => {
   try {
@@ -404,7 +497,8 @@ export {
   getCompanyAllInfo,
   getAllcompanies,
   deleteCompany,
-  jobSeekerAllInfo,
+  // permanentDelete,
+  // jobSeekerAllInfo,
   companyDetails,
   applicantInfo,
   verifyEmail,
