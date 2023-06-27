@@ -7,11 +7,8 @@ import cors from "cors";
 import seedAdmin from "./seeds/superAdminSeed.js";
 import helmet from "helmet";
 const app = express();
-<<<<<<< HEAD
 const csrfProtection = csrf({ cookie: true });
-=======
 app.use(express.json());
->>>>>>> origin/Razak
 app.use(cors());
 app.use(
   helmet(
