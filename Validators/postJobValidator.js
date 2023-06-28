@@ -1,9 +1,8 @@
 import Joi from "joi";
 const postJobValidator = (req, res, next) => {
     const schema = Joi.object({
-        job_title: Joi.string().required().regex(/^[A-Za-z- ]+$/).messages({
-            "any.required": "Job title is required!",
-            "string.pattern.base": "First name can contain only letters and hyphen(-)!"
+        job_title: Joi.string().required().messages({
+            "any.required": "Job title is required!"
         }),
         job_type: Joi.string().required().messages({
             "any.required": "Choose the type of job!",

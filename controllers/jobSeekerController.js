@@ -1,12 +1,12 @@
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jobSeekerRigistration from "../models/jobSeekerModel.js";
-// import jobSeekerProfileModel from "../models/jobSeekerProfileModel.js";
-// import Education from "../models/educationModel.js";
-// import Experience from "../models/experienceModel.js";
-// import Languages from "../models/languageModel.js";
-// import Skills from "../models/skillsModel.js";
-// import jsSocialLinks from "../models/jsSocialLinksModel.js";
+import jobSeekerProfileModel from "../models/jobSeekerProfileModel.js";
+import Education from "../models/educationModel.js";
+import Experience from "../models/experienceModel.js";
+import Languages from "../models/languageModel.js";
+import Skills from "../models/skillsModel.js";
+import jsSocialLinks from "../models/jsSocialLinksModel.js";
 
 // job seeker registration
 const registerJobSeeker = async (req, res) => {
@@ -112,6 +112,7 @@ const getAllInfo = async (req, res) => {
     res.status(400).json({ message: "Error getting information!" });
   }
 };
+
 //all job seekers
 const allJobSeekers = async (req, res) => {
   try {
@@ -120,8 +121,14 @@ const allJobSeekers = async (req, res) => {
         {
           model: jobSeekerProfileModel,
           required: false,
+          attributes:{
+            exclude: ["createdAt", "updatedAt"]
+          }
         },
       ],
+      attributes:{
+        exclude:["password", "createdAt","updatedAt", "deletedAt"]
+      }
     });
     if (!findUsers) {
       res.status(400).json({ message: "No information found!" });

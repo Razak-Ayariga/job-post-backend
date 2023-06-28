@@ -10,8 +10,7 @@ import { logoUpload } from "../middleware/companyMiddleware.js";
 router.post("/addLocation",logoUpload("").none(),
     verifyToken,
     validateLocation,
-    addLocation,
-    // getCompanyAllInfo
+    addLocation
 );
 router.put("/updateLocation",logoUpload("").none(), updateLocation)
 

@@ -8,20 +8,19 @@ import {
   getAllJobs,
   getCompanyAllJobs,
   allJobApplicants,
-  deleteJob,
+  deleteJob
 } from "../controllers/postJobController.js";
 
 import postJobValidator from "../Validators/postJobValidator.js";
 import {logoUpload, verifyToken} from "../middleware/companyMiddleware.js";
-import { getCompanyAllInfo } from "../controllers/companyController.js";
+// import { getCompanyAllInfo } from "../controllers/companyController.js";
 
 router.post(
   "/postJob",
   logoUpload("").none(),
   verifyToken,
   postJobValidator,
-  postJob,
-  getCompanyAllInfo
+  postJob
 );
 
 router.get("/getOneJob/:id", getOneJob);

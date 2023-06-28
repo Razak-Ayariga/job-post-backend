@@ -24,18 +24,18 @@ const createProfile = async (req, res) => {
 };
 
 //get a job seeker
-// const getJobSeeker = async (req, res) => {
-//   const id = req.userId;
-//   const findUser = await jobSeeker.findOne({
-//     id,
-//     attributes: { exclude: ["password"] },
-//   });
-//   if (findUser) {
-//     return res.status(200).json({ jobseeker: findUser.dataValues });
-//   } else {
-//     return res.status(400).json({ message: "User not found..." });
-//   }
-// };
+const getJobSeeker = async (req, res) => {
+  const id = req.userId;
+  const findUser = await jobSeeker.findOne({
+    id,
+    attributes: { exclude: ["password"] },
+  });
+  if (findUser) {
+    return res.status(200).json({ jobseeker: findUser.dataValues });
+  } else {
+    return res.status(400).json({ message: "User not found..." });
+  }
+};
 // update job seeker info
 const updateProfile = async (req, res) => {
   try {

@@ -42,8 +42,7 @@ router.post(
   logoUpload("").none(),
   companyLoginValidator,
   companyToken,
-  companyLogin,
-  // getCompanyAllInfo
+  companyLogin
 );
 
 router.put(

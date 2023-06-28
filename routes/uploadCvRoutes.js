@@ -1,13 +1,11 @@
 import express from "express";
 const router = express.Router();
 
-import {uploadCv, updateCv, deleteCv} from "../controllers/uploadCvController.js";
-// import jobSeekerInfoValidator from "../Validators/uploadCvValidator.js";
+import { uploadCv, updateCv, deleteCv } from "../controllers/uploadCvController.js";
 import uploadCvMiddleware from "../middleware/cvUploadMiddleware.js";
 import { verifyToken } from "../middleware/jobseekerAuthMiddleware.js";
 
-router.put("/uploadCv",
-    // jobSeekerInfoValidator,
+router.post("/uploadCv",
     verifyToken,
     uploadCvMiddleware("public/cvs").single("cv"),
     uploadCv);

@@ -30,8 +30,7 @@ router.put(
   photoUpload("").none(),
   verifyToken,
   educationValidator,
-  updateEducation,
-  // getAllJobSeekers
+  updateEducation
 );
 
 router.get("/oneEducation/:id", getOneEducation);

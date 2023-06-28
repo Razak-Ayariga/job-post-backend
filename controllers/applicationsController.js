@@ -6,6 +6,7 @@ import skills from "../models/skillsModel.js";
 import languages from "../models/languageModel.js";
 import jsSocialLinks from "../models/jsSocialLinksModel.js";
 import jobSeeker from "../models/jobSeekerModel.js";
+import jobSeekerProfileModel from "../models/jobSeekerProfileModel.js";
 
 const jobApplication = async (req, res) => {
     try {
@@ -25,33 +26,6 @@ const jobApplication = async (req, res) => {
 };
 
 // get applicant info
-// const applicantInfo = async (req, res) => {
-//     try {
-//         const job_id = req.params.job_id;
-//         const allInfo = await applications.findAll({
-//             where: { job_id },
-//             include: [
-//                 {
-//                     model: jobs,
-//                     required: false,
-//               },
-//                 {
-//                     model: jobSeeker,
-//                     required: false,
-//                     include: [education, experience, skills, languages, jsSocialLinks]
-//                 }
-//             ],
-//             // group: ["jobs.id"]
-//         });
-//         if (allInfo) {
-//             res.status(200).json(allInfo);
-//         }
-//     } catch (error) {
-
-//         console.log(error);
-//         res.status(400).json({ message: "Error getting information" })
-//     }
-// };
 const applicantInfo = async (req, res) => {
   try {
     const job_id = req.params.job_id;
@@ -65,7 +39,7 @@ const applicantInfo = async (req, res) => {
         {
           model: jobSeeker,
           required: true,
-          include: [education, experience, skills, languages, jsSocialLinks]
+          include: [jobSeekerProfileModel, education, experience, skills, languages, jsSocialLinks]
         }
       ], group:["job_id"]
     }); 
@@ -105,10 +79,24 @@ const allApplications = async (req, res) => {
 
 // delete and application record
 const deleteAppliocation = async (req, res) => {
-  try {
-    
+  try { 
+    const {id} = req.params;
+    const findApplication  = await applications.findByPk(id);
+    if(!findApplication){
+      return res.status(404).json({messgae:"Record not found!"});
+    }
+    const deleteResults = await applications.destroy({where:{id}});
+    if(deleteResults){
+      res.status(200).json({message:"Recorded deleted successfully!"});
+    }
   } catch (error) {
-    
+    console.log(error);
+    res.status(500).json({message:"Error!"})
   }
 }
-export { jobApplication, applicantInfo, allApplications };
+export { 
+  jobApplication, 
+  applicantInfo, 
+  allApplications, 
+  deleteAppliocation
+ };
