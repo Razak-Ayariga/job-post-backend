@@ -2,11 +2,11 @@ import Joi from "joi";
 const companyRegistrationValidator = (req, res, next) => {
   const schema = Joi.object({
     registration_number: Joi.string().required().messages({
-      "any.required": "Company registration number is required!",
+      "any.required": "Company registration number is required!"
     }),
     vat_number: Joi.string().messages({
-      "any.required": "VAT number is required!",
-    }),
+      "any.required": "VAT number is required!"
+    })
   });
   const validation = schema.validate(req.body);
   const { error } = validation;
