@@ -145,6 +145,31 @@ const allJobApplicants = async (req, res) => {
   }
 };
 
+// update applicant's status
+const updateApplicantStatus = async(req, res)=>{
+  const {app_id, job_id, status} = req.body;
+  try{
+    const applicationExist = await applicationsModel.findByPk(app_id);
+    if(!applicationExist){
+      return res.status(400).json({message:"application not found"});
+      const updateStatus = await applicationsModel.update({status:status}, {where:{id:app_id}});
+      if(updateStatus){
+        const updateInfo = await applicationsModel.findByPk(app_id);
+      }
+      if(updateInfo){
+        req.jobId = job_id;
+        await allJobApplicants(req, res)
+      }
+    }
+
+  }catch(error){
+    console.log(error)
+     res.status(500).json({message:"Error updating status"})
+    };
+  
+}
+
+
 //delete a posted job
 const deleteJob = async (req, res) => {
   try {
@@ -170,5 +195,6 @@ export {
   getAllJobs,
   getCompanyAllJobs,
   allJobApplicants,
-  deleteJob,
+  updateApplicantStatus,
+  deleteJob
 }; 

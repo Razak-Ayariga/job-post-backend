@@ -8,12 +8,12 @@ import {
   getAllJobs,
   getCompanyAllJobs,
   allJobApplicants,
+  updateApplicantStatus,
   deleteJob
 } from "../controllers/postJobController.js";
 
 import postJobValidator from "../Validators/postJobValidator.js";
 import {logoUpload, verifyToken} from "../middleware/companyMiddleware.js";
-// import { getCompanyAllInfo } from "../controllers/companyController.js";
 
 router.post(
   "/postJob",
@@ -29,5 +29,8 @@ router.get("/allApplicants/:id", allJobApplicants);
 router.get("/allJobs", getAllJobs);
 router.delete("/deleteJob/:id", deleteJob);
 router.put("/updateJob/:id", logoUpload("").none(),verifyToken,updateJob);
+router.put("/application/status", 
+logoUpload("").none(), 
+updateApplicantStatus)
 
 export default router;
