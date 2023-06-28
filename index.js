@@ -2,7 +2,7 @@ import express from "express";
 import sequelize from "./dataBase/dbConfig.js";
 import multer from "multer";
 import cors from "cors";
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 import helmet from "helmet";
 import seedAdmin from "./seeds/superAdminSeed.js";
 const app = express();
@@ -24,7 +24,7 @@ const uploads = multer();
 //import routes
 import superAdminRoutes from "./seeds/superAdminRoutes.js";
 import jobSeekerRoutes from "./routes/jobSeekerRoutes.js";
-import profileRoutes from "./routes/jobSeekerProfileRoutes.js"
+import profileRoutes from "./routes/jobSeekerProfileRoutes.js";
 import companyRoutes from "./routes/companyRoutes.js";
 import companyRegistrationRoutes from "./routes/companyRegistrationRoutes.js";
 import postJobRoutes from "./routes/postJobRoutes.js";
