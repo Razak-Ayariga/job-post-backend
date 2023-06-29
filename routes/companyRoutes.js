@@ -7,9 +7,7 @@ import {
   companyLogin,
   updateCompanyInfo,
   getCompanyAllInfo,
-  getAllcompanies,
-//   deleteCompany,
-//   permanentDelete,
+  deleteCompany,
   // jobSeekerAllInfo,
   companyDetails,
   applicantInfo,
@@ -53,8 +51,7 @@ router.put(
 );
 
 router.get("/getAll", verifyToken, getCompanyAllInfo);
-router.get("/allCompanies", getAllcompanies);
-// router.delete("/deleteCompany/:id", deleteCompany, permanentDelete);
+router.delete("/delete/:id", deleteCompany);
 // router.get("/allJobSeekerInfo/:id", jobSeekerAllInfo);
 router.get("/companyDetails/", verifyToken, companyDetails);
 router.get("/jobApplicant/:id", applicantInfo);

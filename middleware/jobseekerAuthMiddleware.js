@@ -1,4 +1,4 @@
-import JobSeekerModel from "../models/JobSeekerModel.js";
+import JobSeekerModel from "../models/jobSeekerModel.js"; 
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";

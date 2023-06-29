@@ -60,40 +60,6 @@ const updateProfile = async (req, res) => {
   }
 };
 
-// //delete a job seeker's record
-// const deleteJobSeeker = async (req, res) => {
-//   try {
-//     const userId = req.params.id;
-//     const findJobSeeker = await jobSeeker.findByPk(userId);
-//     if (!findJobSeeker) {
-//       return res.status(404).json({ message: "Record not found" });
-//     }
-//     await Education.destroy({ where: { js_id: userId } });
-//     await Experience.destroy({ where: { js_id: userId } });
-//     await Languages.destroy({ where: { js_id: userId } });
-//     await Skills.destroy({ where: { js_id: userId } });
-//     await jsSocialLinks.destroy({ where: { js_id: userId } });
-//     await cv.destroy({ where: { js_id: userId } });
-//     await applications.destroy({ where: { js_id: userId } });
-//     await findJobSeeker.destroy();
-//     res.status(200).json({ message: "Record deleted successfully!" });
-
-//     setTimeout(async () => {
-//       const permanentDelete = await jobSeeker.destroy({
-//         where: { id: userId, deletedAt: { [Op.not]: null } },
-//         force: true, // Permanently delete the record
-//         include: [Education, Experience, Skills, Languages, jsSocialLinks, cv],
-//       });
-//       if (permanentDelete) {
-//         console.log(`Record permanently deleted for ID: ${userId}`);
-//       }
-//     }, 30 * 24 * 60 * 60 * 1000);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(400).json({ message: "Could not delete record!" });
-//   }
-// };
-
 // //Verify Email
 // const verifyEmail = async (req, res) => {
 //   try {

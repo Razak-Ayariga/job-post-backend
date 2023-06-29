@@ -11,7 +11,6 @@ import {
 import skillsValidator from "../Validators/skillsValidator.js";
 import { verifyToken } from "../middleware/jobseekerAuthMiddleware.js";
 import photoUpload from "../middleware/ProfileMiddleware.js";
-// import { getJobSeekerAllInfo } from "../controllers/jobSeekersController.js";
 
 const upload = multer();
 router.post(

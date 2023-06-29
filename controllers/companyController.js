@@ -190,21 +190,6 @@ const companyDetails = async (req, res) => {
   }
 };
 
-// get all companies
-const getAllcompanies = async (req, res) => {
-  try {
-    const findAllCompanies = await companyModel.findAll({
-      attributes: { exclude: ["id", "password", "deletedAt"] },
-    });
-    if (!findAllCompanies) {
-      return res.status(400).json("No companies available!");
-    }
-    res.status(200).json(findAllCompanies);
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ message: "Can not get all companies!" });
-  }
-};
 //Get all companies
 // const allCompaniesJobs = async (req, res) => {
 //   try {
@@ -319,58 +304,43 @@ const applicantInfo = async (req, res) => {
 }
 
 // delete a company
-const deleteCompany = async (req, res, next) => {
+const deleteCompany = async (req, res) => {
   try {
-    const { id } = req.params;
-    const findCompany = await companyModel.findByPk(id);
+    const id = req.params.id;
+    const findCompany = await companies.findByPk(id);
     if (!findCompany) {
-      return res.status(400).json({ message: "Company not available!" });
-    }
-    await companyRegistration.destroy({ where: { id: id } });
-    await postedJobs.destroy({ where: { company_id: id } });
-    await locations.destroy({ where: { company_id: id } });
+      return res.status(404).json({ message: "Record not found" });
+    } 
     await findCompany.destroy();
+    await companyRegistration.destroy({where:{company_id: id}});
+    await locations.destroy({ where: { id: id } });
+    await postedJobs.destroy({ where: { id: id } });
     res.status(200).json({ message: "Record deleted successfully!" });
-
-    const performHardDelete = async () => {
-  const twoMinutesAgo = new Date(Date.now() - 2 * 60 * 1000);
-  const hardDelete = await companyModel.destroy({
-    where: {
-      deletedAt: { [Op.not]: null },
-      updatedAt: { [Op.lte]: twoMinutesAgo },
-    },
-    force: true,
-    include: [postedJobs, companyRegistration, locations],
-  });
-  if (hardDelete) {
-    console.log('Hard delete completed');
-  }
-};
-cron.schedule('*/2 * * * *', performHardDelete);
-
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ message: "Error deleting company!" });
-  };
-  next();
-};
-const permanentDelete = async () => {
-  try {
-    const twoMinutesAgo = new Date(Date.now() - 2 * 60 * 1000);
-    const hardDelete = await companyModel.destroy({
-      where: {
-        deletedAt: { [Op.not]: null },
-        updatedAt: { [Op.Ite]: null },
-      },
-      force: true,
-      include: [postedJobs, companyRegistration, locations, applications]
+    // Schedule the permanent deletion after 30 days using cron
+    cron.schedule("*/2 * * * *", async () => {
+      try {
+        const permanentDelete = await companies.destroy({
+          where: { id: id, deletedAt: { [Op.not]: null } },
+          force: true, // Permanently delete the record
+          include: [
+            companyRegistration,
+            locations,
+            postedJobs
+          ],
+        });
+        if (permanentDelete) {
+          console.log(`Record permanently deleted for ID: ${id}`);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }, {
+      scheduled: true,
+      timezone: "GMT",
     });
-    if (hardDelete) {
-      console.log(`Company with ${id} is now permanently deleted!`);
-    }
-    cron.schedule('*/2 * * * *', twoMinutesAgo);
   } catch (error) {
     console.log(error);
+    res.status(400).json({ message: "Could not delete record!" });
   }
 };
 
@@ -399,10 +369,7 @@ export {
   companyLogin,
   updateCompanyInfo,
   getCompanyAllInfo,
-  getAllcompanies,
   deleteCompany,
-  // permanentDelete,
-  // jobSeekerAllInfo,
   companyDetails,
   applicantInfo,
   verifyEmail,

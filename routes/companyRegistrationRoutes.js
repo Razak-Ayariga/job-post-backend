@@ -13,7 +13,6 @@ router.post(
   verifyToken,
   companyRegistrationValidator,
   newRegistration,
-  // getCompanyAllInfo
 );
 router.put("/updateRegistration/:id",
   uploadRegistrationCertificate("").single(),
