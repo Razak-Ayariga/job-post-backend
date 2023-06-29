@@ -317,7 +317,7 @@ const deleteCompany = async (req, res) => {
     await postedJobs.destroy({ where: { id: id } });
     res.status(200).json({ message: "Record deleted successfully!" });
     // Schedule the permanent deletion after 30 days using cron
-    cron.schedule("*/2 * * * *", async () => {
+    cron.schedule("* * */30 * *", async () => {
       try {
         const permanentDelete = await companies.destroy({
           where: { id: id, deletedAt: { [Op.not]: null } },
