@@ -7,14 +7,12 @@ import {
   updateEducation,
   getOneEducation,
   getAllEducation,
-  deleteEducation,
+  deleteEducation
 } from "../controllers/educationController.js";
 
 import {verifyToken} from "../middleware/jobseekerAuthMiddleware.js";
 import photoUpload from "../middleware/ProfileMiddleware.js";
 import educationValidator from "../Validators/educationValidators.js";
-// import { getAllJobSeekers, getJobSeekerAllInfo } from "../controllers/jobSeekersController.js";
-// import { getJobSeekerAllInfo } from "../controllers/jobSeekersController.js";
 
 const upload = multer();
 router.post(

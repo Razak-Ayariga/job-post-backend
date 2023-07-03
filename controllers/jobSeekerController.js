@@ -56,7 +56,6 @@ const getAllInfo = async (req, res) => {
     } else {
       userId = req.user.id;
     }
-    // const token = req.token;
     const allInfo = await jobSeekerRigistration.findAll({
       where: { id: userId },
       include: [
@@ -64,48 +63,48 @@ const getAllInfo = async (req, res) => {
           model: jobSeekerProfileModel,
           required: false,
           attributes: {
-            exclude: ["js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+            exclude: ["js_id", "deletedAt", "createdAt", "updatedAt"]
+          }
         },
         {
           model: Education,
           required: false,
           attributes: {
-            exclude: ["js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+            exclude: ["js_id", "deletedAt", "createdAt", "updatedAt"]
+          }
         },
         {
           model: Experience,
           required: false,
           attributes: {
-            exclude: ["js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+            exclude: ["js_id", "deletedAt", "createdAt", "updatedAt"]
+          }
         },
         {
           model: Languages,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
+          }
         },
         {
           model: Skills,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
+          }
         },
         {
           model: jsSocialLinks,
           required: false,
           attributes: {
-            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"],
-          },
-        },
+            exclude: ["id", "js_id", "deletedAt", "createdAt", "updatedAt"]
+          }
+        }
       ],
       attributes: {
-        exclude: ["js_id", "password", "deletedAt", "createdAt", "updatedAt"],
-      },
+        exclude: ["js_id", "password", "deletedAt", "createdAt", "updatedAt"]
+      }
     });
     if (!allInfo) {
       return res.status(400).json({ message: "no information found!" });
@@ -128,7 +127,7 @@ const allJobSeekers = async (req, res) => {
           attributes:{
             exclude: ["createdAt", "updatedAt"]
           }
-        },
+        }
       ],
       attributes:{
         exclude:["password", "createdAt","updatedAt", "deletedAt"]
@@ -150,14 +149,14 @@ const verifyEmail = async (req, res) => {
   try {
     const { email } = req.body;
 
-    const findUser = await jobSeeker.findOne({ where: { email: email } });
+    const findUser = await jobSeekerRigistration.findOne({ where: { email: email } });
     if (!findUser) {
       return res.status(400).json({ message: "User does not exist" });
     }
     const user = {
       id: findUser.dataValues.id,
       email: findUser.dataValues.email,
-      password: findUser.dataValues.password,
+      password: findUser.dataValues.password
     };
     res.status(200).json({ message: "User found!", user });
   } catch (error) {
@@ -173,12 +172,12 @@ const resetPassword = async (req, res) => {
     if (!user.id || !user.newPassword) {
       return res.status(404).json({ message: "Enter new password" });
     }
-    const samePassword = bcrypt.compareSync(user.newPassword, user.password)
+    const samePassword = bcrypt.compareSync(user.newPassword, user.password);
     if (samePassword) {
-      return res.status(404).json({ message: "Password can not be the same" })
+      return res.status(404).json({ message: "Password can not be the same" });
     }
     const password = await bcrypt.hash(user.newPassword, 10);
-    const updatePassword = await jobSeeker.update(
+    const updatePassword = await jobSeekerRigistration.update(
       { password: password },
       { where: { id: user.id } }
     );
@@ -187,7 +186,7 @@ const resetPassword = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json({ message: "Failed to reset password" })
+    res.status(400).json({ message: "Failed to reset password" });
   }
 };
 // //delete a job seeker's record
@@ -197,7 +196,7 @@ const deleteJobSeeker = async (req, res) => {
     const findJobSeeker = await jobSeekerRigistration.findByPk(userId);
     if (!findJobSeeker) {
       return res.status(404).json({ message: "Record not found" });
-    } 
+    }
     await jobSeekerProfileModel.destroy({where:{js_id: userId}});
     await Education.destroy({ where: { js_id: userId } });
     await Experience.destroy({ where: { js_id: userId } });
@@ -221,8 +220,8 @@ const deleteJobSeeker = async (req, res) => {
             Languages,
             jsSocialLinks,
             cv,
-            applications,
-          ],
+            applications
+          ]
         });
         if (permanentDelete) {
           console.log(`Record permanently deleted for ID: ${userId}`);
@@ -232,7 +231,7 @@ const deleteJobSeeker = async (req, res) => {
       }
     }, {
       scheduled: true,
-      timezone: "GMT",
+      timezone: "GMT"
     });
   } catch (error) {
     console.log(error);

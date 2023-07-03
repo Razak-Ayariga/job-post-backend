@@ -29,8 +29,6 @@ router.get("/allApplicants/:id", allJobApplicants);
 router.get("/allJobs", getAllJobs);
 router.delete("/deleteJob/:id", deleteJob);
 router.put("/updateJob/:id", logoUpload("").none(),verifyToken,updateJob);
-router.put("/application/status", 
-logoUpload("").none(), 
-updateApplicantStatus)
+router.put("/application/status",logoUpload("").none(), updateApplicantStatus);
 
 export default router;

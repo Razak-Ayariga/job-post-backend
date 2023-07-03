@@ -1,22 +1,22 @@
 // import { Op } from "sequelize";
 import { v4 as uuidv4 } from "uuid";
 import jobSeekerProfile from "../models/jobSeekerProfileModel.js";
+import jobSeeker from "../models/JobSeekerModel.js";
 
-//Job seeker registration
+//create profile
 const createProfile = async (req, res) => {
   try {
     const newProfile = req.body;
     const uuid = uuidv4();
-      const photo = req.file?.filename;
-      const id = req.userId
-      newProfile["js_id"] = id;
+    const photo = req.file?.filename;
+    const id = req.userId;
+    newProfile["js_id"] = id;
     newProfile["uuid"] = uuid;
     newProfile["photo"] = photo;
-      const addProfile = await jobSeekerProfile.create(newProfile);
-      if(addProfile)
-        res.status(201).json({ message: "Profile created successfully", newProfile});
-        return;
-      
+    const addProfile = await jobSeekerProfile.create(newProfile);
+    if(addProfile)
+      res.status(201).json({ message: "Profile created successfully", newProfile});
+    return;
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "failed to create profile!" });
@@ -28,7 +28,7 @@ const getJobSeeker = async (req, res) => {
   const id = req.userId;
   const findUser = await jobSeeker.findOne({
     id,
-    attributes: { exclude: ["password"] },
+    attributes: { exclude: ["password"] }
   });
   if (findUser) {
     return res.status(200).json({ jobseeker: findUser.dataValues });
@@ -45,10 +45,10 @@ const updateProfile = async (req, res) => {
     userInfo["photo"] = photo;
     const findProfile = await jobSeekerProfile.findByPk(id);
     if (!findProfile) {
-      return res.status(404).json({message: "No profile found!"})
+      return res.status(404).json({message: "No profile found!"});
     } else {
       const updateResult = await jobSeekerProfile.update(userInfo, {
-        where: { id: id },
+        where: { id: id }
       });
       if (updateResult) {
         res.status(201).json({ message: "Updated successfully!", userInfo });
@@ -106,4 +106,4 @@ const updateProfile = async (req, res) => {
 //   }
 // };
 
-export { createProfile, updateProfile };
+export { createProfile, updateProfile, getJobSeeker };

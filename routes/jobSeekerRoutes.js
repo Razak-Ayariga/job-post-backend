@@ -7,18 +7,18 @@ import {
   loginJobSeeker,
   getAllInfo,
   allJobSeekers,
-  deleteJobSeeker,
+  deleteJobSeeker
 } from "../controllers/jobSeekerController.js";
 
 import {
   validatorRegistration,
-  ValidateLogin,
+  ValidateLogin
 } from "../Validators/jobseekerValidator.js";
 
 import {
   findJobSeeker,
   jobseekerToken,
-  verifyToken,
+  verifyToken
 } from "../middleware/jobseekerAuthMiddleware.js";
 
 import photoUpload from "../middleware/ProfileMiddleware.js";

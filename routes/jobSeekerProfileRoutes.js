@@ -17,6 +17,6 @@ router.post(
 router.put("/updateProfile/:id",
   photoUpload("public/photos").single("photo"),
   updateProfile
-)
+);
 
 export default router;

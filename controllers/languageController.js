@@ -30,7 +30,7 @@ const updateLanguage = async (req, res) => {
       return res.status(404).json({ message: "language recored not found!" });
     }
     const updateRecord = await languageModel.update(updateInfo, {
-      where: { id: id },
+      where: { id: id }
     });
     if (updateRecord) {
       res.status(200).json({ message: "language updated successfully!" });
@@ -46,7 +46,7 @@ const getAllLanguages = async (req, res) => {
   try {
     const js_id = req.params;
     const languageRecords = await languageModel.findAll({
-      where: { js_id: js_id },
+      where: { js_id: js_id }
     });
     if (!languageRecords) {
       return res.status(404).json({ message: "language not found" });
@@ -93,5 +93,5 @@ export {
   updateLanguage,
   getAllLanguages,
   getOneLanguage,
-  deleteLanguage,
+  deleteLanguage
 };

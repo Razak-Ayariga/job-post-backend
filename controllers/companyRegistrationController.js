@@ -11,7 +11,7 @@ const newRegistration = async (req, res) => {
     const { registration_number, vat_number } = req.body;
     const registrationInfo = { registration_number, vat_number };
     const findRegistration = await companyRegistration.findOne({
-      where: { registration_number: registrationInfo.registration_number },
+      where: { registration_number: registrationInfo.registration_number }
     });
     if (findRegistration) {
       console.log(findRegistration);
@@ -25,7 +25,7 @@ const newRegistration = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    // sres.status(500).json({ message: "Server Error" });
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
@@ -38,7 +38,7 @@ const updateRegistration = async (req, res) => {
       return res.status(404).json({ message: "No record found!" });
     }
     const updateResult = await companyRegistration.update(newRegistration, {
-      where: { id: id },
+      where: { id: id }
     });
     if (updateResult) {
       res.status(200).json({ message: "Registration updated successfully!" });

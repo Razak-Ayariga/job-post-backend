@@ -7,7 +7,6 @@ import {addLinksController, updateLinks, deleteLink} from "../controllers/jsScia
 import jsSocialLinksValidator from "../Validators/jsSocialLinksValidator.js";
 import { verifyToken } from "../middleware/jobseekerAuthMiddleware.js";
 import photoUpload from "../middleware/ProfileMiddleware.js";
-// import { getJobSeekerAllInfo } from "../controllers/jobSeekersController.js";
 
 //use the routes
 const upload = multer();
@@ -16,8 +15,7 @@ router.post(
   photoUpload("").none(),
   verifyToken,
   jsSocialLinksValidator,
-  addLinksController,
-  // getJobSeekerAllInfo
+  addLinksController
 );
 
 router.put("/update/:id", photoUpload("").none(), updateLinks);

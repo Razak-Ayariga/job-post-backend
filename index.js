@@ -38,7 +38,7 @@ import skillsRoutes from "./routes/skillsRoutes.js";
 import applicationRoutes from "./routes/applicationsRoutes.js";
 
 //use routes
-app.use("/superAdmin", superAdminRoutes);
+app.use("/admin", superAdminRoutes);
 app.use("/jobSeeker", jobSeekerRoutes);
 app.use("/jobSeeker", profileRoutes);
 app.use("/jobSeeker", addExperienceRoutes);

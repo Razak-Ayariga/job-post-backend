@@ -55,7 +55,7 @@ const updateJob = async (req, res) => {
       return res.status(404).json({ message: "Job record not found!" });
     }
     const updateResult = await postJobsModel.update(updateInfo, {
-      where: { id: id },
+      where: { id: id }
     });
     if (updateResult) {
       res.status(200).json({ message: "Job updated successfully!" });
@@ -86,7 +86,7 @@ const getCompanyAllJobs = async (req, res) => {
   try {
     const company_id = req.params.id;
     const findAllJobs = await postJobsModel.findAll({
-      where: { company_id: company_id },
+      where: { company_id: company_id }
     });
     if (findAllJobs) {
       res.status(200).json(findAllJobs);
@@ -101,7 +101,7 @@ const getAllJobs = async (req, res) => {
   try {
     const findAllJobs = await postJobsModel.findAll();
     if (!findAllJobs) {
-      return res.status(404).json({message:"No jobs found!"})
+      return res.status(404).json({message:"No jobs found!"});
     }
     res.status(200).json(findAllJobs);
   } catch (error) {
@@ -152,23 +152,21 @@ const updateApplicantStatus = async(req, res)=>{
     const applicationExist = await applicationsModel.findByPk(app_id);
     if(!applicationExist){
       return res.status(400).json({message:"application not found"});
-      const updateStatus = await applicationsModel.update({status:status}, {where:{id:app_id}});
-      if(updateStatus){
-        const updateInfo = await applicationsModel.findByPk(app_id);
-      }
+    }
+    const updateStatus = await applicationsModel.update({status:status}, {where:{id:app_id}});
+    if(updateStatus){
+      const updateInfo = await applicationsModel.findByPk(app_id);
       if(updateInfo){
         req.jobId = job_id;
-        await allJobApplicants(req, res)
+        await allJobApplicants(req, res);
       }
     }
 
   }catch(error){
-    console.log(error)
-     res.status(500).json({message:"Error updating status"})
-    };
-  
-}
-
+    console.log(error);
+    res.status(500).json({message:"Error updating status"});
+  }
+};
 
 //delete a posted job
 const deleteJob = async (req, res) => {
@@ -197,4 +195,4 @@ export {
   allJobApplicants,
   updateApplicantStatus,
   deleteJob
-}; 
+};

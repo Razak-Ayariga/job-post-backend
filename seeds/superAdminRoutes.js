@@ -1,15 +1,23 @@
 import express from "express";
 const router = express.Router();
 
-import { mainAdminLogin, changePassword, getAllcompanies } from "./superAdminController.js";
+import {
+  mainAdminLogin,
+  changePassword,
+  allcompanies,
+  allJobSeekers,
+  availableJobs,
+} from "./superAdminController.js";
+
 import { mainAdminToken, verifyAdminToken } from "./superAdminMiddleware.js";
-import { superAdminLoginValidator, passwordChangeValidator } from "./superAdminValidator.js";
-// import { getAllJobSeekers } from "../controllers/jobSeekerProfileController.js";
+import {
+  superAdminLoginValidator,
+  passwordChangeValidator,
+} from "./superAdminValidator.js";
 import { logoUpload } from "../middleware/companyMiddleware.js";
-import { getAllAvailableJobs } from "../controllers/companyController.js";
 
 router.post(
-  "/mainAdminLogin",
+  "/login",
   logoUpload("").none(),
   superAdminLoginValidator,
   mainAdminToken,
@@ -24,10 +32,8 @@ router.put(
   changePassword
 );
 
-router.get("/allCompanies", verifyAdminToken, verifyAdminToken, getAllcompanies);
-router.get("/allJobSeekers", verifyAdminToken, verifyAdminToken,
-  // getAllJobSeekers
-);
-router.get("/allJobs", verifyAdminToken, verifyAdminToken, getAllAvailableJobs);
+router.get("/allCompanies", verifyAdminToken, allcompanies);
+router.get("/allJobSeekers", verifyAdminToken, allJobSeekers);
+router.get("/allJobs", verifyAdminToken, availableJobs);
 
 export default router;

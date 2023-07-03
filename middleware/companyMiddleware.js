@@ -12,7 +12,7 @@ const findCompany = async (req, res, next) => {
   try {
     const { email } = req.body;
     const existingCompany = await companyModel.findOne({
-      where: { email: email },
+      where: { email: email }
     });
     if (existingCompany) {
       res.status(400).json({ message: "Company already exists. Please login!" });
@@ -33,17 +33,17 @@ const companyToken = async (req, res, next) => {
   if (!findCompany) {
     res.status(403).json({ message: "Invalid email or password" });
     return;
-  };
+  }
   const password = companyInfo.password;
   const hashedpassword = findCompany.dataValues.password;
- const passwordMatch = await bcrypt.compare(password, hashedpassword);
+  const passwordMatch = await bcrypt.compare(password, hashedpassword);
   if (!passwordMatch) return res.status(403).json({ message: "Invalid Email or password!" });
 
   const tokenVariables = {
     id: findCompany.dataValues.id,
     company_name: findCompany.dataValues.company_name,
-    email: findCompany.dataValues.email,
-  }
+    email: findCompany.dataValues.email
+  };
   // Generate company login token
   const token = jwt.sign(tokenVariables, jwtSecret, {expiresIn:"1hr"});
   req.token = token;
@@ -81,13 +81,13 @@ const logoUpload = (destination) => {
       const filename =
         file.fieldname + "_" + Date.now() + path.extname(file.originalname);
       cb(null, filename);
-    },
+    }
   });
 
   const fileFilter = (req, file, cb) => {
     const { mimetype } = file;
     if (mimetype.includes("image")) {
-      cb(null, true)
+      cb(null, true);
     } else {
       cb(new Error("Upload only images!"));
     }
@@ -99,8 +99,8 @@ const logoUpload = (destination) => {
 };
 
 export {
- findCompany,
+  findCompany,
   verifyToken,
   companyToken,
-  logoUpload,
+  logoUpload
 };

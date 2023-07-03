@@ -1,7 +1,6 @@
 import Joi from "joi";
 
 const educationValidator = (req, res, next) => {
-  console.log(req.body);
   const schema = Joi.object({
     institution: Joi.string().required().messages({
       "any.required": "Name of Institution is required!"

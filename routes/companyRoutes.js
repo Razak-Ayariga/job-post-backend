@@ -8,9 +8,8 @@ import {
   updateCompanyInfo,
   getCompanyAllInfo,
   deleteCompany,
-  // jobSeekerAllInfo,
   companyDetails,
-  applicantInfo,
+  // applicantInfo,
   verifyEmail,
   resetPassword
 } from "../controllers/companyController.js";
@@ -19,7 +18,7 @@ import {
   findCompany,
   companyToken,
   verifyToken,
-  logoUpload,
+  logoUpload
 } from "../middleware/companyMiddleware.js";
 
 import {
@@ -30,7 +29,7 @@ import {
 router.post(
   "/registerCompany",
   logoUpload("").none(),
- findCompany,
+  findCompany,
   companyRegisterValidator,
   registerCompany
 );
@@ -54,7 +53,7 @@ router.get("/getAll", verifyToken, getCompanyAllInfo);
 router.delete("/delete/:id", deleteCompany);
 // router.get("/allJobSeekerInfo/:id", jobSeekerAllInfo);
 router.get("/companyDetails/", verifyToken, companyDetails);
-router.get("/jobApplicant/:id", applicantInfo);
+// router.get("/jobApplicant/:id", applicantInfo);
 router.put("/email",logoUpload("").none(), verifyEmail);
 router.put("/password", logoUpload("").none(), resetPassword);
 

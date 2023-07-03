@@ -1,7 +1,9 @@
+import bcrypt from "bcrypt";
 import superAdmin from "../models/superAdminModel.js";
 import companies from "../models/companyModel.js";
 import postedJobs from "../models/postJobsModel.js";
-import bcrypt from "bcrypt";
+import jobSeeker from "../models/JobSeekerModel.js";
+import jobSeekerProfileModel from "../models/jobSeekerProfileModel.js";
 
 const mainAdminLogin = async (req, res) => {
   try {
@@ -52,7 +54,7 @@ const changePassword = async (req, res) => {
 };
 
 //Get all companies
-const getAllcompanies = async (req, res) => {
+const allcompanies = async (req, res) => {
   try {
     const findAllCompanies = await companies.findAll({
       attributes: { exclude: ["id", "password", "deletedAt"] },
@@ -68,10 +70,14 @@ const getAllcompanies = async (req, res) => {
 };
 
 // get all job seekers
-const getAllJobSeekers = async (req, res) => {
+const allJobSeekers = async (req, res) => {
   try {
-    const findAllJobSeekers = await jobSeeker.findAll({
-      attributes: { exclude: ["id", "password", "deletedAt"] },
+    const findAllJobSeekers = await jobSeeker.findAll({include:[{
+      model: jobSeekerProfileModel,
+      required: false
+    }  
+    ]
+      // attributes: { exclude: ["id", "password", "deletedAt"] },
     });
     if (!findAllJobSeekers) {
       return res.status(400).json({ message: "No job seekers available!" });
@@ -85,7 +91,7 @@ const getAllJobSeekers = async (req, res) => {
 
 
 // get all available jobs
-const getAllAvailableJobs = async (req, res) => {
+const availableJobs = async (req, res) => {
   try {
     const findAllJobs = await postedJobs.findAll();
     if (findAllJobs) {
@@ -97,4 +103,10 @@ const getAllAvailableJobs = async (req, res) => {
   }
 };
 
-export { mainAdminLogin, changePassword, getAllcompanies, getAllJobSeekers, getAllAvailableJobs };
+export { 
+  mainAdminLogin,
+   changePassword, 
+   allcompanies, 
+   allJobSeekers, 
+   availableJobs 
+  };

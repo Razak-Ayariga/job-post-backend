@@ -6,7 +6,7 @@ import {
   getAllSkills,
   createSkills,
   updateSkills,
-  deleteSkill,
+  deleteSkill
 } from "../controllers/skillsController.js";
 import skillsValidator from "../Validators/skillsValidator.js";
 import { verifyToken } from "../middleware/jobseekerAuthMiddleware.js";
@@ -18,12 +18,12 @@ router.post(
   photoUpload("").none(),
   skillsValidator,
   verifyToken,
-  createSkills,
+  createSkills
 );
 router.get("/getSkills/:id", getAllSkills);
 router.put(
   "/updateSkills/:id",
-   photoUpload("").none(),
+  photoUpload("").none(),
   skillsValidator,
   verifyToken,
   updateSkills

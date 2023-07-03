@@ -1,4 +1,4 @@
-import JobSeekerModel from "../models/jobSeekerModel.js"; 
+import JobSeekerModel from "../models/jobSeekerModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -7,25 +7,25 @@ const jwtSecret = process.env.JWT_SECRET;
 
 // //middleware to check if job seeker exists in the database
 const findJobSeeker = async (req, res, next) => {
-    try {
-        const { email } = req.body;
-        const findUser = await JobSeekerModel.findOne({ where: { email } });
-        if (findUser) {
-            res.status(403).json({ message: "user already exist. Please login!" });
-            return;
-        }
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: "failed to register job seeker" });
+  try {
+    const { email } = req.body;
+    const findUser = await JobSeekerModel.findOne({ where: { email } });
+    if (findUser) {
+      res.status(403).json({ message: "user already exist. Please login!" });
+      return;
     }
-    next();
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "failed to register job seeker" });
+  }
+  next();
 };
 
 // // token for job seeker log in
 const jobseekerToken = async (req, res, next) => {
   const jobSeekerInfo = req.body;
   const findJobSeeker = await JobSeekerModel.findOne({
-    where: { email: jobSeekerInfo.email },
+    where: { email: jobSeekerInfo.email }
   });
   if (!findJobSeeker) {
     return res.status(403).json({ message: "Invalid email or password!" });
@@ -40,7 +40,7 @@ const jobseekerToken = async (req, res, next) => {
   const tokenVariables = {
     id: findJobSeeker.dataValues.id,
     email:findJobSeeker.dataValues.email
- }
+  };
   const token = jwt.sign(tokenVariables, jwtSecret, {expiresIn: "1hr"});
   req.token = token;
   req.user = findJobSeeker.dataValues;

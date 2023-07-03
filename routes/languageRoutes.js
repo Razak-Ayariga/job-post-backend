@@ -7,12 +7,11 @@ import {
   updateLanguage,
   getAllLanguages,
   getOneLanguage,
-  deleteLanguage,
+  deleteLanguage
 } from "../controllers/languageController.js";
 import languageValidator from "../Validators/languageValidator.js";
 import { verifyToken } from "../middleware/jobseekerAuthMiddleware.js";
 import photoUpload from "../middleware/ProfileMiddleware.js";
-// import { getJobSeekerAllInfo } from "../controllers/jobSeekersController.js";
 
 const upload = multer();
 router.post(
@@ -20,8 +19,7 @@ router.post(
   photoUpload("").none(),
   verifyToken,
   languageValidator,
-  addLanguage,
-  // getJobSeekerAllInfo
+  addLanguage
 );
 
 router.put(

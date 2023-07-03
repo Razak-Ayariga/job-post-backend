@@ -13,7 +13,7 @@ const photoUpload = (destination) => {
       const filename =
         file.fieldname + "_" + Date.now() + path.extname(file.originalname);
       cb(null, filename);
-    },
+    }
   });
 
   const fileFilter = (req, file, cb) => {

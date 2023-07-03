@@ -26,7 +26,7 @@ const updateEducation = async (req, res) => {
       return res.status(404).json({ message: "Education recored not found!" });
     }
     const updateRecord = await education.update(updateEdu, {
-      where: { id: id },
+      where: { id: id }
     });
     const updatedEdu = await education.findByPk(id);
     if (updateRecord) {
@@ -59,7 +59,7 @@ const getOneEducation = async (req, res) => {
 const getAllEducation = async (req, res) => {
   try {
     const findAllEducation = await education.findAll({
-      attributes: { exclude: ["id", "js_id", "deletedAt"] },
+      attributes: { exclude: ["id", "js_id", "deletedAt"] }
     });
     if (!findAllEducation) {
       return res.status(404).json({ message: "No education records found!" });
@@ -97,5 +97,5 @@ export {
   updateEducation,
   getOneEducation,
   getAllEducation,
-  deleteEducation,
+  deleteEducation
 };

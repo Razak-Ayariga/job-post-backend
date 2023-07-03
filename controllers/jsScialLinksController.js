@@ -32,7 +32,7 @@ const updateLinks = async (req, res) => {
       return res.status(404).json({ message: "language recored not found!" });
     }
     const updateRecord = await jsSocialLinksModel.update(updateInfo, {
-      where: { id: id },
+      where: { id: id }
     });
     if (updateRecord) {
       res.status(200).json({ message: "link updated successfully!" });
@@ -47,15 +47,15 @@ const deleteLink = async (req, res) => {
   try {
     const id = req.userId;
     const findLink = await jsSocialLinksModel.findOne({ where: { js_id: id } });
-    const deleteLink = await jsSocialLinksModel.destroy(findLink)
+    const deleteLink = await jsSocialLinksModel.destroy(findLink);
     if (deleteLink) {
-      return res.status(201).json({ message: "Link deleted succesfully!" })
+      return res.status(201).json({ message: "Link deleted succesfully!" });
     }
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: "Failed to delete link!" })
+    return res.status(400).json({ message: "Failed to delete link!" });
   }
-}
+};
 
 
 export { addLinksController, updateLinks, deleteLink };

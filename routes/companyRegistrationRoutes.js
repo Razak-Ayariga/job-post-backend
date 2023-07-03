@@ -12,7 +12,7 @@ router.post(
   uploadRegistrationCertificate("public/companyCert").single("company_certificate"),
   verifyToken,
   companyRegistrationValidator,
-  newRegistration,
+  newRegistration
 );
 router.put("/updateRegistration/:id",
   uploadRegistrationCertificate("").single(),

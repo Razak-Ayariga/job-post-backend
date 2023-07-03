@@ -47,11 +47,11 @@ const deleteCv = async (req, res) => {
     }
     const deleteResults = await uploadCvModel.destroy({ where: { id: id } });
     if (deleteResults) {
-      res.status(200).json({message:"CV deleted successfully!"})
+      res.status(200).json({message:"CV deleted successfully!"});
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json({message:"Error deleting cv!"})
+    res.status(400).json({message:"Error deleting cv!"});
   }
-}
+};
 export { uploadCv, updateCv, deleteCv };

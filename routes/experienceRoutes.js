@@ -7,13 +7,12 @@ import {
   getOneExperience,
   updateExperience,
   getAllExperience,
-  deleteExperience,
+  deleteExperience
 } from "../controllers/experienceController.js";
 
 import addExperienceValidator from "../Validators/experienceValidator.js";
 import { verifyToken } from "../middleware/jobseekerAuthMiddleware.js";
 import photoUpload from "../middleware/ProfileMiddleware.js";
-// import { getJobSeekerAllInfo } from "../controllers/jobSeekersController.js";
 
 const upload = multer();
 router.post(
@@ -21,8 +20,7 @@ router.post(
   photoUpload("").none(),
   verifyToken,
   addExperienceValidator,
-  createExperience,
-  // getJobSeekerAllInfo
+  createExperience
 );
 
 router.put(

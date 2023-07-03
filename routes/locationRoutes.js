@@ -7,10 +7,10 @@ import {addLocation, updateLocation} from "../controllers/companyLocationControl
 import { logoUpload } from "../middleware/companyMiddleware.js";
 
 router.post("/addLocation",logoUpload("").none(),
-    verifyToken,
-    validateLocation,
-    addLocation
+  verifyToken,
+  validateLocation,
+  addLocation
 );
-router.put("/updateLocation",logoUpload("").none(), updateLocation)
+router.put("/updateLocation",logoUpload("").none(), updateLocation);
 
 export default router;
