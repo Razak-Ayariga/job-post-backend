@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../dataBase/dbConfig.js";
-// import applications from "./applicationsModel.js";
+import applications from "./applicationsModel.js";
 
 const postedJobs = sequelize.define(
   "Jobs",
@@ -30,7 +30,7 @@ const postedJobs = sequelize.define(
     },
     job_description: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     salary_range: {
       type: DataTypes.STRING,
@@ -72,6 +72,6 @@ const postedJobs = sequelize.define(
     }
   });
 
-// postedJobs.hasMany(applications, { foreignKey: "job_id" });
+postedJobs.hasMany(applications, { foreignKey: "job_id" });
 
 export default postedJobs;

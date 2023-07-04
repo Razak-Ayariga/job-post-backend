@@ -9,9 +9,9 @@ import {
   getCompanyAllInfo,
   deleteCompany,
   companyDetails,
-  // applicantInfo,
   verifyEmail,
-  resetPassword
+  resetPassword,
+  getAllAvailableJobs
 } from "../controllers/companyController.js";
 
 import {
@@ -51,10 +51,9 @@ router.put(
 
 router.get("/getAll", verifyToken, getCompanyAllInfo);
 router.delete("/delete/:id", deleteCompany);
-// router.get("/allJobSeekerInfo/:id", jobSeekerAllInfo);
 router.get("/companyDetails/", verifyToken, companyDetails);
-// router.get("/jobApplicant/:id", applicantInfo);
 router.put("/email",logoUpload("").none(), verifyEmail);
 router.put("/password", logoUpload("").none(), resetPassword);
+router.get("/allJobs", getAllAvailableJobs);
 
 export default router;

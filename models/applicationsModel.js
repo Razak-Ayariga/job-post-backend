@@ -9,38 +9,38 @@ const applications = sequelize.define(
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
-      allowNull: false,
+      allowNull: false
     },
     js_id: {
       type: DataTypes.UUID,
       references: {
         model: "job_seekers",
-        key: "id",
+        key: "id"
       },
-      allowNull: false,
+      allowNull: false
     },
     job_id: {
       type: DataTypes.UUID,
       references: {
         model: "jobs",
-        key: "id",
+        key: "id"
       },
-      allowNull: false,
+      allowNull: false
     },
     company_id: {
       type: DataTypes.UUID,
       references: {
         model: "companies",
-        key: "id",
+        key: "id"
       },
-      allowNull: false,
+      allowNull: false
     },
     cv: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
     cover_letter: {
       type: DataTypes.TEXT,
-      allowNull: true,
+      allowNull: true
     },
     status: {
       type: DataTypes.STRING,

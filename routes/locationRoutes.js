@@ -11,6 +11,6 @@ router.post("/addLocation",logoUpload("").none(),
   validateLocation,
   addLocation
 );
-router.put("/updateLocation",logoUpload("").none(), updateLocation);
+router.put("/updateLocation/:id",logoUpload("").none(), updateLocation);
 
 export default router;

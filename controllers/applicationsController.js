@@ -1,12 +1,12 @@
 import applications from "../models/applicationsModel.js";
-import jobs from "../models/postJobsModel.js";
-import education from "../models/educationModel.js";
-import experience from "../models/experienceModel.js";
-import skills from "../models/skillsModel.js";
-import languages from "../models/languageModel.js";
-import jsSocialLinks from "../models/jsSocialLinksModel.js";
+// import jobs from "../models/postJobsModel.js";
+// import education from "../models/educationModel.js";
+// import experience from "../models/experienceModel.js";
+// import skills from "../models/skillsModel.js";
+// import languages from "../models/languageModel.js";
+// import jsSocialLinks from "../models/jsSocialLinksModel.js";
 import jobSeeker from "../models/jobSeekerModel.js";
-import jobSeekerProfileModel from "../models/jobSeekerProfileModel.js";
+// import jobSeekerProfileModel from "../models/jobSeekerProfileModel.js";
 
 const jobApplication = async (req, res) => {
   try {
@@ -22,33 +22,6 @@ const jobApplication = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Error creating application!" });
-  }
-};
-
-// get applicant info
-const applicantInfo = async (req, res) => {
-  try {
-    const job_id = req.params.job_id;
-    const allInfo = await applications.findAll({
-      where: { job_id: job_id },
-      include: [
-        {
-          model: jobs,
-          required: true
-        },
-        {
-          model: jobSeeker,
-          required: true,
-          include: [jobSeekerProfileModel, education, experience, skills, languages, jsSocialLinks]
-        }
-      ], group:["job_id"]
-    });
-    if (allInfo) {
-      res.status(200).json(allInfo);
-    }
-  } catch (error) {
-    console.log(error);
-    res.status.json({message:"Error getting information!"});
   }
 };
 
@@ -96,7 +69,7 @@ const deleteAppliocation = async (req, res) => {
 };
 export {
   jobApplication,
-  applicantInfo,
+  // applicantInfo,
   allApplications,
   deleteAppliocation
 };

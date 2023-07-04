@@ -227,10 +227,10 @@ const deleteCompany = async (req, res) => {
 // get all available jobs
 const getAllAvailableJobs = async (req, res) => {
   try {
-    const findAllJobs = await postedJobs.findAll({
+    const findAllJobs = await companies.findAll({
       include: [
         {
-          model: companies,
+          model: postedJobs,
           required: false
         }
       ]

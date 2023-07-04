@@ -95,7 +95,9 @@ const allJobSeekers = async (req, res) => {
 // get all available jobs
 const availableJobs = async (req, res) => {
   try {
-    const findAllJobs = await postedJobs.findAll();
+    const findAllJobs = await postedJobs.findAll({
+      attributes: { exclude: ["createdAt","updatedAt"] }
+    });
     if (findAllJobs) {
       res.status(200).json(findAllJobs);
     }
