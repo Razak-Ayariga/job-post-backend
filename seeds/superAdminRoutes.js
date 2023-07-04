@@ -6,13 +6,13 @@ import {
   changePassword,
   allcompanies,
   allJobSeekers,
-  availableJobs,
+  availableJobs
 } from "./superAdminController.js";
 
 import { mainAdminToken, verifyAdminToken } from "./superAdminMiddleware.js";
 import {
   superAdminLoginValidator,
-  passwordChangeValidator,
+  passwordChangeValidator
 } from "./superAdminValidator.js";
 import { logoUpload } from "../middleware/companyMiddleware.js";
 

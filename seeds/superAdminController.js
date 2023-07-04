@@ -57,7 +57,7 @@ const changePassword = async (req, res) => {
 const allcompanies = async (req, res) => {
   try {
     const findAllCompanies = await companies.findAll({
-      attributes: { exclude: ["id", "password", "deletedAt"] },
+      attributes: { exclude: ["id", "password", "deletedAt","createdAt","updatedAt"] }
     });
     if (!findAllCompanies) {
       return res.status(400).json("No companies available!");
@@ -72,12 +72,14 @@ const allcompanies = async (req, res) => {
 // get all job seekers
 const allJobSeekers = async (req, res) => {
   try {
-    const findAllJobSeekers = await jobSeeker.findAll({include:[{
+    const findAllJobSeekers = await jobSeeker.findAll({ attributes:
+      { exclude: ["id","password", "createdAt", "updatedAt","deletedAt"] },
+    include:[{
       model: jobSeekerProfileModel,
-      required: false
-    }  
+      required: false,
+      attributes: { exclude: ["id","js_id", "createdAt", "updatedAt","deletedAt"] }
+    }
     ]
-      // attributes: { exclude: ["id", "password", "deletedAt"] },
     });
     if (!findAllJobSeekers) {
       return res.status(400).json({ message: "No job seekers available!" });
@@ -103,10 +105,10 @@ const availableJobs = async (req, res) => {
   }
 };
 
-export { 
+export {
   mainAdminLogin,
-   changePassword, 
-   allcompanies, 
-   allJobSeekers, 
-   availableJobs 
-  };
+  changePassword,
+  allcompanies,
+  allJobSeekers,
+  availableJobs
+};

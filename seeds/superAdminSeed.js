@@ -5,18 +5,18 @@ const adminCredentials = [
   {
     fullName: "Stanley Dankyira",
     email: "sdankyira@maximnyansa.com",
-    password: "@Jobpost.SuperAdmin",
+    password: "@Jobpost.SuperAdmin"
   },
   {
     fullName: "Samuel Asante",
     email: "sasante@maximnyansa.com",
-    password: "@Jobpost.SuperAdmin",
+    password: "@Jobpost.SuperAdmin"
   },
   {
     fullName: "Akosua Donkor",
     email: "akosua@maximnyansa.com",
-    password: "@Jobpost.SuperAdmin",
-  },
+    password: "@Jobpost.SuperAdmin"
+  }
 ];
 
 const hashPassword = async (password) => {
@@ -29,7 +29,7 @@ const seedAdmin = async () => {
     await superAdmin.sync();
 
     for (const credentials of adminCredentials) {
-      const { fullName, email, password } = credentials;
+      const { email, password } = credentials;
 
       const existingAdmin = await superAdmin.findOne({ where: { email } });
       if (existingAdmin) {
@@ -41,7 +41,7 @@ const seedAdmin = async () => {
 
       await superAdmin.create({
         ...credentials,
-        password: hashedPassword,
+        password: hashedPassword
       });
 
       // console.log(`${fullName} seeded successfully`);

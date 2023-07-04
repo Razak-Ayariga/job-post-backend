@@ -4,7 +4,7 @@ import Joi from "joi";
 const superAdminLoginValidator = (req, res, next) => {
   const schema = Joi.object({
     email: Joi.string().required(),
-    password: Joi.string().required(),
+    password: Joi.string().required()
   }).with("email", "password");
   next();
 };
@@ -20,15 +20,15 @@ const passwordChangeValidator = (req, res, next) => {
         "string.pattern.base":
           "Password must include at least one special character, lowercase, and uppercase letter!",
         "string.min": "Password must be at least 8 characters!",
-        "any.required": "Password is required!",
+        "any.required": "Password is required!"
       }),
 
     confirmPassword: Joi.string()
       .required()
       .equal(Joi.ref("newPassword"))
       .messages({
-        "any.only": "Passwords do not match!",
-      }),
+        "any.only": "Passwords do not match!"
+      })
   });
   const validation = schema.validate(req.body);
   const { error } = validation;
